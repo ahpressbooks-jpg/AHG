@@ -15,6 +15,7 @@ const stripeRoutes = require('./routes/stripe');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.set('layout', 'layouts/main');
@@ -35,6 +36,7 @@ app.use(helmet({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/stripe/webhook', express.raw({ type: 'application/json' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

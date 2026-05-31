@@ -82,7 +82,7 @@ router.post('/create-founding-checkout', async (req, res) => {
   }
 });
 
-router.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+router.post('/webhook', (req, res) => {
   const sig = req.headers['stripe-signature'];
 
   try {
