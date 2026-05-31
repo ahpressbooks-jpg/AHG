@@ -1,0 +1,37 @@
+<aside class="admin-sidebar">
+  <div class="sidebar-logo">ALMOST HUMAN <span>GROUP</span></div>
+  <span class="sidebar-sub">Admin Panel</span>
+
+  <ul class="sidebar-nav">
+    <a href="/admin" class="<%= active === 'dashboard' ? 'active' : '' %>">
+      <span class="nav-icon">&#9632;</span> Dashboard
+    </a>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">People</div>
+    <a href="/admin/founding-members" class="<%= active === 'founding-members' ? 'active' : '' %>">
+      <span class="nav-icon">&#9733;</span> Founding Members
+    </a>
+    <a href="/admin/members" class="<%= active === 'members' ? 'active' : '' %>">
+      <span class="nav-icon">&#9679;</span> Members
+    </a>
+    <a href="/admin/newsletter" class="<%= active === 'newsletter' ? 'active' : '' %>">
+      <span class="nav-icon">&#9993;</span> Newsletter
+    </a>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-label">Engagement</div>
+    <a href="/admin/contacts" class="<%= active === 'contacts' ? 'active' : '' %>">
+      <span class="nav-icon">&#9998;</span> Messages
+    </a>
+    <a href="/admin/volunteers" class="<%= active === 'volunteers' ? 'active' : '' %>">
+      <span class="nav-icon">&#9997;</span> Volunteers
+    </a>
+    <a href="/admin/speakers" class="<%= active === 'speakers' ? 'active' : '' %>">
+      <span class="nav-icon">&#9836;</span> Speakers
+    </a>
+  </ul>
+
+  <div class="sidebar-footer">
+    <a href="/" class="btn-view-site">&#8594; View Live Site</a>
+    <a href="/admin/logout" style="margin-top: 8px; font-size: 0.8rem; color: rgba(255,255,255,0.4);">Logout</a>
+  </div>
+</aside>

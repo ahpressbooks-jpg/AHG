@@ -1,0 +1,68 @@
+<!-- Hero -->
+<section class="section-hero section-hero--short">
+  <div class="container">
+    <h1 class="section-hero__headline">Stay in the Fight.</h1>
+    <p class="section-hero__sub">Updates on what we're building, what we're fighting, and what comes next. No noise. Just the work.</p>
+  </div>
+</section>
+
+<!-- Newsletter Form -->
+<section class="section-newsletter-form">
+  <div class="container container--narrow">
+    <form class="newsletter-form" id="newsletterForm">
+      <div class="form-group">
+        <label for="newsletter-name" class="form-label">Name <span class="form-optional">(optional)</span></label>
+        <input type="text" id="newsletter-name" name="name" class="form-input">
+      </div>
+      <div class="form-group">
+        <label for="newsletter-email" class="form-label">Email <span class="form-required">*</span></label>
+        <input type="email" id="newsletter-email" name="email" class="form-input" required>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn--full">COUNT ME IN</button>
+      </div>
+      <div class="form-feedback" id="newsletterFeedback" aria-live="polite"></div>
+    </form>
+    <p class="section-newsletter-form__note">No spam. No selling your data. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+<script>
+  document.getElementById('newsletterForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const feedback = document.getElementById('newsletterFeedback');
+    const btn = form.querySelector('button[type="submit"]');
+
+    btn.disabled = true;
+    btn.textContent = 'JOINING...';
+    feedback.className = 'form-feedback';
+    feedback.textContent = '';
+
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name.value,
+          email: form.email.value
+        })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        feedback.className = 'form-feedback form-feedback--success';
+        feedback.textContent = data.message;
+        form.reset();
+      } else {
+        feedback.className = 'form-feedback form-feedback--error';
+        feedback.textContent = data.error;
+      }
+    } catch (err) {
+      feedback.className = 'form-feedback form-feedback--error';
+      feedback.textContent = 'Something went wrong. Please try again.';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'COUNT ME IN';
+  });
+</script>

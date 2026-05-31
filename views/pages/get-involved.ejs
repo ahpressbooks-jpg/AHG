@@ -1,0 +1,168 @@
+<!-- Hero -->
+<section class="section-hero section-hero--dark">
+  <div class="container">
+    <h1 class="section-hero__headline">The Fight Needs More Than Money.</h1>
+    <p class="section-hero__sub">It needs people.</p>
+  </div>
+</section>
+
+<!-- Volunteer -->
+<section class="section-volunteer" id="volunteer">
+  <div class="container">
+    <div class="section-volunteer__grid">
+      <div class="section-volunteer__info">
+        <span class="section-volunteer__label">VOLUNTEER</span>
+        <h2 class="section-volunteer__headline">Show Up. Do the Work.</h2>
+        <p>AHG runs on people who give their time, not just their money. We need organizers, mentors, event support, and people willing to be in the room when it counts.</p>
+        <p>Tell us what you bring. We will tell you where you are needed.</p>
+      </div>
+      <div class="section-volunteer__form-wrap">
+        <form class="volunteer-form form" id="volunteerForm">
+          <div class="form__group">
+            <label class="form__label" for="vol-name">Name <span class="form__required">*</span></label>
+            <input class="form__input" type="text" id="vol-name" name="name" required autocomplete="name">
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="vol-email">Email <span class="form__required">*</span></label>
+            <input class="form__input" type="email" id="vol-email" name="email" required autocomplete="email">
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="vol-phone">Phone</label>
+            <input class="form__input" type="tel" id="vol-phone" name="phone" autocomplete="tel">
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="vol-skills">Skills &amp; Experience</label>
+            <textarea class="form__textarea" id="vol-skills" name="skills" rows="3" placeholder="What do you bring to the table?"></textarea>
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="vol-availability">Availability</label>
+            <select class="form__select" id="vol-availability" name="availability">
+              <option value="">Select availability</option>
+              <option value="weekdays">Weekdays</option>
+              <option value="weekends">Weekends</option>
+              <option value="both">Both</option>
+              <option value="flexible">Flexible</option>
+            </select>
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="vol-message">Message</label>
+            <textarea class="form__textarea" id="vol-message" name="message" rows="3" placeholder="Anything else we should know."></textarea>
+          </div>
+          <button class="btn btn-primary form__submit" type="submit">SUBMIT APPLICATION</button>
+          <p class="form__status" id="volunteerStatus" hidden></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Corporate Partnership -->
+<section class="section-partner" id="partner">
+  <div class="container">
+    <div class="section-partner__inner">
+      <span class="section-partner__label">CORPORATE PARTNERSHIP</span>
+      <h2 class="section-partner__headline">Align Your Organization with the Fight.</h2>
+      <p>AHG partners with organizations that want formal, visible association with the movement. This is not a logo swap. It is a commitment to the next generation backed by resources and accountability.</p>
+      <p>Three partnership tiers starting at $5,000/year. Each includes co-branded recognition, access to AHG programs and events, and a dedicated partnership coordinator.</p>
+      <a href="/contact?subject=Corporate%20Partnership" class="btn btn-primary">CONTACT US ABOUT PARTNERSHIP</a>
+    </div>
+  </div>
+</section>
+
+<!-- Speak at AHG -->
+<section class="section-speaker" id="speak">
+  <div class="container">
+    <div class="section-speaker__grid">
+      <div class="section-speaker__info">
+        <span class="section-speaker__label">SPEAK AT AHG</span>
+        <h2 class="section-speaker__headline">Bring Your Voice to the Room.</h2>
+        <p>AHG hosts summits, town halls, and community events where real voices shape real outcomes. If you have expertise, lived experience, or a message the next generation needs to hear — we want to know.</p>
+        <p>We prioritize speakers under 30, but the mic is open to anyone with something worth saying.</p>
+      </div>
+      <div class="section-speaker__form-wrap">
+        <form class="speaker-form form" id="speakerForm">
+          <div class="form__group">
+            <label class="form__label" for="spk-name">Name <span class="form__required">*</span></label>
+            <input class="form__input" type="text" id="spk-name" name="name" required autocomplete="name">
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="spk-email">Email <span class="form__required">*</span></label>
+            <input class="form__input" type="email" id="spk-email" name="email" required autocomplete="email">
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="spk-org">Organization</label>
+            <input class="form__input" type="text" id="spk-org" name="organization" autocomplete="organization">
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="spk-topic">Topic <span class="form__required">*</span></label>
+            <input class="form__input" type="text" id="spk-topic" name="topic" required placeholder="What would you speak about?">
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="spk-bio">Bio</label>
+            <textarea class="form__textarea" id="spk-bio" name="bio" rows="4" placeholder="Tell us about yourself and your experience."></textarea>
+          </div>
+          <button class="btn btn-primary form__submit" type="submit">SUBMIT SPEAKER INQUIRY</button>
+          <p class="form__status" id="speakerStatus" hidden></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    function handleFormSubmit(formEl, endpoint, statusEl) {
+      formEl.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = formEl.querySelector('.form__submit');
+        btn.disabled = true;
+        btn.textContent = 'Submitting...';
+        statusEl.hidden = true;
+
+        var data = {};
+        new FormData(formEl).forEach(function(value, key) {
+          data[key] = value;
+        });
+
+        fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(result) {
+          statusEl.hidden = false;
+          if (result.success) {
+            statusEl.className = 'form__status form__status--success';
+            statusEl.textContent = result.message;
+            formEl.reset();
+          } else {
+            statusEl.className = 'form__status form__status--error';
+            statusEl.textContent = result.error || 'Something went wrong. Please try again.';
+          }
+          btn.disabled = false;
+          btn.textContent = formEl.classList.contains('volunteer-form') ? 'SUBMIT APPLICATION' : 'SUBMIT SPEAKER INQUIRY';
+        })
+        .catch(function() {
+          statusEl.hidden = false;
+          statusEl.className = 'form__status form__status--error';
+          statusEl.textContent = 'Connection error. Please try again.';
+          btn.disabled = false;
+          btn.textContent = formEl.classList.contains('volunteer-form') ? 'SUBMIT APPLICATION' : 'SUBMIT SPEAKER INQUIRY';
+        });
+      });
+    }
+
+    handleFormSubmit(
+      document.getElementById('volunteerForm'),
+      '/api/volunteer',
+      document.getElementById('volunteerStatus')
+    );
+
+    handleFormSubmit(
+      document.getElementById('speakerForm'),
+      '/api/speaker',
+      document.getElementById('speakerStatus')
+    );
+  })();
+</script>

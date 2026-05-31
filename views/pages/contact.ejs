@@ -1,0 +1,121 @@
+<!-- Hero -->
+<section class="section-hero section-hero--short">
+  <div class="container">
+    <h1 class="section-hero__headline">Get in the Room.</h1>
+    <p class="section-hero__sub">We read every message. We respond within 24 hours.</p>
+  </div>
+</section>
+
+<!-- Contact Channels -->
+<section class="section-channels">
+  <div class="container">
+    <div class="card-grid card-grid--three">
+      <div class="card card--channel">
+        <span class="card__tag">GENERAL</span>
+        <h3 class="card__title">Say Hello</h3>
+        <p class="card__text">Questions, ideas, or just want to know more about the movement.</p>
+        <a href="mailto:hello@almosthumangroup.org" class="card__email">hello@almosthumangroup.org</a>
+      </div>
+      <div class="card card--channel">
+        <span class="card__tag">PRESS & MEDIA</span>
+        <h3 class="card__title">Media Inquiries</h3>
+        <p class="card__text">Interviews, podcasts, and speaking requests. We respond within 24 hours.</p>
+        <a href="mailto:press@almosthumangroup.org" class="card__email">press@almosthumangroup.org</a>
+      </div>
+      <div class="card card--channel">
+        <span class="card__tag">PROGRAMS</span>
+        <h3 class="card__title">Program Questions</h3>
+        <p class="card__text">BRIDGE, SEAT, LAUNCH, FLOOR — enrollment, partnerships, and referrals.</p>
+        <a href="mailto:programs@almosthumangroup.org" class="card__email">programs@almosthumangroup.org</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Form -->
+<section class="section-contact-form">
+  <div class="container container--narrow">
+    <h2 class="section-contact-form__headline">Send Us a Message</h2>
+    <form class="contact-form" id="contactForm">
+      <div class="form-row form-row--two">
+        <div class="form-group">
+          <label for="contact-name" class="form-label">Name <span class="form-required">*</span></label>
+          <input type="text" id="contact-name" name="name" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label for="contact-email" class="form-label">Email <span class="form-required">*</span></label>
+          <input type="email" id="contact-email" name="email" class="form-input" required>
+        </div>
+      </div>
+      <div class="form-row form-row--two">
+        <div class="form-group">
+          <label for="contact-org" class="form-label">Organization <span class="form-optional">(optional)</span></label>
+          <input type="text" id="contact-org" name="organization" class="form-input">
+        </div>
+        <div class="form-group">
+          <label for="contact-subject" class="form-label">Subject <span class="form-required">*</span></label>
+          <select id="contact-subject" name="subject" class="form-select" required>
+            <option value="" disabled selected>Select a subject</option>
+            <option value="General">General</option>
+            <option value="Press">Press</option>
+            <option value="Programs">Programs</option>
+            <option value="Membership">Membership</option>
+            <option value="Partnership">Partnership</option>
+            <option value="Speaking">Speaking</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="contact-message" class="form-label">Message <span class="form-required">*</span></label>
+        <textarea id="contact-message" name="message" class="form-textarea" rows="6" required></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">SEND IT</button>
+      </div>
+      <div class="form-feedback" id="contactFeedback" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<script>
+  document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const feedback = document.getElementById('contactFeedback');
+    const btn = form.querySelector('button[type="submit"]');
+
+    btn.disabled = true;
+    btn.textContent = 'SENDING...';
+    feedback.className = 'form-feedback';
+    feedback.textContent = '';
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name.value,
+          email: form.email.value,
+          organization: form.organization.value,
+          subject: form.subject.value,
+          message: form.message.value
+        })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        feedback.className = 'form-feedback form-feedback--success';
+        feedback.textContent = data.message;
+        form.reset();
+      } else {
+        feedback.className = 'form-feedback form-feedback--error';
+        feedback.textContent = data.error;
+      }
+    } catch (err) {
+      feedback.className = 'form-feedback form-feedback--error';
+      feedback.textContent = 'Something went wrong. Please try again.';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'SEND IT';
+  });
+</script>

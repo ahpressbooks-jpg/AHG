@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include('_sidebar', { active: 'newsletter', adminName }) %>
+    <div class="admin-main">
+      <div class="admin-header">
+        <h1>Newsletter Subscribers</h1>
+        <div class="admin-user"><strong><%= subscribers.length %></strong> total subscribers</div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-body">
+          <% if (subscribers.length === 0) { %>
+            <div class="empty-state">
+              <h3>No Subscribers Yet</h3>
+              <p>Newsletter signups will appear here.</p>
+            </div>
+          <% } else { %>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Name</th>
+                  <th>Source</th>
+                  <th>Status</th>
+                  <th>Signed Up</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% subscribers.forEach(s => { %>
+                  <tr id="sub-<%= s.id %>">
+                    <td class="mono"><%= s.email %></td>
+                    <td><%= s.name || '—' %></td>
+                    <td><span class="badge badge-waitlist"><%= s.source %></span></td>
+                    <td><span class="badge badge-<%= s.status %>"><%= s.status.toUpperCase() %></span></td>
+                    <td class="mono"><%= new Date(s.created_at).toLocaleDateString() %></td>
+                    <td>
+                      <button class="btn-action btn-action-danger" onclick="removeSub(<%= s.id %>)">Remove</button>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    async function removeSub(id) {
+      if (!confirm('Remove this subscriber?')) return;
+      const res = await fetch('/admin/newsletter/' + id, { method: 'DELETE' });
+      if (res.ok) document.getElementById('sub-' + id).remove();
+    }
+  </script>
+</body>
+</html>

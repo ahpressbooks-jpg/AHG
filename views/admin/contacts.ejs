@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include('_sidebar', { active: 'contacts', adminName }) %>
+    <div class="admin-main">
+      <div class="admin-header">
+        <h1>Messages</h1>
+        <div class="admin-user"><strong><%= contacts.filter(c => !c.read).length %></strong> unread</div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-body">
+          <% if (contacts.length === 0) { %>
+            <div class="empty-state">
+              <h3>No Messages Yet</h3>
+              <p>Contact form submissions will appear here.</p>
+            </div>
+          <% } else { %>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Subject</th>
+                  <th>Message</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% contacts.forEach(c => { %>
+                  <tr id="contact-<%= c.id %>" style="<%= !c.read ? 'font-weight:600' : '' %>">
+                    <td>
+                      <% if (!c.read) { %>
+                        <span class="badge badge-unread">NEW</span>
+                      <% } else { %>
+                        <span class="badge badge-active">READ</span>
+                      <% } %>
+                    </td>
+                    <td><%= c.name %></td>
+                    <td class="mono"><%= c.email %></td>
+                    <td><%= c.subject %></td>
+                    <td style="max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%= c.message %></td>
+                    <td class="mono"><%= new Date(c.created_at).toLocaleDateString() %></td>
+                    <td style="white-space: nowrap;">
+                      <% if (!c.read) { %>
+                        <button class="btn-action" onclick="markRead(<%= c.id %>)">Mark Read</button>
+                      <% } %>
+                      <button class="btn-action btn-action-danger" onclick="deleteContact(<%= c.id %>)">Delete</button>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    async function markRead(id) {
+      const res = await fetch('/admin/contacts/' + id + '/read', { method: 'POST' });
+      if (res.ok) location.reload();
+    }
+    async function deleteContact(id) {
+      if (!confirm('Delete this message?')) return;
+      const res = await fetch('/admin/contacts/' + id, { method: 'DELETE' });
+      if (res.ok) document.getElementById('contact-' + id).remove();
+    }
+  </script>
+</body>
+</html>

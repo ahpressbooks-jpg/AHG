@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include('_sidebar', { active: 'members', adminName }) %>
+    <div class="admin-main">
+      <div class="admin-header">
+        <h1>Members</h1>
+        <div class="admin-user"><strong><%= members.length %></strong> total members</div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-body">
+          <% if (members.length === 0) { %>
+            <div class="empty-state">
+              <h3>No Members Yet</h3>
+              <p>Members will appear here once people join through the membership page.</p>
+            </div>
+          <% } else { %>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Tier</th>
+                  <th>Billing</th>
+                  <th>Status</th>
+                  <th>Joined</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% members.forEach(m => { %>
+                  <tr id="member-<%= m.id %>">
+                    <td><strong><%= m.name %></strong></td>
+                    <td class="mono"><%= m.email %></td>
+                    <td><span class="badge badge-active"><%= m.tier.toUpperCase() %></span></td>
+                    <td><%= m.billing_cycle %></td>
+                    <td><span class="badge badge-<%= m.status %>"><%= m.status.toUpperCase() %></span></td>
+                    <td class="mono"><%= new Date(m.created_at).toLocaleDateString() %></td>
+                    <td>
+                      <button class="btn-action btn-action-danger" onclick="deleteMember(<%= m.id %>)">Remove</button>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    async function deleteMember(id) {
+      if (!confirm('Remove this member?')) return;
+      const res = await fetch('/admin/members/' + id, { method: 'DELETE' });
+      if (res.ok) document.getElementById('member-' + id).remove();
+    }
+  </script>
+</body>
+</html>

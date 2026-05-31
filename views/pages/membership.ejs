@@ -1,0 +1,227 @@
+<% if (typeof query !== 'undefined' && query.success === 'true') { %>
+<div class="alert alert--success">
+  <div class="container">
+    <p><strong>Welcome to the movement.</strong> Your membership is active. Check your email for confirmation.</p>
+  </div>
+</div>
+<% } %>
+<% if (typeof query !== 'undefined' && query.canceled === 'true') { %>
+<div class="alert alert--canceled">
+  <div class="container">
+    <p>Checkout was canceled. No charge was made. <a href="#tiers">Choose a tier</a> when you are ready.</p>
+  </div>
+</div>
+<% } %>
+
+<!-- Hero -->
+<section class="section-hero section-hero--dark">
+  <div class="container">
+    <h1 class="section-hero__headline">The Movement Needs Members Who Mean It.</h1>
+    <p class="section-hero__sub">Membership fuels everything — the programs, the policy fights, the next generation's seat at the table.</p>
+  </div>
+</section>
+
+<!-- Pre-Launch Banner -->
+<section class="section-prelaunch">
+  <div class="container">
+    <div class="section-prelaunch__banner">
+      <span class="section-prelaunch__badge">PRE-LAUNCH</span>
+      <h2 class="section-prelaunch__headline">Founding Member Window Is Open</h2>
+      <p class="section-prelaunch__text">The first members shape everything. Join before public launch and your name goes on the record as someone who showed up before it was easy.</p>
+      <a href="/founding-members" class="btn btn-primary">BECOME A FOUNDING MEMBER</a>
+    </div>
+  </div>
+</section>
+
+<!-- Membership Tiers -->
+<section class="section-tiers" id="tiers">
+  <div class="container">
+    <span class="section-tiers__label">MEMBERSHIP</span>
+    <h2 class="section-tiers__headline">Pick Your Level. Fund the Fight.</h2>
+
+    <p class="section-tiers__disclaimer">Almost Human Group is a 501(c)(4) social welfare organization. Membership dues and contributions to AHG are not deductible as charitable contributions for federal income tax purposes.</p>
+
+    <!-- Billing Toggle -->
+    <div class="billing-toggle">
+      <span class="billing-toggle__option billing-toggle__option--active" data-billing="monthly">Monthly</span>
+      <button class="billing-toggle__switch" id="billingToggle" aria-label="Toggle billing period" data-state="monthly">
+        <span class="billing-toggle__knob"></span>
+      </button>
+      <span class="billing-toggle__option" data-billing="yearly">Yearly <span class="billing-toggle__save">Save ~17%</span></span>
+    </div>
+
+    <div class="card-grid card-grid--tiers">
+
+      <!-- Ally -->
+      <div class="card card--tier">
+        <div class="card__header">
+          <span class="card__tag">ALLY</span>
+          <div class="card__price">
+            <span class="card__amount" data-monthly="$10" data-yearly="$100">$10</span>
+            <span class="card__interval" data-monthly="/month" data-yearly="/year">/month</span>
+          </div>
+        </div>
+        <p class="card__for">For anyone who believes in the mission and wants to stand behind it.</p>
+        <ul class="card__benefits">
+          <li>Member newsletter with policy updates</li>
+          <li>AHG digital membership card</li>
+          <li>Early access to event announcements</li>
+        </ul>
+        <button class="btn btn-outline membership-btn" data-tier="ally">JOIN AS ALLY</button>
+      </div>
+
+      <!-- Advocate -->
+      <div class="card card--tier">
+        <div class="card__header">
+          <span class="card__tag">ADVOCATE</span>
+          <div class="card__price">
+            <span class="card__amount" data-monthly="$25" data-yearly="$250">$25</span>
+            <span class="card__interval" data-monthly="/month" data-yearly="/year">/month</span>
+          </div>
+        </div>
+        <p class="card__for">For those ready to go beyond support and into action.</p>
+        <ul class="card__benefits">
+          <li>Everything in Ally</li>
+          <li>Quarterly impact reports</li>
+          <li>Invitations to member-only town halls</li>
+          <li>Name listed on annual supporter roll</li>
+        </ul>
+        <button class="btn btn-outline membership-btn" data-tier="advocate">JOIN AS ADVOCATE</button>
+      </div>
+
+      <!-- Champion -->
+      <div class="card card--tier card--tier-featured">
+        <div class="card__header">
+          <span class="card__tag">CHAMPION</span>
+          <div class="card__price">
+            <span class="card__amount" data-monthly="$75" data-yearly="$750">$75</span>
+            <span class="card__interval" data-monthly="/month" data-yearly="/year">/month</span>
+          </div>
+        </div>
+        <p class="card__for">For committed advocates who want direct access to the work.</p>
+        <ul class="card__benefits">
+          <li>Everything in Advocate</li>
+          <li>Direct line to AHG leadership updates</li>
+          <li>Invitation to annual strategy summit</li>
+          <li>Recognition on the AHG website</li>
+          <li>Priority volunteer placement</li>
+        </ul>
+        <button class="btn btn-primary membership-btn" data-tier="champion">JOIN AS CHAMPION</button>
+      </div>
+
+      <!-- Institutional Partner -->
+      <div class="card card--tier">
+        <div class="card__header">
+          <span class="card__tag">INSTITUTIONAL PARTNER</span>
+          <div class="card__price">
+            <span class="card__amount" data-monthly="$250" data-yearly="$2,500">$250</span>
+            <span class="card__interval" data-monthly="/month" data-yearly="/year">/month</span>
+          </div>
+        </div>
+        <p class="card__for">For organizations and businesses that want to align with the movement.</p>
+        <ul class="card__benefits">
+          <li>Everything in Champion</li>
+          <li>Co-branded partnership recognition</li>
+          <li>Dedicated partnership coordinator</li>
+          <li>Speaking opportunities at AHG events</li>
+          <li>Impact dashboard with program metrics</li>
+        </ul>
+        <button class="btn btn-outline membership-btn" data-tier="institutional">JOIN AS PARTNER</button>
+      </div>
+
+      <!-- Founding Member -->
+      <div class="card card--tier card--tier-founding">
+        <div class="card__header">
+          <span class="card__tag">FOUNDING MEMBER</span>
+          <div class="card__price">
+            <span class="card__amount" data-monthly="$1,000" data-yearly="$10,000">$1,000</span>
+            <span class="card__interval" data-monthly="/month" data-yearly="/year">/month</span>
+          </div>
+        </div>
+        <p class="card__for">For those who want their name on the foundation of what comes next.</p>
+        <ul class="card__benefits">
+          <li>Everything in Institutional Partner</li>
+          <li>Permanent recognition as a Founding Member</li>
+          <li>Direct advisory access to AHG founder</li>
+          <li>Seat at the annual Founding Member roundtable</li>
+          <li>First look at all major organizational decisions</li>
+        </ul>
+        <button class="btn btn-primary membership-btn" data-tier="founding">BECOME A FOUNDING MEMBER</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Closing -->
+<section class="section-membership-close">
+  <div class="container">
+    <p class="section-membership-close__text">AHG does not take government grants or corporate sponsorship that comes with strings. Every dollar from members goes directly to the mission. Your independence funds ours.</p>
+  </div>
+</section>
+
+<script>
+  (function() {
+    var billingState = 'monthly';
+    var toggle = document.getElementById('billingToggle');
+    var options = document.querySelectorAll('.billing-toggle__option');
+    var amounts = document.querySelectorAll('.card__amount');
+    var intervals = document.querySelectorAll('.card__interval');
+
+    function updatePrices() {
+      amounts.forEach(function(el) {
+        el.textContent = el.getAttribute('data-' + billingState);
+      });
+      intervals.forEach(function(el) {
+        el.textContent = el.getAttribute('data-' + billingState);
+      });
+      options.forEach(function(opt) {
+        opt.classList.toggle('billing-toggle__option--active', opt.getAttribute('data-billing') === billingState);
+      });
+      toggle.setAttribute('data-state', billingState);
+    }
+
+    toggle.addEventListener('click', function() {
+      billingState = billingState === 'monthly' ? 'yearly' : 'monthly';
+      updatePrices();
+    });
+
+    options.forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        billingState = this.getAttribute('data-billing');
+        updatePrices();
+      });
+    });
+
+    /* Stripe checkout */
+    document.querySelectorAll('.membership-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var tier = this.getAttribute('data-tier');
+        var billing = billingState;
+
+        this.disabled = true;
+        this.textContent = 'Processing...';
+
+        fetch('/stripe/create-checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tier: tier, billing: billing })
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data.url) {
+            window.location.href = data.url;
+          } else {
+            alert(data.error || 'Something went wrong. Please try again.');
+            btn.disabled = false;
+            btn.textContent = btn.getAttribute('data-tier') === 'founding' ? 'BECOME A FOUNDING MEMBER' : 'JOIN AS ' + btn.getAttribute('data-tier').toUpperCase();
+          }
+        })
+        .catch(function() {
+          alert('Connection error. Please try again.');
+          btn.disabled = false;
+        });
+      });
+    });
+  })();
+</script>

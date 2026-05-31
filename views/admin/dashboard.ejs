@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include('_sidebar', { active: 'dashboard', adminName }) %>
+    <div class="admin-main">
+      <div class="admin-header">
+        <h1>Dashboard</h1>
+        <div class="admin-user">Welcome, <strong><%= adminName %></strong></div>
+      </div>
+
+      <div class="stat-cards">
+        <div class="stat-card">
+          <div class="stat-card-label">Founding Members</div>
+          <div class="stat-card-number"><%= stats.foundingMembers %></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Members</div>
+          <div class="stat-card-number"><%= stats.members %></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Unread Messages</div>
+          <div class="stat-card-number"><%= stats.contacts %></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Newsletter</div>
+          <div class="stat-card-number"><%= stats.newsletter %></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Volunteers</div>
+          <div class="stat-card-number"><%= stats.volunteers %></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Speaker Inquiries</div>
+          <div class="stat-card-number"><%= stats.speakers %></div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3>Recent Messages</h3>
+            <a href="/admin/contacts" class="btn-action">View All</a>
+          </div>
+          <div class="admin-card-body">
+            <% if (stats.recentContacts.length === 0) { %>
+              <div class="empty-state"><p>No messages yet.</p></div>
+            <% } else { %>
+              <table class="admin-table">
+                <thead>
+                  <tr><th>Name</th><th>Subject</th><th>Date</th></tr>
+                </thead>
+                <tbody>
+                  <% stats.recentContacts.forEach(c => { %>
+                    <tr>
+                      <td><%= c.name %> <% if (!c.read) { %><span class="badge badge-unread">NEW</span><% } %></td>
+                      <td><%= c.subject %></td>
+                      <td class="mono"><%= new Date(c.created_at).toLocaleDateString() %></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3>Recent Founding Members</h3>
+            <a href="/admin/founding-members" class="btn-action">View All</a>
+          </div>
+          <div class="admin-card-body">
+            <% if (stats.recentMembers.length === 0) { %>
+              <div class="empty-state"><p>No founding members yet. The campaign is live.</p></div>
+            <% } else { %>
+              <table class="admin-table">
+                <thead>
+                  <tr><th>Name</th><th>Type</th><th>Date</th></tr>
+                </thead>
+                <tbody>
+                  <% stats.recentMembers.forEach(m => { %>
+                    <tr>
+                      <td><%= m.name %></td>
+                      <td><span class="badge badge-<%= m.type %>"><%= m.type.toUpperCase() %></span></td>
+                      <td class="mono"><%= new Date(m.created_at).toLocaleDateString() %></td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

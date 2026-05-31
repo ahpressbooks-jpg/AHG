@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <%- include('_sidebar', { active: 'speakers', adminName }) %>
+    <div class="admin-main">
+      <div class="admin-header">
+        <h1>Speaker Inquiries</h1>
+        <div class="admin-user"><strong><%= speakers.length %></strong> total</div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-body">
+          <% if (speakers.length === 0) { %>
+            <div class="empty-state">
+              <h3>No Speaker Inquiries Yet</h3>
+              <p>Speaker submissions from the Get Involved page will appear here.</p>
+            </div>
+          <% } else { %>
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Organization</th>
+                  <th>Topic</th>
+                  <th>Bio</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% speakers.forEach(s => { %>
+                  <tr>
+                    <td><strong><%= s.name %></strong></td>
+                    <td class="mono"><%= s.email %></td>
+                    <td><%= s.organization || '—' %></td>
+                    <td><%= s.topic %></td>
+                    <td style="max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%= s.bio || '—' %></td>
+                    <td class="mono"><%= new Date(s.created_at).toLocaleDateString() %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

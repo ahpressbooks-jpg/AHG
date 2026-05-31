@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-box">
+      <h1>AHG <span style="color:#CC0000">ADMIN</span></h1>
+      <p class="login-sub">Almost Human Group — Command Center</p>
+      <% if (error) { %>
+        <div class="error-msg"><%= error %></div>
+      <% } %>
+      <form method="POST" action="/admin/login">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">ACCESS DASHBOARD</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
