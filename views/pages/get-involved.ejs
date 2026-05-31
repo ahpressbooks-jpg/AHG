@@ -1,8 +1,8 @@
 <!-- Hero -->
 <section class="section-hero section-hero--dark">
   <div class="container">
-    <h1 class="section-hero__headline">The Fight Needs More Than Money.</h1>
-    <p class="section-hero__sub">It needs people.</p>
+    <h1 class="section-hero__headline">Money Alone Won't Build This.</h1>
+    <p class="section-hero__sub">We need people who show up.</p>
   </div>
 </section>
 
@@ -12,9 +12,9 @@
     <div class="section-volunteer__grid">
       <div class="section-volunteer__info">
         <span class="section-volunteer__label">VOLUNTEER</span>
-        <h2 class="section-volunteer__headline">Show Up. Do the Work.</h2>
-        <p>AHG runs on people who give their time, not just their money. We need organizers, mentors, event support, and people willing to be in the room when it counts.</p>
-        <p>Tell us what you bring. We will tell you where you are needed.</p>
+        <h2 class="section-volunteer__headline">Show Up. Do Work.</h2>
+        <p>AHG runs on people who give time, not just money. We need organizers, mentors, event support, and people willing to be in the room when it counts.</p>
+        <p>Tell us what you bring. We'll tell you where you're needed.</p>
       </div>
       <div class="section-volunteer__form-wrap">
         <form class="volunteer-form form" id="volunteerForm">
@@ -32,7 +32,7 @@
           </div>
           <div class="form__group">
             <label class="form__label" for="vol-skills">Skills &amp; Experience</label>
-            <textarea class="form__textarea" id="vol-skills" name="skills" rows="3" placeholder="What do you bring to the table?"></textarea>
+            <textarea class="form__textarea" id="vol-skills" name="skills" rows="3" placeholder="What do you bring?"></textarea>
           </div>
           <div class="form__group">
             <label class="form__label" for="vol-availability">Availability</label>
@@ -48,7 +48,7 @@
             <label class="form__label" for="vol-message">Message</label>
             <textarea class="form__textarea" id="vol-message" name="message" rows="3" placeholder="Anything else we should know."></textarea>
           </div>
-          <button class="btn btn-primary form__submit" type="submit">SUBMIT APPLICATION</button>
+          <button class="btn btn-primary form__submit" type="submit">SUBMIT</button>
           <p class="form__status" id="volunteerStatus" hidden></p>
         </form>
       </div>
@@ -61,10 +61,10 @@
   <div class="container">
     <div class="section-partner__inner">
       <span class="section-partner__label">CORPORATE PARTNERSHIP</span>
-      <h2 class="section-partner__headline">Align Your Organization with the Fight.</h2>
-      <p>AHG partners with organizations that want formal, visible association with the movement. This is not a logo swap. It is a commitment to the next generation backed by resources and accountability.</p>
-      <p>Three partnership tiers starting at $5,000/year. Each includes co-branded recognition, access to AHG programs and events, and a dedicated partnership coordinator.</p>
-      <a href="/contact?subject=Corporate%20Partnership" class="btn btn-primary">CONTACT US ABOUT PARTNERSHIP</a>
+      <h2 class="section-partner__headline">Put Your Organization Behind This.</h2>
+      <p>Not a logo swap. A commitment backed by resources and accountability. Three tiers starting at $5,000/year. Each includes co-branded recognition, access to programs and events, and a dedicated coordinator.</p>
+      <p>If your organization wants to be associated with the fight for the next generation, this is how.</p>
+      <a href="/contact?subject=Corporate%20Partnership" class="btn btn-primary">CONTACT US</a>
     </div>
   </div>
 </section>
@@ -75,9 +75,9 @@
     <div class="section-speaker__grid">
       <div class="section-speaker__info">
         <span class="section-speaker__label">SPEAK AT AHG</span>
-        <h2 class="section-speaker__headline">Bring Your Voice to the Room.</h2>
-        <p>AHG hosts summits, town halls, and community events where real voices shape real outcomes. If you have expertise, lived experience, or a message the next generation needs to hear — we want to know.</p>
-        <p>We prioritize speakers under 30, but the mic is open to anyone with something worth saying.</p>
+        <h2 class="section-speaker__headline">Got Something to Say? Say It Here.</h2>
+        <p>We host summits, town halls, and community events where real talk shapes real outcomes. Expertise, lived experience, or a message the next generation needs to hear.</p>
+        <p>We prioritize speakers under 30. But the mic is open to anyone with something worth hearing.</p>
       </div>
       <div class="section-speaker__form-wrap">
         <form class="speaker-form form" id="speakerForm">
@@ -99,9 +99,9 @@
           </div>
           <div class="form__group">
             <label class="form__label" for="spk-bio">Bio</label>
-            <textarea class="form__textarea" id="spk-bio" name="bio" rows="4" placeholder="Tell us about yourself and your experience."></textarea>
+            <textarea class="form__textarea" id="spk-bio" name="bio" rows="4" placeholder="Who are you and why should we listen?"></textarea>
           </div>
-          <button class="btn btn-primary form__submit" type="submit">SUBMIT SPEAKER INQUIRY</button>
+          <button class="btn btn-primary form__submit" type="submit">SUBMIT</button>
           <p class="form__status" id="speakerStatus" hidden></p>
         </form>
       </div>
@@ -141,14 +141,14 @@
             statusEl.textContent = result.error || 'Something went wrong. Please try again.';
           }
           btn.disabled = false;
-          btn.textContent = formEl.classList.contains('volunteer-form') ? 'SUBMIT APPLICATION' : 'SUBMIT SPEAKER INQUIRY';
+          btn.textContent = 'SUBMIT';
         })
         .catch(function() {
           statusEl.hidden = false;
           statusEl.className = 'form__status form__status--error';
           statusEl.textContent = 'Connection error. Please try again.';
           btn.disabled = false;
-          btn.textContent = formEl.classList.contains('volunteer-form') ? 'SUBMIT APPLICATION' : 'SUBMIT SPEAKER INQUIRY';
+          btn.textContent = 'SUBMIT';
         });
       });
     }

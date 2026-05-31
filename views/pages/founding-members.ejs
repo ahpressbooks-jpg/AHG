@@ -1,8 +1,8 @@
 <!-- Hero -->
 <section class="section-hero section-hero--dark section-hero--full">
   <div class="container">
-    <h1 class="section-hero__headline">We Are Building Something.<br>The Next Generation Can't Wait for Us to Finish.</h1>
-    <p class="section-hero__sub">Almost Human Group is a 501(c)(4) fighting for the children, teens, and young adults the system forgot to ask. We're pre-launch. The foundation is being built right now — and the people who show up first shape everything.</p>
+    <h1 class="section-hero__headline">We're Building This Right Now.<br>The Next Generation Can't Wait.</h1>
+    <p class="section-hero__sub">AHG is pre-launch. The foundation is being laid. The people who show up first shape everything that comes after.</p>
   </div>
 </section>
 
@@ -11,7 +11,7 @@
   <div class="container">
     <div class="success-banner">
       <h2 class="success-banner__headline">You're In.</h2>
-      <p class="success-banner__text">Welcome to the founding class. Your name will appear in our first annual report. We'll be in touch before anyone else hears a word.</p>
+      <p class="success-banner__text">Welcome to the founding class. Your name goes in the first annual report. We'll reach you before anyone else hears a word.</p>
     </div>
   </div>
 </section>
@@ -24,17 +24,17 @@
       <!-- Path 1: Founding Member -->
       <div class="founding-path founding-path--primary">
         <span class="founding-path__label">FOUNDING MEMBER</span>
-        <h2 class="founding-path__headline">Be a Founder</h2>
+        <h2 class="founding-path__headline">Be a Founder.</h2>
         <div class="founding-path__price">
           <span class="founding-path__amount">$10</span>
           <span class="founding-path__interval">/month</span>
         </div>
-        <p class="founding-path__text">Your name in the first annual report. You were here before it was finished.</p>
+        <p class="founding-path__text">Your name on the first page. You were here before it was finished.</p>
         <ul class="founding-path__perks">
           <li>Named in the inaugural annual report</li>
           <li>Early access to all program launches</li>
           <li>Direct updates from the founder</li>
-          <li>Founding Member badge and recognition</li>
+          <li>Founding Member recognition</li>
         </ul>
         <form class="founding-payment-form" id="foundingPaymentForm">
           <div class="form-group">
@@ -45,7 +45,7 @@
             <label for="founding-email" class="form-label">Email</label>
             <input type="email" id="founding-email" name="email" class="form-input" required>
           </div>
-          <button type="submit" class="btn btn-primary btn-primary--lg btn--full">BECOME A FOUNDING MEMBER</button>
+          <button type="submit" class="btn btn-primary btn-primary--lg btn--full">GET IN</button>
           <div class="form-feedback" id="foundingFeedback" aria-live="polite"></div>
         </form>
       </div>
@@ -53,7 +53,7 @@
       <!-- Path 2: Waitlist -->
       <div class="founding-path founding-path--secondary">
         <span class="founding-path__label">NOT READY YET?</span>
-        <h2 class="founding-path__headline">Join the Waitlist</h2>
+        <h2 class="founding-path__headline">Get on the List.</h2>
         <p class="founding-path__text">No payment. Just your name. When we launch, you hear first.</p>
         <form class="waitlist-form" id="waitlistForm">
           <div class="form-group">
@@ -78,7 +78,7 @@
   <div class="container">
     <div class="social-proof">
       <span class="social-proof__label">THE FOUNDING CLASS</span>
-      <h2 class="social-proof__headline">Be one of the first 100.</h2>
+      <h2 class="social-proof__headline">First 100. First Page.</h2>
       <p class="social-proof__text">Every movement starts with the people who refused to wait. This is your name on the first page of something that will outlast all of us.</p>
       <a href="#foundingPaymentForm" class="btn btn-primary">CLAIM YOUR SPOT</a>
     </div>
@@ -119,13 +119,13 @@
         feedback.className = 'form-feedback form-feedback--error';
         feedback.textContent = data.error || 'Something went wrong. Please try again.';
         btn.disabled = false;
-        btn.textContent = 'BECOME A FOUNDING MEMBER';
+        btn.textContent = 'GET IN';
       }
     } catch (err) {
       feedback.className = 'form-feedback form-feedback--error';
       feedback.textContent = 'Something went wrong. Please try again.';
       btn.disabled = false;
-      btn.textContent = 'BECOME A FOUNDING MEMBER';
+      btn.textContent = 'GET IN';
     }
   });
 
