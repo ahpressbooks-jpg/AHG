@@ -5,7 +5,7 @@ const db = require('../database/db');
 const { requireAdmin } = require('../middleware/auth');
 
 router.get('/login', (req, res) => {
-  res.render('admin/login', { title: 'Admin Login — AHG', error: null });
+  res.render('admin/login', { title: 'Admin Login — AHG', error: null, layout: false });
 });
 
 router.post('/login', (req, res) => {
@@ -13,7 +13,7 @@ router.post('/login', (req, res) => {
   const user = db.prepare('SELECT * FROM admin_users WHERE email = ?').get(email);
 
   if (!user || !bcrypt.compareSync(password, user.password_hash)) {
-    return res.render('admin/login', { title: 'Admin Login — AHG', error: 'Invalid credentials.' });
+    return res.render('admin/login', { title: 'Admin Login — AHG', error: 'Invalid credentials.', layout: false });
   }
 
   req.session.adminId = user.id;
@@ -37,22 +37,22 @@ router.get('/', requireAdmin, (req, res) => {
     recentContacts: db.prepare('SELECT * FROM contacts ORDER BY created_at DESC LIMIT 5').all(),
     recentMembers: db.prepare('SELECT * FROM founding_members ORDER BY created_at DESC LIMIT 5').all()
   };
-  res.render('admin/dashboard', { title: 'Dashboard — AHG Admin', stats, adminName: req.session.adminName });
+  res.render('admin/dashboard', { title: 'Dashboard — AHG Admin', stats, adminName: req.session.adminName, layout: false });
 });
 
 router.get('/members', requireAdmin, (req, res) => {
   const members = db.prepare('SELECT * FROM members ORDER BY created_at DESC').all();
-  res.render('admin/members', { title: 'Members — AHG Admin', members, adminName: req.session.adminName });
+  res.render('admin/members', { title: 'Members — AHG Admin', members, adminName: req.session.adminName, layout: false });
 });
 
 router.get('/founding-members', requireAdmin, (req, res) => {
   const members = db.prepare('SELECT * FROM founding_members ORDER BY created_at DESC').all();
-  res.render('admin/founding-members', { title: 'Founding Members — AHG Admin', members, adminName: req.session.adminName });
+  res.render('admin/founding-members', { title: 'Founding Members — AHG Admin', members, adminName: req.session.adminName, layout: false });
 });
 
 router.get('/contacts', requireAdmin, (req, res) => {
   const contacts = db.prepare('SELECT * FROM contacts ORDER BY created_at DESC').all();
-  res.render('admin/contacts', { title: 'Contacts — AHG Admin', contacts, adminName: req.session.adminName });
+  res.render('admin/contacts', { title: 'Contacts — AHG Admin', contacts, adminName: req.session.adminName, layout: false });
 });
 
 router.post('/contacts/:id/read', requireAdmin, (req, res) => {
@@ -62,17 +62,17 @@ router.post('/contacts/:id/read', requireAdmin, (req, res) => {
 
 router.get('/newsletter', requireAdmin, (req, res) => {
   const subscribers = db.prepare('SELECT * FROM newsletter_subscribers ORDER BY created_at DESC').all();
-  res.render('admin/newsletter', { title: 'Newsletter — AHG Admin', subscribers, adminName: req.session.adminName });
+  res.render('admin/newsletter', { title: 'Newsletter — AHG Admin', subscribers, adminName: req.session.adminName, layout: false });
 });
 
 router.get('/volunteers', requireAdmin, (req, res) => {
   const volunteers = db.prepare('SELECT * FROM volunteers ORDER BY created_at DESC').all();
-  res.render('admin/volunteers', { title: 'Volunteers — AHG Admin', volunteers, adminName: req.session.adminName });
+  res.render('admin/volunteers', { title: 'Volunteers — AHG Admin', volunteers, adminName: req.session.adminName, layout: false });
 });
 
 router.get('/speakers', requireAdmin, (req, res) => {
   const speakers = db.prepare('SELECT * FROM speakers ORDER BY created_at DESC').all();
-  res.render('admin/speakers', { title: 'Speakers — AHG Admin', speakers, adminName: req.session.adminName });
+  res.render('admin/speakers', { title: 'Speakers — AHG Admin', speakers, adminName: req.session.adminName, layout: false });
 });
 
 router.delete('/members/:id', requireAdmin, (req, res) => {

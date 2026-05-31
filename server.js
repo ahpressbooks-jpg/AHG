@@ -4,6 +4,7 @@ const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 const helmet = require('helmet');
 const path = require('path');
+const expressLayouts = require('express-ejs-layouts');
 
 const db = require('./database/db');
 const pageRoutes = require('./routes/pages');
@@ -16,6 +17,8 @@ const PORT = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.set('layout', 'layouts/main');
+app.use(expressLayouts);
 
 app.use(helmet({
   contentSecurityPolicy: {
