@@ -1,193 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Almost Human Group — Policy, advocacy, education, and legacy consulting headquartered in Dallas-Fort Worth, Texas. Systems change at the intersection of community, power, and purpose." />
-  <title>Almost Human Group — Dallas-Fort Worth, Texas</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AHG is a 501(c)(4) movement fighting for young people 14–26 in DFW and beyond. Education. Policy. Representation.">
+  <title>Almost Human Group — The Voice of the Next Generation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- ============================================================
-       NAVIGATION
-       ============================================================ -->
+  <!-- NAV -->
   <nav class="nav" role="navigation" aria-label="Main navigation">
-    <a href="index.html" class="nav-logo" aria-label="Almost Human Group Home">
-      Almost Human Group
-      <span class="logo-sub">Policy · Advocacy · Education</span>
-    </a>
+    <a href="index.html" class="nav-logo">ALMOST <span class="logo-highlight">HUMAN</span> GROUP</a>
     <ul class="nav-links">
       <li><a href="about.html">About</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="impact.html">Impact</a></li>
-      <li><a href="contact.html" class="btn-nav">Get In Touch</a></li>
+      <li class="nav-dropdown">
+        <a href="programs.html">Programs</a>
+        <div class="nav-dropdown-menu">
+          <a href="programs/bridge.html">BRIDGE</a>
+          <a href="programs/seat.html">SEAT</a>
+          <a href="programs/launch.html">LAUNCH</a>
+          <a href="programs/floor.html">FLOOR</a>
+        </div>
+      </li>
+      <li><a href="policy.html">Policy</a></li>
+      <li><a href="membership.html">Membership</a></li>
+      <li><a href="get-involved.html">Get Involved</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="membership.html" class="btn btn-primary btn-sm">Join the Movement</a></li>
     </ul>
+    <div class="nav-actions">
+      <a href="membership.html" class="nav-cta-mobile">Join</a>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
-  <!-- ============================================================
-       HERO
-       ============================================================ -->
-  <section class="hero" aria-label="Hero">
-    <div class="hero-bg-texture" aria-hidden="true"></div>
-    <div class="hero-maroon-bar" aria-hidden="true"></div>
-
-    <div class="hero-content">
-      <span class="eyebrow" style="color: #9B4050; letter-spacing: 0.22em;">Almost Human Group</span>
-      <h1>The next generation<br><em>can't wait.</em></h1>
-      <p class="hero-subhead">
-        AHG is a policy, advocacy, and education consulting firm operating at the intersection of systems change, strategic communications, and community infrastructure. We work with nonprofits, school districts, advocacy organizations, and government agencies across Texas and beyond.
-      </p>
-      <div class="hero-actions">
-        <a href="services.html" class="btn btn-primary">View Our Services</a>
-        <a href="about.html" class="btn btn-outline">Our Mission</a>
-      </div>
-
-      <div class="hero-stat">
-        <div class="hero-stat-item">
-          <div class="hero-stat-number">29,000+</div>
-          <p class="hero-stat-label">Children in Texas foster care — the second-highest total in the nation — aging out of a system not built to help them succeed.</p>
-        </div>
-        <div class="hero-stat-item">
-          <div class="hero-stat-number">1 in 5</div>
-          <p class="hero-stat-label">Texas foster youth become homeless within two years of aging out. Policy and institutional change are not optional — they are urgent.</p>
-        </div>
-        <div class="hero-stat-item">
-          <div class="hero-stat-number">DFW</div>
-          <p class="hero-stat-label">Headquartered in Dallas-Fort Worth, building toward the Almost Human Charter Community — a residential school built exclusively for foster youth.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero-scroll-hint" aria-hidden="true">Scroll</div>
-  </section>
-
-  <!-- ============================================================
-       SERVICES OVERVIEW
-       ============================================================ -->
-  <section class="services-overview" aria-labelledby="services-heading">
-    <div class="container">
-      <div class="section-header">
-        <span class="section-rule" aria-hidden="true"></span>
-        <span class="eyebrow">What We Do</span>
-        <h2 id="services-heading">Expertise built<br>for high-stakes work.</h2>
-        <p class="lead mt-24">
-          AHG brings institutional-grade strategy to organizations doing work that cannot afford to fail. We don't offer generic consulting — we embed with our clients' missions and build toward durable outcomes.
-        </p>
-      </div>
-
-      <div class="services-grid">
-        <div class="service-card">
-          <div class="service-card-icon" aria-hidden="true"></div>
-          <h3>Policy Research &amp; Advocacy Strategy</h3>
-          <p>Rigorous policy analysis translated into actionable strategy. We help organizations move from a position to a coalition to a win.</p>
-          <a href="services.html" class="service-card-link">Learn More</a>
-        </div>
-        <div class="service-card">
-          <div class="service-card-icon" aria-hidden="true"></div>
-          <h3>Strategic Communications</h3>
-          <p>Message architecture, narrative development, and communications infrastructure for campaigns, institutions, and causes.</p>
-          <a href="services.html" class="service-card-link">Learn More</a>
-        </div>
-        <div class="service-card">
-          <div class="service-card-icon" aria-hidden="true"></div>
-          <h3>Program Development</h3>
-          <p>Program design, implementation planning, and logic model development grounded in equity and community accountability.</p>
-          <a href="services.html" class="service-card-link">Learn More</a>
-        </div>
-        <div class="service-card">
-          <div class="service-card-icon" aria-hidden="true"></div>
-          <h3>Workforce Development Consulting</h3>
-          <p>Curriculum development, employer engagement, and systems alignment for workforce pipelines serving underestimated communities.</p>
-          <a href="services.html" class="service-card-link">Learn More</a>
-        </div>
-        <div class="service-card">
-          <div class="service-card-icon" aria-hidden="true"></div>
-          <h3>Education Consulting</h3>
-          <p>Strategic support for school districts, charter organizations, and education reform advocates navigating policy, culture, and change.</p>
-          <a href="services.html" class="service-card-link">Learn More</a>
-        </div>
-        <div class="service-card">
-          <div class="service-card-icon" aria-hidden="true"></div>
-          <h3>Retainer Advisory</h3>
-          <p>Ongoing senior-level counsel for executives and organizations that need a trusted strategic partner in their corner every month.</p>
-          <a href="services.html" class="service-card-link">Learn More</a>
-        </div>
-      </div>
-
-      <div class="mt-40" style="text-align: center;">
-        <a href="services.html" class="btn btn-outline-dark">See Full Service Details &amp; Pricing</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       BRAND STATEMENT BREAK
-       ============================================================ -->
-  <div class="brand-break" aria-label="Brand statement">
-    <blockquote>
-      "In a world where the stakes are someone else's life,<br>mediocrity is a form of harm."
-    </blockquote>
+  <div class="mobile-menu">
+    <a href="about.html">About</a>
+    <a href="programs.html">Programs</a>
+    <a href="policy.html">Policy</a>
+    <a href="membership.html">Membership</a>
+    <a href="get-involved.html">Get Involved</a>
+    <a href="contact.html">Contact</a>
+    <a href="membership.html" class="btn btn-primary" style="margin-top:16px">Join the Movement</a>
   </div>
 
-  <!-- ============================================================
-       CTA SECTION
-       ============================================================ -->
-  <section class="cta-section" aria-labelledby="cta-heading">
-    <span class="eyebrow" style="color: #9B4050; margin-bottom: 20px; display: block;">Work With Us</span>
-    <h2 id="cta-heading" style="color: #FFFFFF; max-width: 560px; margin: 0 auto 20px;">Ready to do work that actually matters?</h2>
-    <p style="color: #AAAAAA; max-width: 480px; margin: 0 auto 40px; font-size: 1rem; line-height: 1.7;">
-      If the mission moves you, we want to hear from you. AHG takes on a select number of engagements at a time — because depth of partnership is the only way we know how to work.
-    </p>
-    <a href="contact.html" class="btn btn-primary">Get In Touch</a>
+  <!-- SECTION 1 — HERO -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero-bg">
+      <img src="https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1920&q=80" alt="" loading="eager">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="eyebrow">Almost Human Group</span>
+      <h1 class="display-xl">They've been deciding your <span class="accent-red">future</span> without you.</h1>
+      <p class="hero-sub">Almost Human Group fights for every young person whose future is being decided in rooms they were never invited into.</p>
+      <div class="hero-actions">
+        <a href="membership.html" class="btn btn-primary btn-arrow">Join the Movement</a>
+        <a href="policy.html" class="btn btn-outline btn-arrow">See What We Fight For</a>
+      </div>
+    </div>
   </section>
 
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
-  <footer class="footer" role="contentinfo">
-    <div class="footer-inner">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <span class="footer-logo">Almost Human Group</span>
-          <span class="footer-tagline-small">The next generation can't wait.</span>
-          <p>A policy, advocacy, education, and legacy institution serving nonprofits, campaigns, school districts, and government agencies across Texas and the nation.</p>
+  <!-- SECTION 2 — THE EVIDENCE -->
+  <section class="section section-darker" aria-label="Statistics">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow">The Evidence</span>
+        <p class="body-lg">These are not statistics. They are children. In Texas. Right now.</p>
+      </div>
+      <div class="stats-grid stagger">
+        <div class="stat-card">
+          <img class="stat-card-img" src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=600&q=80" alt="Empty school hallway" loading="lazy">
+          <div class="stat-card-body">
+            <div class="stat-number" data-count="38000" data-suffix="+">0</div>
+            <div class="stat-label">children in Texas foster care right now, today</div>
+          </div>
         </div>
-        <div class="footer-col">
-          <h5>Pages</h5>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="impact.html">Impact</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
+        <div class="stat-card">
+          <img class="stat-card-img" src="https://images.unsplash.com/photo-1523050854058-8df90110c476?auto=format&fit=crop&w=600&q=80" alt="Graduation" loading="lazy">
+          <div class="stat-card-body">
+            <div class="stat-number" data-count="1.5" data-suffix="%">0</div>
+            <div class="stat-label">of those children earn a college degree by 24</div>
+          </div>
         </div>
-        <div class="footer-col">
-          <h5>Services</h5>
-          <ul>
-            <li><a href="services.html">Policy &amp; Advocacy</a></li>
-            <li><a href="services.html">Strategic Communications</a></li>
-            <li><a href="services.html">Program Development</a></li>
-            <li><a href="services.html">Workforce Development</a></li>
-            <li><a href="services.html">Education Consulting</a></li>
-            <li><a href="services.html">Retainer Advisory</a></li>
-          </ul>
+        <div class="stat-card">
+          <img class="stat-card-img" src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=600&q=80" alt="Urban environment" loading="lazy">
+          <div class="stat-card-body">
+            <div class="stat-number" data-count="46" data-suffix="%">0</div>
+            <div class="stat-label">experience homelessness before they turn 26</div>
+          </div>
         </div>
-        <div class="footer-col">
-          <h5>Contact</h5>
-          <ul>
-            <li><a href="mailto:info@almosthumangroup.com">info@almosthumangroup.com</a></li>
-            <li><a href="contact.html">Contact Form</a></li>
-          </ul>
+        <div class="stat-card">
+          <img class="stat-card-img" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=600&q=80" alt="Job search" loading="lazy">
+          <div class="stat-card-body">
+            <div class="stat-number" data-count="50" data-suffix="%">0</div>
+            <div class="stat-label">are unemployed at 24 vs. 74% of their peers</div>
+          </div>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2025 Almost Human Group. All rights reserved.</p>
-        <p class="footer-location">Dallas-Fort Worth, Texas</p>
+    </div>
+  </section>
+
+  <!-- SECTION 3 — WHAT WE ARE -->
+  <section class="section section-dark" aria-label="Identity">
+    <div class="container">
+      <div class="split reveal">
+        <div>
+          <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80" alt="Young people at a community gathering" class="split-photo" style="border-radius:var(--radius-lg);" loading="lazy">
+        </div>
+        <div>
+          <span class="eyebrow">Who We Are</span>
+          <h2 class="display-lg mb-24">Not a Charity.<br><span class="accent-red">A Movement.</span></h2>
+          <p class="body-lg mb-24" style="color:rgba(255,255,255,0.8);">AHG is organized, structured, funded, and built to outlast the resistance. We use the same legal structure as the NAACP and the ACLU because the fight the next generation is in requires it. We can lobby. We can endorse candidates for office. We can name the officials who are failing the people we serve.</p>
+          <p class="body-lg mb-24" style="color:rgba(255,255,255,0.8);">We serve every young person from a high school freshman to age 26 — the exact window where institutions either open doors or close them for good.</p>
+          <p class="body-lg" style="color:var(--white); font-weight:700;">We go wherever the fight is.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 — THREE PILLARS -->
+  <section class="section section-darker" aria-label="Three Pillars">
+    <div class="container">
+      <div class="section-header text-center reveal" style="margin-left:auto;margin-right:auto;">
+        <span class="eyebrow">The Three Pillars</span>
+        <h2 class="display-lg">What We <span class="accent-red">Fight</span> For</h2>
+      </div>
+      <div class="grid-3 stagger">
+        <div class="card">
+          <img class="card-img" src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80" alt="Classroom" loading="lazy">
+          <div class="card-body">
+            <div class="card-number">01</div>
+            <h3 class="card-title">Education Beyond the Classroom</h3>
+            <p class="card-text">Schools design for compliance. Young people need development. AHG challenges the structure of education itself — and fights for systems built around what students actually need.</p>
+            <a href="policy.html" class="card-link">Learn More</a>
+          </div>
+        </div>
+        <div class="card">
+          <img class="card-img" src="https://images.unsplash.com/photo-1555848962-6e79363ec58f?auto=format&fit=crop&w=600&q=80" alt="Government building" loading="lazy">
+          <div class="card-body">
+            <div class="card-number">02</div>
+            <h3 class="card-title">Policy That Protects the Future</h3>
+            <p class="card-text">Mental health. Housing. Juvenile justice. Foster care. AHG tracks every relevant piece of legislation, responds publicly, and names the officials who vote against the people they claim to represent.</p>
+            <a href="policy.html" class="card-link">See the Agenda</a>
+          </div>
+        </div>
+        <div class="card">
+          <img class="card-img" src="https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?auto=format&fit=crop&w=600&q=80" alt="Meeting table" loading="lazy">
+          <div class="card-body">
+            <div class="card-number">03</div>
+            <h3 class="card-title">Representation</h3>
+            <p class="card-text">Young people are the subject of almost every major policy decision in America. They are almost never in the room when it is made. AHG puts them there — structurally, not symbolically.</p>
+            <a href="programs.html" class="card-link">Our Programs</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5 — PROGRAMS -->
+  <section class="section section-dark" aria-label="Programs">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow">Our Programs</span>
+        <h2 class="display-lg">Four Programs. <span class="accent-red">One Fight.</span></h2>
+      </div>
+      <div class="grid-4 stagger">
+        <a href="programs/bridge.html" class="card program-card">
+          <div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80" alt="Students collaborating" loading="lazy"></div>
+          <div class="card-body">
+            <div class="program-code">BRIDGE</div>
+            <div class="program-age">Ages 14–18</div>
+            <p class="card-text">Students learn to identify a problem in their school, build a data-backed case, and present it directly to their school board.</p>
+            <span class="card-link">Learn More</span>
+          </div>
+        </a>
+        <a href="programs/seat.html" class="card program-card">
+          <div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1560439514-4e9645039924?auto=format&fit=crop&w=600&q=80" alt="Speaking at council" loading="lazy"></div>
+          <div class="card-body">
+            <div class="program-code">SEAT</div>
+            <div class="program-age">Ages 16–24</div>
+            <p class="card-text">Civic leadership training that places graduates into real boards, councils, and elected positions. Not symbolic access.</p>
+            <span class="card-link">Learn More</span>
+          </div>
+        </a>
+        <a href="programs/launch.html" class="card program-card">
+          <div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=600&q=80" alt="Professional setting" loading="lazy"></div>
+          <div class="card-body">
+            <div class="program-code">LAUNCH</div>
+            <div class="program-age">Ages 18–26</div>
+            <p class="card-text">Workforce and economic empowerment for young adults building from nothing. Financial literacy, career navigation, real credentials.</p>
+            <span class="card-link">Learn More</span>
+          </div>
+        </a>
+        <a href="programs/floor.html" class="card program-card">
+          <div class="card-img-wrap"><img class="card-img" src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?auto=format&fit=crop&w=600&q=80" alt="Capitol corridor" loading="lazy"></div>
+          <div class="card-body">
+            <div class="program-code">FLOOR</div>
+            <div class="program-age">Ages 18–26 · Competitive</div>
+            <p class="card-text">The flagship fellowship. Competitively selected young adults placed inside government offices and legislative chambers.</p>
+            <span class="card-link">Learn More</span>
+          </div>
+        </a>
+      </div>
+      <div class="text-center mt-48 reveal">
+        <a href="programs.html" class="btn btn-outline btn-arrow">Explore All Programs</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6 — THE ORIGIN -->
+  <section class="section photo-section" aria-label="The Origin">
+    <div class="photo-section-bg">
+      <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1920&q=80" alt="" class="bw" loading="lazy">
+    </div>
+    <div class="photo-section-overlay-bw"></div>
+    <div class="container" style="max-width:800px; position:relative; z-index:2;">
+      <div class="reveal">
+        <span class="eyebrow">The Origin</span>
+        <h2 class="display-md mb-32">The Hallway.</h2>
+        <div class="body-lg" style="color:rgba(255,255,255,0.88); line-height:1.85;">
+          <p class="mb-24">AHG exists because too many people in this country are treated as almost human. Almost old enough to matter. Almost ready to have a voice. Almost worth designing a system around.</p>
+          <p class="mb-24">Our founder grew up inside those systems. He was moved, assessed, categorized, and processed. Not developed. Not asked what he needed. Not given a plan when being smart wasn't enough. The institution that was supposed to develop him decided he was fine and moved on.</p>
+          <p class="mb-24" style="font-weight:700; font-size:1.4rem; color:var(--white);">He was not fine.</p>
+          <p class="mb-24">One door opened. He walked through it. On the other side was the understanding that his story didn't belong only to him — it belonged to every person still standing in the hallway, waiting, wondering if a door even exists for them.</p>
+          <p class="mb-32" style="font-weight:500; color:var(--white);">That's who we build for.</p>
+          <a href="about.html" class="btn btn-outline btn-arrow">Read the Full Story</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7 — MEMBERSHIP -->
+  <section class="section section-dark" aria-label="Join">
+    <div class="container">
+      <div class="split reveal">
+        <div>
+          <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80" alt="Group planning" class="split-photo" style="border-radius:var(--radius-lg);" loading="lazy">
+        </div>
+        <div>
+          <span class="eyebrow">Pre-Launch</span>
+          <h2 class="display-md mb-16">The Movement Needs You Before It Needs <span class="accent-red">Anyone Else.</span></h2>
+          <p class="body-lg mb-16" style="color:rgba(255,255,255,0.8);">Become a Founding Member. $10/month. Your name in the first annual report. You were here before it was finished.</p>
+          <p class="body-md mb-32" style="color:var(--gray);">We are pre-launch. We are building this in public. Join now and help build the foundation before the world knows our name.</p>
+          <a href="membership.html" class="btn btn-primary btn-arrow">Become a Founding Member</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8 — FOOTER CTA -->
+  <section class="section photo-section" aria-label="Final CTA" style="padding-top:clamp(80px,12vw,160px); padding-bottom:clamp(80px,12vw,160px);">
+    <div class="photo-section-bg">
+      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1920&q=80" alt="" loading="lazy">
+    </div>
+    <div class="photo-section-overlay" style="background:linear-gradient(to bottom, rgba(10,10,10,0.65), rgba(204,0,0,0.25));"></div>
+    <div class="container text-center" style="position:relative; z-index:2;">
+      <div class="reveal">
+        <h2 class="display-xl mb-24">The Next Generation <span class="accent-red">Can't Wait.</span></h2>
+        <p class="body-lg mb-32" style="max-width:560px; margin-left:auto; margin-right:auto; color:rgba(255,255,255,0.85);">Join AHG. Tell someone who needs to know we exist. Show up for the fight.</p>
+        <a href="membership.html" class="btn btn-primary btn-arrow">Join the Movement</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-col-title">Organization</div>
+          <a href="about.html">About</a>
+          <a href="about.html#mission">Mission</a>
+          <a href="about.html#founder">The Founder</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Programs</div>
+          <a href="programs/bridge.html">BRIDGE</a>
+          <a href="programs/seat.html">SEAT</a>
+          <a href="programs/launch.html">LAUNCH</a>
+          <a href="programs/floor.html">FLOOR</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Policy</div>
+          <a href="policy.html">The Three Pillars</a>
+          <a href="policy.html">Policy Agenda</a>
+          <a href="policy.html">Accountability</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Join</div>
+          <a href="membership.html">Membership</a>
+          <a href="get-involved.html">Volunteer</a>
+          <a href="get-involved.html">Partner</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Connect</div>
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="contact.html">Contact</a>
+          <a href="contact.html">Press</a>
+        </div>
+      </div>
+      <div class="footer-bar">
+        <span>&copy; 2026 Almost Human Group</span>
+        <span>501(c)(4) Social Welfare Organization</span>
+        <span>Not affiliated with any political party or campaign.</span>
+        <span>Contributions are not tax-deductible as charitable contributions.</span>
+        <a href="#">Privacy Policy</a>
       </div>
     </div>
   </footer>

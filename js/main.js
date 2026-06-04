@@ -1,116 +1,83 @@
-/* ============================================================
-   Almost Human Group — Main JavaScript
-   ============================================================ */
-
 (function () {
   'use strict';
 
-  /* ----------------------------------------------------------
-     Navigation: active link highlighting
-     ---------------------------------------------------------- */
-  function setActiveNav() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    const links = document.querySelectorAll('.nav-links a');
-    links.forEach(function (link) {
-      const href = link.getAttribute('href');
-      if (
-        href === currentPage ||
-        (currentPage === '' && href === 'index.html') ||
-        (currentPage === 'index.html' && href === 'index.html')
-      ) {
-        link.classList.add('active');
-      }
-    });
-  }
-
-  /* ----------------------------------------------------------
-     Navigation: subtle background shift on scroll
-     ---------------------------------------------------------- */
-  function initNavScroll() {
-    var nav = document.querySelector('.nav');
-    if (!nav) return;
-
-    function onScroll() {
-      if (window.scrollY > 40) {
-        nav.style.boxShadow = '0 4px 32px rgba(0,0,0,0.4)';
-      } else {
-        nav.style.boxShadow = 'none';
-      }
-    }
-
+  const nav = document.querySelector('.nav');
+  if (nav) {
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   }
 
-  /* ----------------------------------------------------------
-     Contact Form: client-side handling
-     ---------------------------------------------------------- */
-  function initContactForm() {
-    var form = document.getElementById('contact-form');
-    if (!form) return;
-
-    var successMsg = document.getElementById('form-success');
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      var btn = form.querySelector('.btn-primary');
-      var originalText = btn.textContent;
-
-      btn.textContent = 'Sending...';
-      btn.style.opacity = '0.7';
-      btn.disabled = true;
-
-      // Simulate async submit — replace with real endpoint
-      setTimeout(function () {
-        form.style.display = 'none';
-        if (successMsg) {
-          successMsg.style.display = 'block';
-        }
-      }, 1200);
+  const hamburger = document.querySelector('.hamburger');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
     });
-  }
-
-  /* ----------------------------------------------------------
-     Smooth entrance: fade-in sections on scroll
-     ---------------------------------------------------------- */
-  function initScrollReveal() {
-    if (!window.IntersectionObserver) return;
-
-    var targets = document.querySelectorAll(
-      '.service-card, .service-full-card, .value-item, ' +
-      '.impact-pillar, .charter-stat, .impact-metric, .contact-detail'
-    );
-
-    targets.forEach(function (el) {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(18px)';
-      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    });
-
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          observer.unobserve(entry.target);
-        }
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-    targets.forEach(function (el) {
-      observer.observe(el);
     });
   }
 
-  /* ----------------------------------------------------------
-     Init
-     ---------------------------------------------------------- */
-  document.addEventListener('DOMContentLoaded', function () {
-    setActiveNav();
-    initNavScroll();
-    initContactForm();
-    initScrollReveal();
+  const reveals = document.querySelectorAll('.reveal, .stagger');
+  if (reveals.length) {
+    const io = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }),
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+    reveals.forEach(el => io.observe(el));
+  }
+
+  const counters = document.querySelectorAll('[data-count]');
+  if (counters.length) {
+    const ioCount = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        const raw = el.getAttribute('data-count');
+        const suffix = el.getAttribute('data-suffix') || '';
+        const prefix = el.getAttribute('data-prefix') || '';
+        const target = parseFloat(raw);
+        const isFloat = raw.includes('.');
+        const duration = 1600;
+        const start = performance.now();
+        function tick(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = eased * target;
+          el.textContent = prefix + (isFloat ? current.toFixed(1) : Math.floor(current).toLocaleString()) + suffix;
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        ioCount.unobserve(el);
+      });
+    }, { threshold: 0.3 });
+    counters.forEach(el => ioCount.observe(el));
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
   });
 
+  const contactForm = document.querySelector('.contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const btn = contactForm.querySelector('button[type="submit"]');
+      const original = btn.textContent;
+      btn.textContent = 'SENT';
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+      setTimeout(() => { btn.textContent = original; btn.disabled = false; btn.style.opacity = '1'; }, 3000);
+    });
+  }
 })();
