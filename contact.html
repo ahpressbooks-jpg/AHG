@@ -1,221 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Contact Almost Human Group — policy, advocacy, and education consulting in Dallas-Fort Worth, Texas. If the mission moves you, we want to hear from you." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact Almost Human Group. General inquiries, press, programs, membership, partnership, and speaking opportunities. Get in the room.">
   <title>Contact — Almost Human Group</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- ============================================================
-       NAVIGATION
-       ============================================================ -->
+  <!-- NAV -->
   <nav class="nav" role="navigation" aria-label="Main navigation">
-    <a href="index.html" class="nav-logo" aria-label="Almost Human Group Home">
-      Almost Human Group
-      <span class="logo-sub">Policy · Advocacy · Education</span>
-    </a>
+    <a href="index.html" class="nav-logo">ALMOST <span class="logo-highlight">HUMAN</span> GROUP</a>
     <ul class="nav-links">
       <li><a href="about.html">About</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="impact.html">Impact</a></li>
-      <li><a href="contact.html" class="btn-nav active">Get In Touch</a></li>
+      <li class="nav-dropdown">
+        <a href="programs.html">Programs</a>
+        <div class="nav-dropdown-menu">
+          <a href="programs/bridge.html">BRIDGE</a>
+          <a href="programs/seat.html">SEAT</a>
+          <a href="programs/launch.html">LAUNCH</a>
+          <a href="programs/floor.html">FLOOR</a>
+        </div>
+      </li>
+      <li><a href="policy.html">Policy</a></li>
+      <li><a href="membership.html">Membership</a></li>
+      <li><a href="get-involved.html">Get Involved</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="membership.html" class="btn btn-primary btn-sm">Join the Movement</a></li>
     </ul>
+    <div class="nav-actions">
+      <a href="membership.html" class="nav-cta-mobile">Join</a>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
-  <!-- ============================================================
-       PAGE HEADER
-       ============================================================ -->
-  <header class="page-header" aria-labelledby="contact-heading">
-    <div class="page-header-inner">
-      <span class="eyebrow">Contact</span>
-      <h1 id="contact-heading">Let's talk about<br>what you're building.</h1>
-      <p class="lead">
-        AHG takes on a select number of engagements at a time. The first conversation is about fit — and it costs nothing to start.
-      </p>
+  <div class="mobile-menu">
+    <a href="about.html">About</a>
+    <a href="programs.html">Programs</a>
+    <a href="policy.html">Policy</a>
+    <a href="membership.html">Membership</a>
+    <a href="get-involved.html">Get Involved</a>
+    <a href="contact.html">Contact</a>
+    <a href="membership.html" class="btn btn-primary" style="margin-top:16px">Join the Movement</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero hero-page" aria-label="Contact Hero">
+    <div class="hero-bg">
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80" alt="Modern office meeting space" loading="eager">
     </div>
-  </header>
-
-  <!-- ============================================================
-       CONTACT SECTION
-       ============================================================ -->
-  <section class="contact-section" aria-label="Contact form and information">
-    <div class="contact-inner">
-
-      <!-- LEFT: INFO -->
-      <div class="contact-info">
-        <span class="section-rule" aria-hidden="true"></span>
-        <span class="eyebrow">Get In Touch</span>
-        <h2>We respond to every serious inquiry.</h2>
-        <p class="lead mt-24" style="font-size: 0.95rem;">
-          Whether you are exploring a retainer relationship, scoping a specific project, or just want to understand if AHG is the right fit for your organization — we want to hear from you.
-        </p>
-
-        <div class="contact-details mt-40">
-          <div class="contact-detail">
-            <span class="contact-detail-label">Email</span>
-            <span class="contact-detail-value">
-              <a href="mailto:info@almosthumangroup.com">info@almosthumangroup.com</a>
-            </span>
-          </div>
-          <div class="contact-detail">
-            <span class="contact-detail-label">Location</span>
-            <span class="contact-detail-value">Dallas-Fort Worth, Texas</span>
-          </div>
-          <div class="contact-detail">
-            <span class="contact-detail-label">Service Area</span>
-            <span class="contact-detail-value">Texas-focused. Nationally capable.</span>
-          </div>
-          <div class="contact-detail">
-            <span class="contact-detail-label">Response Time</span>
-            <span class="contact-detail-value">Within 48 business hours</span>
-          </div>
-        </div>
-
-        <div style="margin-top: 52px; padding: 36px 32px; background: var(--off-white); border-left: 3px solid var(--maroon);">
-          <p style="font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--charcoal); line-height: 1.4; margin-bottom: 12px; font-style: italic;">
-            "The next generation can't wait."
-          </p>
-          <p style="font-size: 0.82rem; color: var(--dark-gray); line-height: 1.65;">
-            If your organization is working on something that matters — and you need a partner who will take it as seriously as you do — AHG is ready to have that conversation.
-          </p>
-        </div>
-      </div>
-
-      <!-- RIGHT: FORM -->
-      <div>
-        <div class="contact-form">
-          <p class="form-intro">If the mission moves you, we want to hear from you.</p>
-
-          <form id="contact-form" novalidate>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="contact-name">Full Name</label>
-                <input
-                  type="text"
-                  id="contact-name"
-                  name="name"
-                  placeholder="Your name"
-                  required
-                  autocomplete="name"
-                />
-              </div>
-              <div class="form-group">
-                <label for="contact-org">Organization</label>
-                <input
-                  type="text"
-                  id="contact-org"
-                  name="organization"
-                  placeholder="Your organization"
-                  autocomplete="organization"
-                />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="contact-email">Email Address</label>
-              <input
-                type="email"
-                id="contact-email"
-                name="email"
-                placeholder="your@email.com"
-                required
-                autocomplete="email"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="contact-service">Area of Interest</label>
-              <input
-                type="text"
-                id="contact-service"
-                name="service"
-                placeholder="e.g. Policy Strategy, Retainer Advisory, Program Development"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="contact-message">Message</label>
-              <textarea
-                id="contact-message"
-                name="message"
-                placeholder="Tell us about your organization, what you're working on, and what you need."
-                required
-              ></textarea>
-            </div>
-
-            <div class="form-submit">
-              <button type="submit" class="btn btn-primary">Send Message</button>
-            </div>
-          </form>
-
-          <div id="form-success" class="form-success" role="alert">
-            <h3>Message Received.</h3>
-            <p>We will be in touch within 48 business hours. Thank you for reaching out.</p>
-          </div>
-        </div>
-      </div>
-
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="eyebrow">Contact</span>
+      <h1 class="display-xl">Get in the <span class="accent-red">Room.</span></h1>
+      <p class="hero-sub">Whether you want to join, partner, speak, volunteer, or press us on something that matters, this is where the conversation starts.</p>
     </div>
   </section>
 
-  <!-- ============================================================
-       BRAND BREAK
-       ============================================================ -->
-  <div class="brand-break" aria-label="Brand statement">
-    <blockquote>
-      "In a world where the stakes are someone else's life,<br>mediocrity is a form of harm."
-    </blockquote>
-  </div>
+  <!-- CONTACT SECTION -->
+  <section class="section section-darker" aria-label="Contact Information and Form">
+    <div class="container">
+      <div class="split reveal">
 
-  <!-- ============================================================
-       FOOTER
-       ============================================================ -->
-  <footer class="footer" role="contentinfo">
-    <div class="footer-inner">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <span class="footer-logo">Almost Human Group</span>
-          <span class="footer-tagline-small">The next generation can't wait.</span>
-          <p>A policy, advocacy, education, and legacy institution serving nonprofits, campaigns, school districts, and government agencies across Texas and the nation.</p>
+        <!-- LEFT COLUMN: Info -->
+        <div>
+          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="AHG team collaborating" class="split-photo" style="border-radius:var(--radius-lg); margin-bottom:40px;" loading="lazy">
+
+          <span class="eyebrow">Reach Us Directly</span>
+          <h2 class="display-sm mb-24">Three Channels. <span class="accent-red">One Mission.</span></h2>
+
+          <div style="margin-bottom:24px; padding:20px 24px; background:var(--black-mid); border:1px solid rgba(255,255,255,0.08); border-radius:var(--radius-lg);">
+            <p class="mono" style="color:var(--red); margin-bottom:6px;">General Inquiries</p>
+            <a href="mailto:hello@almosthumangroup.org" style="color:var(--white); font-weight:500; font-size:1.05rem;">hello@almosthumangroup.org</a>
+          </div>
+
+          <div style="margin-bottom:24px; padding:20px 24px; background:var(--black-mid); border:1px solid rgba(255,255,255,0.08); border-radius:var(--radius-lg);">
+            <p class="mono" style="color:var(--red); margin-bottom:6px;">Press &amp; Media</p>
+            <a href="mailto:press@almosthumangroup.org" style="color:var(--white); font-weight:500; font-size:1.05rem;">press@almosthumangroup.org</a>
+          </div>
+
+          <div style="padding:20px 24px; background:var(--black-mid); border:1px solid rgba(255,255,255,0.08); border-radius:var(--radius-lg);">
+            <p class="mono" style="color:var(--red); margin-bottom:6px;">Programs &amp; Partnerships</p>
+            <a href="mailto:programs@almosthumangroup.org" style="color:var(--white); font-weight:500; font-size:1.05rem;">programs@almosthumangroup.org</a>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Form -->
+        <div>
+          <span class="eyebrow">Send a Message</span>
+          <h2 class="display-sm mb-24">We Read <span class="accent-red">Everything.</span></h2>
+          <p class="body-md mb-32" style="color:rgba(255,255,255,0.7);">Every serious inquiry gets a response. Fill out the form and we will be in touch.</p>
+
+          <form class="contact-form" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="contact-name">Name <span style="color:var(--red);">*</span></label>
+              <input class="form-input" type="text" id="contact-name" name="name" placeholder="Your full name" required autocomplete="name">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-email">Email <span style="color:var(--red);">*</span></label>
+              <input class="form-input" type="email" id="contact-email" name="email" placeholder="your@email.com" required autocomplete="email">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-org">Organization <span style="color:var(--gray);">(optional)</span></label>
+              <input class="form-input" type="text" id="contact-org" name="organization" placeholder="Your organization" autocomplete="organization">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-subject">Subject <span style="color:var(--red);">*</span></label>
+              <select class="form-select" id="contact-subject" name="subject" required>
+                <option value="" disabled selected>Select a subject</option>
+                <option value="general">General Inquiry</option>
+                <option value="press">Press &amp; Media</option>
+                <option value="programs">Programs</option>
+                <option value="membership">Membership</option>
+                <option value="partnership">Partnership</option>
+                <option value="speaking">Speaking</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contact-message">Message <span style="color:var(--red);">*</span></label>
+              <textarea class="form-textarea" id="contact-message" name="message" placeholder="Tell us why you are reaching out." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%;">Send It</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-col-title">Organization</div>
+          <a href="about.html">About</a>
+          <a href="about.html#mission">Mission</a>
+          <a href="about.html#founder">The Founder</a>
         </div>
         <div class="footer-col">
-          <h5>Pages</h5>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="impact.html">Impact</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
+          <div class="footer-col-title">Programs</div>
+          <a href="programs/bridge.html">BRIDGE</a>
+          <a href="programs/seat.html">SEAT</a>
+          <a href="programs/launch.html">LAUNCH</a>
+          <a href="programs/floor.html">FLOOR</a>
         </div>
         <div class="footer-col">
-          <h5>Services</h5>
-          <ul>
-            <li><a href="services.html">Policy &amp; Advocacy</a></li>
-            <li><a href="services.html">Strategic Communications</a></li>
-            <li><a href="services.html">Program Development</a></li>
-            <li><a href="services.html">Workforce Development</a></li>
-            <li><a href="services.html">Education Consulting</a></li>
-            <li><a href="services.html">Retainer Advisory</a></li>
-          </ul>
+          <div class="footer-col-title">Policy</div>
+          <a href="policy.html">The Three Pillars</a>
+          <a href="policy.html">Policy Agenda</a>
+          <a href="policy.html">Accountability</a>
         </div>
         <div class="footer-col">
-          <h5>Contact</h5>
-          <ul>
-            <li><a href="mailto:info@almosthumangroup.com">info@almosthumangroup.com</a></li>
-            <li><a href="contact.html">Contact Form</a></li>
-          </ul>
+          <div class="footer-col-title">Join</div>
+          <a href="membership.html">Membership</a>
+          <a href="get-involved.html">Volunteer</a>
+          <a href="get-involved.html">Partner</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Connect</div>
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="contact.html">Contact</a>
+          <a href="contact.html">Press</a>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2025 Almost Human Group. All rights reserved.</p>
-        <p class="footer-location">Dallas-Fort Worth, Texas</p>
+      <div class="footer-bar">
+        <span>&copy; 2026 Almost Human Group</span>
+        <span>501(c)(4) Social Welfare Organization</span>
+        <span>Not affiliated with any political party or campaign.</span>
+        <span>Contributions are not tax-deductible as charitable contributions.</span>
+        <a href="#">Privacy Policy</a>
       </div>
     </div>
   </footer>
