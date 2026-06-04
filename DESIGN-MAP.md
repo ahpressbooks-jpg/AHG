@@ -98,34 +98,41 @@
 
 ### 1. HOMEPAGE — `/`
 
-**Purpose:** Emotional entry point. Understanding AHG → Taking action. Dark, high-contrast, typographically dominant.
+**Purpose:** Emotional entry point. Understanding AHG → Taking action. Dark, high-contrast, photography-driven.
 
 #### Section 1: Hero
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│                        [Movement Black #0A0A0A]                     │
-│                     [subtle geometric grid texture]                 │
-│                                                                     │
-│            "They've been deciding your                              │
-│             future without you."                                    │
-│             [Bebas Neue, 120px+, white, red accent on ONE phrase]   │
-│                                                                     │
-│            Almost Human Group fights for every young person         │
-│            whose future is being decided in rooms they were         │
-│            never invited into.                                      │
-│            [DM Sans 400, 18–20px, white]                           │
-│                                                                     │
-│            ┌─────────────────┐  ┌──────────────────────┐           │
-│            │ JOIN THE        │  │ SEE WHAT WE          │           │
-│            │ MOVEMENT        │  │ FIGHT FOR            │           │
-│            │ [#CC0000 solid] │  │ [white outline]      │           │
-│            └─────────────────┘  └──────────────────────┘           │
-│                                                                     │
-│            → /membership         → /policy                         │
+│  ┌────────────────────────────────────────────────────────────────┐  │
+│  │                    [FULL-BLEED HERO PHOTO]                    │  │
+│  │                                                                │  │
+│  │  Photo: A young person standing at a podium in a school       │  │
+│  │  board chamber or legislative hearing room, mid-testimony.    │  │
+│  │  Shot from behind/side — they face the decision-makers.       │  │
+│  │  High contrast, dramatic light. Grain OK.                     │  │
+│  │  Dark overlay gradient (60-70% opacity) for text legibility.  │  │
+│  │                                                                │  │
+│  │         "They've been deciding your                           │  │
+│  │          future without you."                                 │  │
+│  │          [Bebas Neue, 120px+, white, red accent ONE phrase]   │  │
+│  │                                                                │  │
+│  │         Almost Human Group fights for every young person      │  │
+│  │         whose future is being decided in rooms they were      │  │
+│  │         never invited into.                                   │  │
+│  │         [DM Sans 400, 18–20px, white]                        │  │
+│  │                                                                │  │
+│  │         ┌─────────────────┐  ┌──────────────────────┐        │  │
+│  │         │ JOIN THE        │  │ SEE WHAT WE          │        │  │
+│  │         │ MOVEMENT        │  │ FIGHT FOR            │        │  │
+│  │         │ [#CC0000 solid] │  │ [white outline]      │        │  │
+│  │         └─────────────────┘  └──────────────────────┘        │  │
+│  │                                                                │  │
+│  └────────────────────────────────────────────────────────────────┘  │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 - Full viewport height (100vh)
-- NO photography — type carries the hero
+- Full-bleed background photo with dark gradient overlay
+- Photo direction: young person testifying, presenting, or standing in a real institutional room
 - Two CTA buttons below headline
 - Subheadline in DM Sans 400, white, 18–20px
 
@@ -136,6 +143,11 @@
 │  [DM Sans 500, Off-White]                                          │
 │                                                                     │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌────────┐ │
+│  │  [B&W PHOTO] │  │  [B&W PHOTO] │  │  [B&W PHOTO] │  │[B&W    │ │
+│  │  empty desk  │  │  graduation  │  │  bus stop     │  │PHOTO]  │ │
+│  │  in school   │  │  cap on      │  │  bench at     │  │job app │ │
+│  │  hallway     │  │  ground      │  │  night        │  │in hand │ │
+│  │──────────────│  │──────────────│  │──────────────│  │────────│ │
 │  │   38,000+    │  │    1.5%      │  │     46%      │  │  50%   │ │
 │  │  [#CC0000    │  │  [#CC0000    │  │  [#CC0000    │  │[#CC0000│ │
 │  │   large num] │  │   large num] │  │   large num] │  │ lg num]│ │
@@ -146,13 +158,14 @@
 │  │  [#888 text] │  │  [#888 text] │  │  [#888 text] │  │[#888]  │ │
 │  └──────────────┘  └──────────────┘  └──────────────┘  └────────┘ │
 │                                                                     │
-│  Dark background. Numbers are the visual. Gray descriptors below.  │
+│  Dark background. Each stat card topped with a small B&W photo.    │
 │  Mobile: 2x2 grid (NOT single column).                             │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 - Presented like evidence, not selling points — "prosecutor style"
-- Large red numerals are the dominant visual element
-- No commentary or solution framing
+- Each stat card includes a small, square B&W documentary photo above the number
+- Photos: real environments that represent each stat — not faces, not hope, just reality
+- Large red numerals remain the dominant visual element
 
 #### Section 3: What We Are (Identity Statement)
 ```
@@ -160,29 +173,40 @@
 │                                                                     │
 │  ┌─────────────────────┐  ┌─────────────────────────────────────┐  │
 │  │                     │  │                                     │  │
-│  │  Not a Charity.     │  │  AHG is organized, structured,     │  │
-│  │  A Movement.        │  │  funded, and built to outlast the   │  │
-│  │                     │  │  resistance. We use the same legal  │  │
-│  │  [Bebas Neue,       │  │  structure as the NAACP and the     │  │
-│  │   large, white]     │  │  ACLU because the fight the next    │  │
-│  │                     │  │  generation is in requires it...    │  │
-│  │                     │  │                                     │  │
+│  │  [PHOTO: crowd at   │  │  Not a Charity. A Movement.        │  │
+│  │   a rally or town   │  │  [Bebas Neue, large, white]        │  │
+│  │   hall — young      │  │                                     │  │
+│  │   people standing,  │  │  AHG is organized, structured,     │  │
+│  │   arms crossed or   │  │  funded, and built to outlast the   │  │
+│  │   leaning forward,  │  │  resistance. We use the same legal  │  │
+│  │   watching closely. │  │  structure as the NAACP and the     │  │
+│  │   High contrast.    │  │  ACLU because the fight the next    │  │
+│  │   Not smiling at    │  │  generation is in requires it...    │  │
+│  │   camera. Focused.] │  │                                     │  │
 │  │                     │  │  We serve every young person from   │  │
-│  │                     │  │  a high school freshman to age 26.  │  │
-│  │                     │  │                                     │  │
+│  │  [Full height of    │  │  a high school freshman to age 26.  │  │
+│  │   the column]       │  │                                     │  │
 │  │                     │  │  We go wherever the fight is.       │  │
 │  └─────────────────────┘  └─────────────────────────────────────┘  │
 │                                                                     │
-│  Two-column layout. Mobile: stacks vertically.                     │
+│  Two-column: photo left, copy right. Mobile: photo stacks on top.  │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
 #### Section 4: Three Pillars
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│  Dark background. Three cards with red accent numbers.             │
+│  Dark background. Three cards with photo headers + red numbers.    │
 │                                                                     │
 │  ┌───────────────────┐ ┌───────────────────┐ ┌──────────────────┐  │
+│  │ [PHOTO: classroom │ │ [PHOTO: state     │ │ [PHOTO: young    │  │
+│  │  from the back —  │ │  capitol rotunda  │ │  person seated   │  │
+│  │  rows of desks,   │ │  or hearing room  │ │  at a boardroom  │  │
+│  │  fluorescent      │ │  — empty witness  │ │  table among     │  │
+│  │  lights, one      │ │  chairs, dramatic │ │  adults, leaning │  │
+│  │  student looking  │ │  architecture]    │ │  forward]        │  │
+│  │  out window]      │ │                   │ │                  │  │
+│  │───────────────────│ │───────────────────│ │──────────────────│  │
 │  │ 01                │ │ 02                │ │ 03               │  │
 │  │ [#CC0000, large]  │ │ [#CC0000, large]  │ │ [#CC0000, large] │  │
 │  │                   │ │                   │ │                  │  │
@@ -190,15 +214,15 @@
 │  │ the Classroom     │ │ Protects the      │ │                  │  │
 │  │                   │ │ Future            │ │                  │  │
 │  │ Schools design    │ │ Mental health.    │ │ Young people are │  │
-│  │ for compliance.   │ │ Housing. Juvenile │ │ the subject of   │  │
-│  │ Young people need │ │ justice. Foster   │ │ almost every     │  │
-│  │ development...    │ │ care...           │ │ major policy...  │  │
+│  │ for compliance... │ │ Housing. Juvenile │ │ the subject of   │  │
+│  │                   │ │ justice...        │ │ almost every...  │  │
 │  │                   │ │                   │ │                  │  │
 │  │ LEARN MORE →      │ │ SEE THE AGENDA →  │ │ OUR PROGRAMS →   │  │
-│  │ /policy           │ │ /policy           │ │ /programs        │  │
 │  └───────────────────┘ └───────────────────┘ └──────────────────┘  │
 │                                                                     │
-│  One link per card. No competing CTAs. Each sends somewhere diff.  │
+│  Each card: photo top half, content bottom half.                   │
+│  Photos have subtle red tint overlay or desaturated treatment.     │
+│  One link per card. No competing CTAs.                             │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -209,10 +233,16 @@
 │  [Bebas Neue, section headline]                                    │
 │                                                                     │
 │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌───────────┐ │
+│  │ [PHOTO:      │ │ [PHOTO:      │ │ [PHOTO:      │ │ [PHOTO:   │ │
+│  │  students in │ │  young person │ │  young adult │ │ fellow    │ │
+│  │  a workshop, │ │  at city     │ │  in profess- │ │ walking   │ │
+│  │  working on  │ │  council     │ │  ional       │ │ into a    │ │
+│  │  research    │ │  meeting,    │ │  setting,    │ │ capitol   │ │
+│  │  together]   │ │  speaking]   │ │  interview]  │ │ building] │ │
+│  │──────────────│ │──────────────│ │──────────────│ │───────────│ │
 │  │ BRIDGE       │ │ SEAT         │ │ LAUNCH       │ │ FLOOR     │ │
 │  │ [Space Mono  │ │ [Space Mono  │ │ [Space Mono  │ │ [Space    │ │
 │  │  #CC0000]    │ │  #CC0000]    │ │  #CC0000]    │ │  Mono]    │ │
-│  │              │ │              │ │              │ │           │ │
 │  │ Ages 14–18   │ │ Ages 16–24   │ │ Ages 18–26   │ │ Ages      │ │
 │  │              │ │              │ │              │ │ 18–26     │ │
 │  │ Students     │ │ Civic        │ │ Workforce &  │ │ Flagship  │ │
@@ -224,77 +254,99 @@
 │  └──────────────┘ └──────────────┘ └──────────────┘ └───────────┘ │
 │                                                                     │
 │  EXPLORE ALL PROGRAMS → /programs                                  │
-│  Grid or horizontal strip. Mobile: single-column stacked cards.    │
-│  Navigation, not conversion — keep tight.                          │
+│  Each card: photo top, content bottom. Photos show the program's   │
+│  environment — classrooms, council chambers, offices, capitols.    │
+│  Mobile: single-column stacked cards.                              │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
 #### Section 6: The Origin ("The Hallway")
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│  Full-width dark section. No callout boxes. No pull quotes.        │
-│  No photo. The words do the work.                                  │
+│  ┌────────────────────────────────────────────────────────────────┐  │
+│  │                   [FULL-BLEED B&W PHOTO]                      │  │
+│  │                                                                │  │
+│  │  Photo: An empty school hallway. Fluorescent lights. Lockers. │  │
+│  │  One figure at the far end, silhouetted, walking away or      │  │
+│  │  standing still. B&W. High grain. Documentary feel.           │  │
+│  │  Dark overlay gradient for text legibility (70-80%).          │  │
+│  │                                                                │  │
+│  │  The Hallway.                                                 │  │
+│  │  [Bebas Neue, small/quiet — headline is understated here]     │  │
+│  │                                                                │  │
+│  │  AHG exists because too many people in this country are       │  │
+│  │  treated as almost human. Almost old enough to matter.        │  │
+│  │  Almost ready to have a voice. Almost worth designing a       │  │
+│  │  system around.                                               │  │
+│  │                                                                │  │
+│  │  Our founder grew up inside those systems. He was moved,      │  │
+│  │  assessed, categorized, and processed. Not developed...       │  │
+│  │                                                                │  │
+│  │  He was not fine.                                             │  │
+│  │                                                                │  │
+│  │  ...That's who we build for.                                  │  │
+│  │                                                                │  │
+│  │  READ THE FULL STORY → /about                                 │  │
+│  │                                                                │  │
+│  └────────────────────────────────────────────────────────────────┘  │
 │                                                                     │
-│  The Hallway.                                                      │
-│  [Bebas Neue, small/quiet — headline is understated here]          │
-│                                                                     │
-│  AHG exists because too many people in this country are treated    │
-│  as almost human. Almost old enough to matter. Almost ready to     │
-│  have a voice. Almost worth designing a system around.             │
-│                                                                     │
-│  Our founder grew up inside those systems. He was moved, assessed, │
-│  categorized, and processed. Not developed. Not asked what he      │
-│  needed. Not given a plan when being smart wasn't enough...        │
-│                                                                     │
-│  He was not fine.                                                  │
-│                                                                     │
-│  ...That's who we build for.                                       │
-│                                                                     │
-│  READ THE FULL STORY → /about                                      │
-│                                                                     │
-│  EMOTIONAL CENTER OF HOMEPAGE. Do not sanitize. Do not summarize.  │
-│  Let it breathe. Every line stays.                                 │
+│  EMOTIONAL CENTER OF HOMEPAGE. The photo reinforces — not           │
+│  competes. Text is still king. Do not sanitize. Every line stays.  │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
 #### Section 7: Membership Conversion
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│  Dark section.                                                     │
 │                                                                     │
-│  "The Movement Needs You Before It Needs Anyone Else."             │
-│  [Bebas Neue]                                                      │
+│  ┌───────────────────────┐  ┌────────────────────────────────────┐  │
+│  │                       │  │                                    │  │
+│  │  [PHOTO: a group of   │  │  "The Movement Needs You Before   │  │
+│  │   young people in a   │  │   It Needs Anyone Else."          │  │
+│  │   meeting room,       │  │  [Bebas Neue]                     │  │
+│  │   planning, building, │  │                                    │  │
+│  │   whiteboard behind   │  │  Become a Founding Member.        │  │
+│  │   them covered in     │  │  $10/month. Your name in the      │  │
+│  │   notes and strategy. │  │  first annual report. You were    │  │
+│  │   Shot from the side, │  │  here before it was finished.     │  │
+│  │   candid, focused.    │  │                                    │  │
+│  │   Color — warm tones] │  │  ┌────────────────────────────┐   │  │
+│  │                       │  │  │ BECOME A FOUNDING MEMBER   │   │  │
+│  │                       │  │  │ [#CC0000 bg, white text]   │   │  │
+│  │                       │  │  └────────────────────────────┘   │  │
+│  │                       │  │  → /membership                    │  │
+│  └───────────────────────┘  └────────────────────────────────────┘  │
 │                                                                     │
-│  Become a Founding Member. $10/month. Your name in the first       │
-│  annual report. You were here before it was finished.              │
-│  [DM Sans]                                                         │
-│                                                                     │
-│  ┌────────────────────────────┐                                    │
-│  │ BECOME A FOUNDING MEMBER   │                                    │
-│  │ [#CC0000 bg, white text]   │                                    │
-│  └────────────────────────────┘                                    │
-│  → /membership                                                     │
-│                                                                     │
-│  Secondary: "We are pre-launch. We are building this in public."   │
-│  Framing: exclusivity, not charity.                                │
-│  Do NOT list tier benefits here — /membership handles that.        │
+│  Two-column: photo left, copy + CTA right.                         │
+│  Framing: exclusivity, not charity. "You were here before it       │
+│  was finished." Do NOT list tier benefits here.                     │
+│  Mobile: photo stacks on top of copy.                              │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
 #### Section 8: Footer CTA
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│  "The Next Generation Can't Wait."                                 │
-│  [Bebas Neue, large]                                               │
-│                                                                     │
-│  Join AHG. Tell someone who needs to know we exist.                │
-│  Show up for the fight.                                            │
-│                                                                     │
-│  ┌─────────────────────┐                                           │
-│  │ JOIN THE MOVEMENT   │                                           │
-│  │ [#CC0000]           │                                           │
-│  └─────────────────────┘                                           │
-│  → /membership                                                     │
+│  ┌────────────────────────────────────────────────────────────────┐  │
+│  │                    [FULL-BLEED PHOTO]                          │  │
+│  │                                                                │  │
+│  │  Photo: A wide shot of young people marching, walking into    │  │
+│  │  a building, or gathered on steps of a civic building.        │  │
+│  │  Shot from behind — they face forward, toward the building.   │  │
+│  │  Color or B&W. Red-tinted overlay for brand consistency.      │  │
+│  │                                                                │  │
+│  │  "The Next Generation Can't Wait."                            │  │
+│  │  [Bebas Neue, large, white]                                   │  │
+│  │                                                                │  │
+│  │  Join AHG. Tell someone who needs to know we exist.           │  │
+│  │  Show up for the fight.                                       │  │
+│  │                                                                │  │
+│  │  ┌─────────────────────┐                                      │  │
+│  │  │ JOIN THE MOVEMENT   │                                      │  │
+│  │  │ [#CC0000]           │                                      │  │
+│  │  └─────────────────────┘                                      │  │
+│  │  → /membership                                                │  │
+│  └────────────────────────────────────────────────────────────────┘  │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -308,52 +360,71 @@
 
 ```
 SECTION FLOW:
-┌─────────────────────────────────────────────┐
-│ 1. Page Headline: "We Got Tired of Almost." │
-│    [Bebas Neue, large, dark bg]             │
-├─────────────────────────────────────────────┤
-│ 2. Opening — Two paragraphs                 │
-│    "Almost Human Group exists because too   │
-│    many people in this country are treated   │
-│    as almost human..."                      │
-├─────────────────────────────────────────────┤
-│ 3. The Origin — Founder Story               │
-│    CRITICAL: Full emotional weight.         │
-│    Do not sanitize. Do not put in callout   │
-│    box. Let it breathe.                     │
-│    Noah Dean's full story — adoption,       │
-│    school system, 2021 crisis, building AHG │
-│    Pull quote: "Children are not at the     │
-│    will of the education system..."         │
-├─────────────────────────────────────────────┤
-│ 4. Mission Statement                        │
-│    "The organized, uncompromising voice..."  │
-├─────────────────────────────────────────────┤
-│ 5. Legal Structure                          │
-│    501(c)(4) explanation — same structure    │
-│    as NAACP, ACLU, Sierra Club. Why.        │
-├─────────────────────────────────────────────┤
-│ 6. Values — Five value blocks               │
-│    - Proximity over distance                │
-│    - Certainty over comfort                 │
-│    - Structure over symbolism               │
-│    - Urgency without panic                  │
-│    - Accountability by name                 │
-│    [Each: title + 1-2 sentence explanation] │
-├─────────────────────────────────────────────┤
-│ 7. Texas Data Block                         │
-│    38,000+ / 1.5% / 46% / 50%             │
-│    "These are children. In Texas. Right now."│
-├─────────────────────────────────────────────┤
-│ 8. CTA → JOIN THE MOVEMENT                  │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│ 1. Hero — "We Got Tired of Almost."                     │
+│    [Bebas Neue, large]                                  │
+│    PHOTO: Full-bleed B&W — wide shot of an empty        │
+│    courtroom, legislative chamber, or school board       │
+│    room. Chairs empty. One person standing at the        │
+│    podium. Dark overlay for text.                        │
+├─────────────────────────────────────────────────────────┤
+│ 2. Opening — Two paragraphs + side photo                │
+│    Copy left, photo right.                              │
+│    PHOTO: Close-up portrait, high-contrast — young      │
+│    person looking directly at camera. Not smiling.      │
+│    Carrying weight. Face that tells a story.            │
+├─────────────────────────────────────────────────────────┤
+│ 3. The Origin — Founder Story                           │
+│    CRITICAL: Full emotional weight.                     │
+│    Do not sanitize. Do not put in callout box.          │
+│    Let it breathe.                                      │
+│    PHOTO: Documentary-style photo of Noah Dean.         │
+│    Candid — speaking, thinking, building. Not posed.    │
+│    Placed alongside the story, not above it. The text   │
+│    still leads. B&W or desaturated color.               │
+│    Pull quote: "Children are not at the will of the     │
+│    education system..."                                 │
+├─────────────────────────────────────────────────────────┤
+│ 4. Mission Statement                                    │
+│    Full-width dark band with text centered.             │
+│    PHOTO: Subtle background — blurred crowd in motion   │
+│    behind the text, very low opacity (15-20%).          │
+├─────────────────────────────────────────────────────────┤
+│ 5. Legal Structure                                      │
+│    PHOTO: B&W of a government building exterior —       │
+│    columns, steps, weight. Institutional but reclaimed. │
+│    Photo half-width, copy beside it.                    │
+├─────────────────────────────────────────────────────────┤
+│ 6. Values — Five value blocks with photo accents        │
+│    - Proximity over distance                            │
+│      [inline photo: hands, community, closeness]        │
+│    - Certainty over comfort                             │
+│      [inline photo: someone mid-speech, certain]        │
+│    - Structure over symbolism                           │
+│      [inline photo: real boardroom seat, not ribbon]    │
+│    - Urgency without panic                              │
+│      [inline photo: people moving with purpose]         │
+│    - Accountability by name                             │
+│      [inline photo: press conference or public hearing] │
+│    Values alternate: photo-left/copy-right, then flip.  │
+├─────────────────────────────────────────────────────────┤
+│ 7. Texas Data Block                                     │
+│    Same as homepage stats but with a full-width         │
+│    B&W background photo behind (low opacity) —          │
+│    an institutional building, school exterior at dusk.   │
+│    38,000+ / 1.5% / 46% / 50%                         │
+├─────────────────────────────────────────────────────────┤
+│ 8. CTA with background photo → JOIN THE MOVEMENT        │
+│    PHOTO: Group walking forward, shot from behind.      │
+└─────────────────────────────────────────────────────────┘
 ```
 
 **Design notes:**
-- Long-form single-column content page
+- Photography-rich long-form page — every section has visual weight
 - Dark hero, alternating dark/off-white sections
 - The founder story section gets maximum vertical space — no compression
-- Values displayed as stacked blocks or alternating two-column
+- Values displayed as alternating two-column (photo/copy flip each row)
+- Photos never compete with copy — they reinforce it
 
 ---
 
@@ -362,32 +433,41 @@ SECTION FLOW:
 **Purpose:** Navigation hub to four individual program pages.
 
 ```
-┌─────────────────────────────────────────────┐
-│ Headline: "Four Programs. One Fight."       │
-│ [Bebas Neue, dark bg hero]                  │
-├─────────────────────────────────────────────┤
-│ Intro: "Every AHG program exists for the    │
-│ same reason: young people are the subject   │
-│ of every major decision and almost never    │
-│ in the room..."                             │
-├─────────────────────────────────────────────┤
-│ Four program cards (larger than homepage):   │
-│                                             │
-│ ┌─────────────────────────────────────────┐ │
-│ │ BRIDGE                                  │ │
-│ │ Breaking Rules In Decisions that        │ │
-│ │ Govern Education                        │ │
-│ │ Ages 14–18 · High School               │ │
-│ │ [expanded description]                  │ │
-│ │ LEARN MORE → /programs/bridge           │ │
-│ └─────────────────────────────────────────┘ │
-│                                             │
-│ [Same pattern for SEAT, LAUNCH, FLOOR]      │
-│ Each with: code name, full name, age range, │
-│ 2-3 sentence description, single CTA        │
-├─────────────────────────────────────────────┤
-│ CTA: JOIN THE MOVEMENT → /membership        │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│ Hero: "Four Programs. One Fight."                               │
+│ [Bebas Neue, dark bg]                                          │
+│ PHOTO: Full-bleed — a wide-angle shot of young people in a     │
+│ real working environment (workshop, meeting, hearing). Movement │
+│ and purpose. Dark overlay for headline legibility.              │
+├─────────────────────────────────────────────────────────────────┤
+│ Intro: "Every AHG program exists for the same reason..."       │
+├─────────────────────────────────────────────────────────────────┤
+│ Four program cards — landscape layout, alternating:             │
+│                                                                 │
+│ ┌─────────────────────────────────────────────────────────────┐ │
+│ │ [PHOTO: Students in a workshop,   │ BRIDGE                 │ │
+│ │  building research presentations, │ Breaking Rules In      │ │
+│ │  around a table with data and     │ Decisions that Govern   │ │
+│ │  laptops. Real. Focused.]         │ Education              │ │
+│ │                                   │ Ages 14–18 · H.S.     │ │
+│ │                                   │ [expanded description] │ │
+│ │                                   │ LEARN MORE →           │ │
+│ └─────────────────────────────────────────────────────────────┘ │
+│                                                                 │
+│ ┌─────────────────────────────────────────────────────────────┐ │
+│ │ SEAT                            │ [PHOTO: Young person at  │ │
+│ │ Students Earning A Table        │  a council table, among  │ │
+│ │ Ages 16–24                      │  adults, leaning in.     │ │
+│ │ [expanded description]          │  Not decorative — they   │ │
+│ │ LEARN MORE →                    │  belong there.]          │ │
+│ └─────────────────────────────────────────────────────────────┘ │
+│                                                                 │
+│ [Same alternating pattern for LAUNCH and FLOOR]                 │
+│ Photo side flips: left, right, left, right.                     │
+│ Mobile: photo stacks above copy in all cards.                   │
+├─────────────────────────────────────────────────────────────────┤
+│ CTA: JOIN THE MOVEMENT → /membership                            │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -397,35 +477,53 @@ SECTION FLOW:
 **Shared structure for each:**
 
 ```
-┌─────────────────────────────────────────────┐
-│ Hero: Program code [Space Mono, #CC0000]    │
-│       Full name [Bebas Neue]                │
-│       Age range                              │
-│       Pull quote                            │
-├─────────────────────────────────────────────┤
-│ THE PROBLEM                                 │
-│ [2-3 paragraphs defining the systemic       │
-│  failure this program addresses]            │
-├─────────────────────────────────────────────┤
-│ WHAT [PROGRAM] IS                           │
-│ [Program description, 2-3 paragraphs]       │
-├─────────────────────────────────────────────┤
-│ PROGRAM STRUCTURE                           │
-│ [Phases/structure specific to each program] │
-│ BRIDGE: 6 phases (visual timeline)          │
-│ SEAT: 8-week intensive cohort               │
-│ LAUNCH: 6-week curriculum                   │
-│ FLOOR: Placement + curriculum + deliverable │
-├─────────────────────────────────────────────┤
-│ CTA: JOIN THE MOVEMENT / GET INVOLVED       │
-└─────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│ Hero: Full-bleed program-specific photo with dark overlay        │
+│       Program code [Space Mono, #CC0000]                        │
+│       Full name [Bebas Neue, white]                             │
+│       Age range · Pull quote                                    │
+│                                                                  │
+│   BRIDGE hero photo: Students at a school board podium          │
+│   SEAT hero photo: Young person taking an oath or being sworn   │
+│     in to a civic position                                      │
+│   LAUNCH hero photo: Young adult in a professional setting —    │
+│     interview, office, first day                                │
+│   FLOOR hero photo: Fellow walking through capitol corridors,   │
+│     badge visible, purpose in stride                            │
+├──────────────────────────────────────────────────────────────────┤
+│ THE PROBLEM                                                      │
+│ [2-3 paragraphs + side photo]                                    │
+│ PHOTO: Documentary shot representing the failure —               │
+│   BRIDGE: empty student council room, dusty suggestion box      │
+│   SEAT: council chamber with no young faces                     │
+│   LAUNCH: "help wanted" signs, bus stop, closed-door offices    │
+│   FLOOR: government hallway — suits, no young people            │
+├──────────────────────────────────────────────────────────────────┤
+│ WHAT [PROGRAM] IS                                                │
+│ [Program description + inline photos of the program in action]  │
+│ PHOTO: Students/fellows DOING the work — presenting, meeting,   │
+│   writing, debating. 2-3 candid photos throughout this section. │
+├──────────────────────────────────────────────────────────────────┤
+│ PROGRAM STRUCTURE                                                │
+│ [Phases/structure with photo accent per phase]                   │
+│ BRIDGE: 6-phase timeline, small photo per phase                 │
+│ SEAT: 8-week cohort, group photo + session photos               │
+│ LAUNCH: 6-week curriculum, workshop environment photos          │
+│ FLOOR: Placement photos — fellow at desk, in hearing, writing   │
+├──────────────────────────────────────────────────────────────────┤
+│ PHOTO BANNER: Full-width candid group shot of program           │
+│   participants — not posed, not smiling at camera. Working.     │
+├──────────────────────────────────────────────────────────────────┤
+│ CTA: JOIN THE MOVEMENT / GET INVOLVED                            │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
 **Program-specific design elements:**
-- **BRIDGE:** Six-phase visual timeline/stepper showing progression from Issue Identification → Alumni Network
-- **SEAT:** Eight-week cohort structure, emphasis on "real authority, not symbolic"
-- **LAUNCH:** Six-week curriculum blocks, financial literacy → career nav → alumni
-- **FLOOR:** Competitive selection callout (8–12 fellows), placement + curriculum parallel tracks
+- **BRIDGE:** Six-phase visual timeline/stepper with thumbnail photos per phase. Hero: students at podium.
+- **SEAT:** Eight-week cohort structure with session photos. Hero: civic swearing-in moment.
+- **LAUNCH:** Six-week curriculum blocks with workshop photos. Hero: professional environment.
+- **FLOOR:** Competitive selection callout (8–12 fellows) with capitol corridor photos. Hero: fellow in stride.
+- **All programs:** Full-width candid group photo banner before the CTA section.
 
 ---
 
@@ -434,45 +532,53 @@ SECTION FLOW:
 **Purpose:** AHG's six-issue advocacy agenda. Accountability language. No hedging.
 
 ```
-┌─────────────────────────────────────────────┐
-│ Hero headline:                              │
-│ "AHG Does Not React to Policy.              │
-│  AHG Drives It."                            │
-│ [Bebas Neue, dark bg]                       │
-│                                             │
-│ Subheadline: "Six fights. Every young       │
-│ person between 14 and 26. DFW today.        │
-│ The nation by Year 3."                      │
-├─────────────────────────────────────────────┤
-│ Six issue blocks — alternating layout:      │
-│                                             │
-│ ┌─────────────────────────────────────────┐ │
-│ │ 01 Mental Health Infrastructure         │ │
-│ │ in Schools                              │ │
-│ │ [Red number, Bebas Neue title]          │ │
-│ │                                         │ │
-│ │ Position statement + clear stance       │ │
-│ │ "Fund it like [it's true] —             │ │
-│ │  not like it is optional."              │ │
-│ └─────────────────────────────────────────┘ │
-│                                             │
-│ 02 Education System Redesign                │
-│ 03 Foster Care Transition Reform            │
-│ 04 Juvenile Justice Reform                  │
-│ 05 Youth Representation in Civic            │
-│    Institutions                             │
-│ 06 Housing Access for Young Adults          │
-│                                             │
-│ Each block: red number, title, 1-2          │
-│ paragraphs of position, bold stance line    │
-├─────────────────────────────────────────────┤
-│ CTA: JOIN THE MOVEMENT → /membership        │
-└─────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│ Hero: "AHG Does Not React to Policy. AHG Drives It."            │
+│ [Bebas Neue, dark bg]                                           │
+│ PHOTO: Full-bleed — Texas State Capitol rotunda, shot from      │
+│ below looking up, or a hearing room mid-session. Power and      │
+│ architecture. Dark overlay for text.                             │
+│                                                                  │
+│ Subheadline: "Six fights. Every young person between 14 and 26. │
+│ DFW today. The nation by Year 3."                               │
+├──────────────────────────────────────────────────────────────────┤
+│ Six issue blocks — alternating photo/copy layout:                │
+│                                                                  │
+│ ┌────────────────────────────────────────────────────────────┐   │
+│ │ [PHOTO: School counselor's  │ 01 Mental Health            │   │
+│ │  office door, closed,       │ Infrastructure in Schools   │   │
+│ │  waiting area empty]        │ [Position + stance line]    │   │
+│ └────────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│ ┌────────────────────────────────────────────────────────────┐   │
+│ │ 02 Education System         │ [PHOTO: Classroom clock,    │   │
+│ │ Redesign                    │  bell schedule on wall,     │   │
+│ │ [Position + stance line]    │  institutional design]      │   │
+│ └────────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│ ┌────────────────────────────────────────────────────────────┐   │
+│ │ [PHOTO: Apartment door,     │ 03 Foster Care Transition   │   │
+│ │  key in lock, single bag    │ Reform                      │   │
+│ │  on doorstep — aging out]   │ [Position + stance line]    │   │
+│ └────────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│ 04 Juvenile Justice — PHOTO: courthouse hallway, metal detector  │
+│ 05 Youth Representation — PHOTO: empty chair at board table     │
+│ 06 Housing Access — PHOTO: apartment complex at dusk, DFW       │
+│                                                                  │
+│ Photo/copy sides alternate: L/R, R/L, L/R, R/L, L/R, R/L       │
+│ Each photo: documentary, no people smiling, environments only   │
+│ or single figures with weight. Desaturated or B&W encouraged.   │
+├──────────────────────────────────────────────────────────────────┤
+│ CTA with background photo: JOIN THE MOVEMENT → /membership       │
+│ PHOTO: Young people entering a civic building together.          │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
 **Design notes:**
 - Numbered issues with prominent red numbers
-- Each issue gets its own visual block/card
+- Alternating photo/copy layout gives each issue visual identity
+- Photos are environmental/documentary — they represent the system, not the solution
 - Bold position lines formatted distinctly (larger type or red accent)
 - No softening language — the design reinforces the directness
 
@@ -483,19 +589,20 @@ SECTION FLOW:
 **Purpose:** Conversion. Five tiers presented with escalating commitment and clear value.
 
 ```
-┌─────────────────────────────────────────────┐
-│ PRE-LAUNCH BANNER (top of page):            │
-│ "AHG IS PRE-LAUNCH. We are filing.         │
-│  We are building. We are not waiting."      │
-│ [Red bar, white text, prominent]            │
-├─────────────────────────────────────────────┤
-│ Headline: "The Movement Needs Members       │
-│ Who Mean It."                               │
-│                                             │
-│ Subheadline: "Members are not supporters.   │
-│ Members are not donors. Members are the     │
-│ movement..."                                │
-├─────────────────────────────────────────────┤
+┌──────────────────────────────────────────────────────────────────┐
+│ PRE-LAUNCH BANNER (top of page):                                 │
+│ "AHG IS PRE-LAUNCH. We are filing. We are building.            │
+│  We are not waiting."                                           │
+│ [Red bar, white text, prominent]                                │
+├──────────────────────────────────────────────────────────────────┤
+│ Hero: "The Movement Needs Members Who Mean It."                  │
+│ PHOTO: Full-bleed — crowd at an AHG event or community          │
+│ gathering, shot from stage perspective looking out at faces.     │
+│ High contrast. Dramatic light. Dark overlay for text.            │
+│                                                                  │
+│ Subheadline: "Members are not supporters. Members are not        │
+│ donors. Members are the movement..."                            │
+├──────────────────────────────────────────────────────────────────┤
 │ FIVE TIER CARDS:                            │
 │                                             │
 │ ┌──────┐ ┌──────┐ ┌──────┐ ┌────┐ ┌─────┐ │
@@ -542,42 +649,50 @@ SECTION FLOW:
 **Purpose:** Non-monetary ways to contribute. Skills, time, platform.
 
 ```
-┌─────────────────────────────────────────────┐
-│ Headline: "The Fight Needs More Than Money."│
-│ Sub: "It needs people. People with skills,  │
-│ relationships, time, platforms, and          │
-│ proximity to the next generation."          │
-├─────────────────────────────────────────────┤
-│ Four involvement blocks:                    │
-│                                             │
-│ ┌─────────────────────────────────────────┐ │
-│ │ VOLUNTEER                               │ │
-│ │ Program facilitation, community         │ │
-│ │ outreach, events, admin support         │ │
-│ │ APPLY TO VOLUNTEER → [form]             │ │
-│ └─────────────────────────────────────────┘ │
-│                                             │
-│ ┌─────────────────────────────────────────┐ │
-│ │ CORPORATE PARTNERSHIP                   │ │
-│ │ Public alignment with the movement.     │ │
-│ │ Three tiers starting at $5,000/year.    │ │
-│ │ VIEW PARTNERSHIP OPTIONS → [link]       │ │
-│ └─────────────────────────────────────────┘ │
-│                                             │
-│ ┌─────────────────────────────────────────┐ │
-│ │ SPEAK AT AHG                            │ │
-│ │ Educators, advocates, young leaders,    │ │
-│ │ elected officials, community voices     │ │
-│ │ SUBMIT A SPEAKER INQUIRY → [form]       │ │
-│ └─────────────────────────────────────────┘ │
-│                                             │
-│ ┌─────────────────────────────────────────┐ │
-│ │ SPREAD THE WORD                         │ │
-│ │ Follow on IG + FB. Share with one       │ │
-│ │ person. Tell your school/org/community. │ │
-│ │ [Social links]                          │ │
-│ └─────────────────────────────────────────┘ │
-└─────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│ Hero: "The Fight Needs More Than Money."                         │
+│ PHOTO: Full-bleed — people setting up an event space, building  │
+│ something together, hands-on work. Candid, not posed.           │
+│ Dark overlay for text.                                          │
+│                                                                  │
+│ Sub: "It needs people. People with skills, relationships,       │
+│ time, platforms, and proximity to the next generation."          │
+├──────────────────────────────────────────────────────────────────┤
+│ Four involvement blocks — each with photo:                       │
+│                                                                  │
+│ ┌────────────────────────────────────────────────────────────┐   │
+│ │ [PHOTO: Volunteer in an AHG │ VOLUNTEER                   │   │
+│ │  shirt organizing materials, │ Program facilitation,       │   │
+│ │  setting up chairs, or       │ community outreach, events  │   │
+│ │  helping at a workshop]      │ APPLY TO VOLUNTEER → [form] │   │
+│ └────────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│ ┌────────────────────────────────────────────────────────────┐   │
+│ │ CORPORATE PARTNERSHIP        │ [PHOTO: Handshake at a     │   │
+│ │ Public alignment with the    │  conference table, or       │   │
+│ │ movement. Three tiers from   │  co-branded event signage]  │   │
+│ │ $5,000/year.                 │                             │   │
+│ │ VIEW OPTIONS → [link]        │                             │   │
+│ └────────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│ ┌────────────────────────────────────────────────────────────┐   │
+│ │ [PHOTO: Speaker at a podium  │ SPEAK AT AHG              │   │
+│ │  or panel, audience visible, │ Educators, advocates,      │   │
+│ │  real event setting]         │ young leaders, officials   │   │
+│ │                              │ SUBMIT INQUIRY → [form]    │   │
+│ └────────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│ ┌────────────────────────────────────────────────────────────┐   │
+│ │ SPREAD THE WORD              │ [PHOTO: Phone screen       │   │
+│ │ Follow on IG + FB. Share     │  showing AHG social post,  │   │
+│ │ with one person. Tell your   │  or someone sharing on     │   │
+│ │ school/org/community.        │  their phone in real life] │   │
+│ │ [Social links]               │                             │   │
+│ └────────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│ Photo/copy sides alternate: L/R, R/L, L/R, R/L                  │
+│ Mobile: photo stacks above copy in all blocks.                   │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -587,38 +702,37 @@ SECTION FLOW:
 **Purpose:** Routed inquiries. Three email destinations + structured form.
 
 ```
-┌─────────────────────────────────────────────┐
-│ Headline: "Get in the Room."                │
-│ [Bebas Neue, dark bg]                       │
-├─────────────────────────────────────────────┤
-│ Three contact channels:                     │
-│                                             │
-│ General: hello@almosthumangroup.org         │
-│ Press:   press@almosthumangroup.org         │
-│ Programs: programs@almosthumangroup.org     │
-│                                             │
-│ [Each with 1-2 sentence description]        │
-├─────────────────────────────────────────────┤
-│ CONTACT FORM:                               │
-│                                             │
-│ Name         [________________]             │
-│ Email        [________________]             │
-│ Organization [________________] (optional)  │
-│ Subject      [▾ General / Press / Programs  │
-│                 / Membership / Partnership  │
-│                 / Speaking ]                │
-│ Message      [________________]             │
-│              [________________]             │
-│              [________________]             │
-│                                             │
-│ ┌────────────────┐                          │
-│ │    SEND IT     │                          │
-│ │  [#CC0000]     │                          │
-│ └────────────────┘                          │
-│                                             │
-│ Progress indicator on multi-step if needed  │
-│ Min 48px tap targets on all inputs          │
-└─────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│ Hero: "Get in the Room."                                        │
+│ [Bebas Neue, dark bg]                                          │
+│ PHOTO: Full-bleed — an open door into a real room where         │
+│ decisions happen: hearing room, office, boardroom.              │
+│ Shot from outside looking in. Light pours through the door.    │
+│ Dark overlay for headline. B&W or high-contrast color.          │
+├──────────────────────────────────────────────────────────────────┤
+│ Two-column layout:                                              │
+│                                                                  │
+│ ┌──────────────────────┐  ┌──────────────────────────────────┐  │
+│ │                      │  │ CONTACT FORM:                    │  │
+│ │  [PHOTO: Team at     │  │                                  │  │
+│ │   work — real AHG    │  │ Name       [________________]    │  │
+│ │   office or meeting  │  │ Email      [________________]    │  │
+│ │   space. Candid.]    │  │ Org        [________________]    │  │
+│ │                      │  │ Subject    [▾ dropdown      ]    │  │
+│ │  Three channels:     │  │ Message    [________________]    │  │
+│ │                      │  │            [________________]    │  │
+│ │  General:            │  │                                  │  │
+│ │  hello@ahg.org       │  │ ┌────────────────┐              │  │
+│ │                      │  │ │    SEND IT     │              │  │
+│ │  Press:              │  │ │  [#CC0000]     │              │  │
+│ │  press@ahg.org       │  │ └────────────────┘              │  │
+│ │                      │  │                                  │  │
+│ │  Programs:           │  │ Min 48px tap targets on inputs   │  │
+│ │  programs@ahg.org    │  │                                  │  │
+│ └──────────────────────┘  └──────────────────────────────────┘  │
+│                                                                  │
+│ Mobile: photo + channels stack above form.                       │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -629,30 +743,37 @@ SECTION FLOW:
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│ HERO:                                                              │
-│ "We Are Building Something. The Next Generation                    │
-│  Can't Wait for Us to Finish."                                     │
-│ [Bebas Neue, dark bg, full viewport]                               │
-│                                                                     │
-│ BODY:                                                              │
-│ Almost Human Group is a 501(c)(4) movement organization            │
-│ fighting for the next generation in DFW and beyond. Our programs   │
-│ are designed. Our mission is clear. What we are asking for is      │
-│ your belief before we finish building.                             │
-│                                                                     │
-│ ┌──────────────────────────────┐                                   │
-│ │ BECOME A FOUNDING MEMBER     │                                   │
-│ │ $10/month — [payment link]   │                                   │
-│ │ [#CC0000 bg, white text]     │                                   │
-│ └──────────────────────────────┘                                   │
-│                                                                     │
-│ ┌──────────────────────────────┐                                   │
-│ │ JOIN THE WAITLIST            │                                   │
-│ │ [white outline, email capture│                                   │
-│ │  for those not ready yet]    │                                   │
-│ └──────────────────────────────┘                                   │
-│                                                                     │
-│ Framing: exclusivity. "You found this before everyone else."       │
+│  ┌────────────────────────────────────────────────────────────────┐  │
+│  │                    [FULL-BLEED HERO PHOTO]                    │  │
+│  │                                                                │  │
+│  │  Photo: Construction/building metaphor — scaffolding, a       │  │
+│  │  building mid-construction, or a real shot of AHG's founding  │  │
+│  │  team working late, whiteboards covered in plans. Raw. Real.  │  │
+│  │  Not polished. The rawness is the point.                      │  │
+│  │  Dark overlay (60-70%) for text.                              │  │
+│  │                                                                │  │
+│  │  "We Are Building Something. The Next Generation              │  │
+│  │   Can't Wait for Us to Finish."                               │  │
+│  │  [Bebas Neue, full viewport]                                  │  │
+│  │                                                                │  │
+│  │  AHG is a 501(c)(4) movement organization fighting for the    │  │
+│  │  next generation in DFW and beyond. Our programs are designed. │  │
+│  │  Our mission is clear. What we are asking for is your belief  │  │
+│  │  before we finish building.                                   │  │
+│  │                                                                │  │
+│  │  ┌──────────────────────────────┐                             │  │
+│  │  │ BECOME A FOUNDING MEMBER     │                             │  │
+│  │  │ $10/month — [payment link]   │                             │  │
+│  │  │ [#CC0000 bg, white text]     │                             │  │
+│  │  └──────────────────────────────┘                             │  │
+│  │                                                                │  │
+│  │  ┌──────────────────────────────┐                             │  │
+│  │  │ JOIN THE WAITLIST            │                             │  │
+│  │  │ [white outline, email capture]                             │  │
+│  │  └──────────────────────────────┘                             │  │
+│  │                                                                │  │
+│  │  Framing: exclusivity. "You found this before everyone else." │  │
+│  └────────────────────────────────────────────────────────────────┘  │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -697,12 +818,42 @@ SECTION FLOW:
 
 ## VISUAL IDENTITY RULES
 
-### Photography (When Used)
-- Real people in motion — testifying, organizing, presenting, debating
-- Real rooms — school boards, legislative halls, courtrooms
-- High contrast, dramatic light, grain acceptable
-- B&W encouraged for documentary contexts
-- **NEVER:** stock photos, afterschool-brochure style, step-and-repeat banners, sunset overlays
+### Photography — Core to Every Page
+
+Photography is a primary design element across the entire website — not decoration.
+
+**Style rules:**
+- Real people in motion — testifying, organizing, presenting, debating. Not smiling at cameras.
+- Real rooms — school board chambers, legislative halls, courtrooms, community centers
+- High contrast, dramatic light, grain acceptable, sterile is not
+- B&W encouraged for documentary contexts and emotional weight sections
+- Faces that carry something — not blank-hope expressions, not diversity-brochure composition
+- **NEVER:** stock photos of young people at laptops, afterschool-brochure style, step-and-repeat banners, sunset overlays, anything that could appear on any other youth nonprofit's website
+
+**Photo treatments:**
+- **Hero photos:** Full-bleed with dark gradient overlay (60-80% opacity) for text legibility
+- **Section backgrounds:** Low-opacity (15-25%) behind text-heavy sections for texture
+- **Two-column photos:** Full height of column, no border radius, edge-to-edge
+- **Card photos:** Top half of card, consistent aspect ratio (16:9 or 3:2)
+- **B&W treatment:** Used for The Origin, emotional sections, environmental/documentary shots
+- **Red tint overlay:** Optional on pillar cards and CTA sections for brand consistency
+- **Desaturated color:** Muted palette that doesn't compete with AHG Red accents
+
+**Photo usage across pages:**
+
+| Page | Photo Count | Key Shots |
+|------|-------------|-----------|
+| Homepage | 8+ | Hero testimony, stat B&Ws, crowd, hallway, pillar environments, program environments, group planning, march |
+| About | 8+ | Empty chamber, portrait, founder candid, crowd bg, govt building, value pairs (5), data bg, group forward |
+| Programs Overview | 5+ | Hero wide-angle, 4 alternating program cards |
+| Each Program Page | 6-8 | Hero environment, problem documentary, 2-3 action shots, phase thumbnails, group banner |
+| Policy | 8+ | Capitol hero, 6 issue environment photos, CTA group |
+| Membership | 2+ | Hero crowd, background textures |
+| Get Involved | 5+ | Hero setup, 4 involvement block photos |
+| Contact | 2+ | Hero door, team candid |
+| Founding Members | 1+ | Hero construction/building |
+
+**Estimated total unique photos needed: 55-70**
 
 ### Icons
 - SVG only. No emoji as icons.
