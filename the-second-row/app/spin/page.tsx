@@ -1,56 +1,63 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
+import { Lens } from "@/components/StoryActions";
+import { loadBoard } from "@/lib/store";
 
-export const metadata: Metadata = {
-  title: "The Spin Room",
-  description: "The same facts, framed left, center, and right — side by side, before the verdict.",
-};
+export const metadata: Metadata = { title: "The Spin Room", description: "The same facts, framed left, center, and right — side by side, live." };
+export const dynamic = "force-dynamic";
 
-export default function SpinPage() {
+export default async function SpinPage() {
+  const board = await loadBoard();
+  const multiFrame = (board?.stories ?? [])
+    .filter((s) => {
+      const sp = s.spread ?? { L: 0, C: 0, R: 0 };
+      return [sp.L, sp.C, sp.R].filter((n) => n > 0).length >= 2;
+    })
+    .slice(0, 5);
+
   return (
     <>
       <SiteHeader current="/spin" />
-      <div className="wrap page" style={{ maxWidth: 1080 }}>
-        <div className="page-kicker">The Spin Room · Format preview</div>
+      <div className="wrap page" style={{ maxWidth: 980 }}>
+        <div className="page-kicker">The Spin Room · live</div>
         <h1>Same facts. Three frames. Side by side.</h1>
-        <p style={{ maxWidth: "68ch" }}>
-          The Spin Room does the one move nobody else commits to: it shows you how the same story
-          got framed left, right, and center — in parallel, before the desk says where it lands.
-          Not to score the outlets. To make the framing itself visible, so it stops working on you
-          unannounced.
+        <p className="lede" style={{ maxWidth: "68ch" }}>
+          The one move nobody else commits to: how the same story is being framed left, center,
+          and right — in parallel, before anyone tells you where to land. Not to score the
+          outlets. To make the framing visible so it stops working on you unannounced.
         </p>
 
-        <h2>Sample: the appropriations framework (fictional, format demo)</h2>
-        <div className="spin-grid">
-          <div className="spin-col" style={{ borderTopColor: "#3a5a8c" }}>
-            <h3>As framed from the left</h3>
+        {multiFrame.length === 0 ? (
+          <div className="card">
+            <div className="card-kicker">The room is warming up</div>
             <p>
-              &quot;Senate Republicans finally drop hostage tactics as funding deal passes&quot; —
-              emphasis on who blocked, who conceded, and what the riders would have cut.
+              No story on the current board is carried across enough of the spectrum yet to frame.
+              The moment one is, its Lens appears here automatically. Meanwhile every dossier with
+              two or more frames carries its own Lens.
             </p>
           </div>
-          <div className="spin-col">
-            <h3>As framed from the center</h3>
-            <p>
-              &quot;Senate passes stopgap framework 68–31; riders deferred&quot; — emphasis on the
-              vote math, the calendar, and what is actually funded.
-            </p>
-          </div>
-          <div className="spin-col" style={{ borderTopColor: "#8c3a3a" }}>
-            <h3>As framed from the right</h3>
-            <p>
-              &quot;Spending machine rolls on: leadership shelves reform riders to pass another
-              blank check&quot; — emphasis on totals, deficits, and the deferred riders as the story.
-            </p>
-          </div>
-        </div>
+        ) : (
+          multiFrame.map((s) => (
+            <div key={s.id} style={{ marginBottom: 36 }}>
+              <h2 style={{ marginBottom: 4 }}>
+                <Link href={`/wire/${s.id}`} style={{ textDecoration: "none" }}>{s.headline}</Link>
+              </h2>
+              <p className="mono" style={{ margin: "0 0 6px" }}>
+                GRAVITY {s.score} · {s.owners} owners · L {s.spread?.L ?? 0} / C {s.spread?.C ?? 0} / R {s.spread?.R ?? 0}
+              </p>
+              <Lens sources={s.sources} />
+            </div>
+          ))
+        )}
 
         <h2>Then — and only then — the desk</h2>
         <p style={{ maxWidth: "68ch" }}>
-          Beneath the three frames, the desk&apos;s verdict, tagged{" "}
-          <span className="tag tag--opinion">OPINION</span> and entered on the Ledger when it makes
-          a call. You watched the framing happen; now you can weigh the verdict with your eyes open.
-          You aren&apos;t asked to agree. You&apos;re asked to judge.
+          The desk&apos;s verdicts live in <Link href="/column">the column</Link>, tagged{" "}
+          <span className="tag tag--opinion">OPINION</span>, and entered on{" "}
+          <Link href="/ledger">the Ledger</Link> when they make a call. You watch the framing
+          happen first; then you weigh the verdict with your eyes open. Not your agreement — your
+          judgment.
         </p>
       </div>
     </>

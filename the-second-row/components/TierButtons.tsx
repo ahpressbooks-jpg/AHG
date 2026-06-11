@@ -1,0 +1,84 @@
+"use client";
+
+import { useState } from "react";
+
+export function TierButtons({ live }: { live: boolean }) {
+  const [note, setNote] = useState<string | null>(null);
+
+  const buy = async (price: string) => {
+    setNote(null);
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ price }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setNote(data.error || "Checkout hiccuped.");
+        return;
+      }
+      window.location.href = data.url;
+    } catch {
+      setNote("Network hiccup — try again.");
+    }
+  };
+
+  return (
+    <>
+      <div className="tiers">
+        <div className="tier">
+          <h3 className="tier-name">The Floor</h3>
+          <div className="tier-price">Free <small>forever</small></div>
+          <ul>
+            <li>The live Wire, full</li>
+            <li>Today&apos;s briefing &amp; Spin Room</li>
+            <li>Dossiers, 30 days deep</li>
+            <li>Comments, calls, Judgment Score</li>
+            <li>10 clippings · 3 follows</li>
+            <li>The Morning Edition email</li>
+          </ul>
+          <a className="btn btn--ghost" href="/">You&apos;re already in it</a>
+        </div>
+
+        <div className="tier tier--featured">
+          <h3 className="tier-name">Second Row Pro</h3>
+          <div className="tier-price">$8<small>/mo · or $80/yr</small></div>
+          <ul>
+            <li>The entire archive, forever</li>
+            <li>The workings behind every Ledger verdict</li>
+            <li>Steelman Saturday, long form</li>
+            <li>The Rewind: all of history</li>
+            <li>Unlimited clippings, follows, catch-me-ups</li>
+            <li>The full briefing email</li>
+            <li>One gift month to give (the Second Seat)</li>
+          </ul>
+          <button className="btn btn--maroon" onClick={() => buy("pro_month")}>Pro monthly — $8</button>
+          <button className="btn btn--ghost" onClick={() => buy("pro_year")}>Pro yearly — $80</button>
+        </div>
+
+        <div className="tier">
+          <h3 className="tier-name">Founding Member</h3>
+          <div className="tier-price">$200<small>/yr · capped at 500</small></div>
+          <ul>
+            <li>Everything in Pro</li>
+            <li>Name &amp; number on the Founding wall</li>
+            <li>Quarterly live Q&amp;A with the desk</li>
+            <li>A direct line for tips</li>
+            <li>First seat when The Room opens</li>
+            <li>Two gift months · maroon mark on comments</li>
+            <li>Price locked forever</li>
+          </ul>
+          <button className="btn" onClick={() => buy("founding")}>Take a founding seat</button>
+        </div>
+      </div>
+      {!live && (
+        <p className="capture-note">
+          Payments open at launch — the tiers are real, the till isn&apos;t plugged in yet. (Owner:
+          add the four Stripe keys and this page goes live unchanged.)
+        </p>
+      )}
+      {note && <p className="capture-note">{note}</p>}
+    </>
+  );
+}

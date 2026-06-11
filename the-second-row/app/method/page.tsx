@@ -32,18 +32,12 @@ export default function MethodPage() {
         </p>
 
         <h2>The score (0–100)</h2>
-        <table>
-          <thead>
-            <tr><th>Signal</th><th>Weight</th><th>What it measures</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Corroboration</td><td className="mono">30</td><td>How many <em>independent owners</em> carry the story. Forty sites under one parent count once.</td></tr>
-            <tr><td>Velocity</td><td className="mono">28</td><td>Pickups in the last 45 minutes — acceleration matters more than volume.</td></tr>
-            <tr><td>Freshness</td><td className="mono">27</td><td>Decay from the last development, half-life 90 minutes. Ink cools.</td></tr>
-            <tr><td>Source weight</td><td className="mono">15</td><td>Primary-wire-grade sources outrank derivative ones.</td></tr>
-            <tr><td>Beats</td><td className="mono">×1.0–1.25</td><td>The desk&apos;s published charter — civic consequence gets a thumb on the scale, openly.</td></tr>
-          </tbody>
-        </table>
+        <p>
+          The score is <strong>GRAVITY</strong>: corroboration 25 · velocity 20 · consequence 25 ·
+          power 15 · freshness 15. The full math — with the rubric for consequence and power, and
+          the sliders to re-rank the live board yourself — is published at{" "}
+          <a href="/gravity">/gravity</a>.
+        </p>
 
         <h2>The tiers</h2>
         <table>
@@ -52,9 +46,9 @@ export default function MethodPage() {
           </thead>
           <tbody>
             <tr><td className="mono">FLASH</td><td>Score ≥ 85 <em>and</em> ≥ 5 independent owners <em>and</em> under two hours old. Machine-raised flashes are labeled <strong>machine-seated</strong> until the desk confirms. A flash with no new development steps down on its own within 45 minutes. Orange appears on this site for FLASH and for nothing else.</td></tr>
-            <tr><td className="mono">BULLETIN</td><td>Score ≥ 68, held across consecutive sweeps.</td></tr>
-            <tr><td className="mono">URGENT</td><td>Score ≥ 48.</td></tr>
-            <tr><td className="mono">DEVELOPING</td><td>Score ≥ 28.</td></tr>
+            <tr><td className="mono">BULLETIN</td><td>Score ≥ 70, held across consecutive sweeps.</td></tr>
+            <tr><td className="mono">URGENT</td><td>Score ≥ 55.</td></tr>
+            <tr><td className="mono">DEVELOPING</td><td>Score ≥ 40.</td></tr>
             <tr><td className="mono">BRIEF</td><td>Everything else the wire carried. Ages off the board within hours.</td></tr>
           </tbody>
         </table>
@@ -100,7 +94,8 @@ export default function MethodPage() {
         <h2>Changelog</h2>
         <table>
           <tbody>
-            <tr><td className="mono">{METHOD_VERSION}</td><td>First published method. Corroboration counts owners, not domains. Orange reserved for FLASH.</td></tr>
+            <tr><td className="mono">{METHOD_VERSION}</td><td>GRAVITY: consequence + power join the signals; the Lobby split; weights published and reader-tunable.</td></tr>
+            <tr><td className="mono">v1.0</td><td>First published method. Corroboration counts owners, not domains. Orange reserved for FLASH.</td></tr>
           </tbody>
         </table>
       </div>

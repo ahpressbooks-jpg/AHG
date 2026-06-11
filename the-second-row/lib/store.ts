@@ -1,14 +1,14 @@
 import { BoardState, DeskOverrides } from "./types";
 
 // ---------------------------------------------------------------------------
-// Storage: Upstash Redis / Vercel KV via REST when configured; honest
-// in-memory fallback when not. The site works with zero configuration and
-// gains permanence the moment a database is attached. No SDK required.
+// Storage. Upstash Redis / Vercel KV via REST when configured (durable — this
+// is the Permanent Record's home until/unless Postgres is attached); honest
+// in-memory fallback when not, so the site runs with zero configuration.
 // ---------------------------------------------------------------------------
 
 const BOARD_KEY = "tsr:board";
 const OVERRIDES_KEY = "tsr:overrides";
-const SEATS_KEY = "tsr:seats"; // email capture list
+const SEATS_KEY = "tsr:seats";
 const LOCK_KEY = "tsr:sweeplock";
 
 function redisCreds(): { url: string; token: string } | null {
@@ -27,10 +27,7 @@ async function redis(cmd: (string | number)[]): Promise<any> {
   if (!creds) throw new Error("no redis");
   const res = await fetch(creds.url, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${creds.token}`,
-      "Content-Type": "application/json",
-    },
+    headers: { Authorization: `Bearer ${creds.token}`, "Content-Type": "application/json" },
     body: JSON.stringify(cmd),
     cache: "no-store",
   });
@@ -40,10 +37,125 @@ async function redis(cmd: (string | number)[]): Promise<any> {
 }
 
 // In-memory fallback — survives warm invocations, resets on cold start.
-// The board rebuilds itself from the wire on the next sweep; biographies
-// shorten. Honest degradation, documented at /method.
 const g = globalThis as any;
-g.__tsr = g.__tsr || { board: null, overrides: {}, seats: [], lockUntil: 0 };
+g.__tsr = g.__tsr || {
+  board: null,
+  overrides: {},
+  seats: [],
+  lockUntil: 0,
+  kv: new Map<string, string>(),
+  lists: new Map<string, string[]>(),
+  expiry: new Map<string, number>(),
+};
+
+function memSweep(key: string) {
+  const exp = g.__tsr.expiry.get(key);
+  if (exp && Date.now() > exp) {
+    g.__tsr.kv.delete(key);
+    g.__tsr.lists.delete(key);
+    g.__tsr.expiry.delete(key);
+  }
+}
+
+// ---- generic KV ------------------------------------------------------------
+
+export async function kvGet(key: string): Promise<string | null> {
+  if (redisCreds()) {
+    try {
+      return (await redis(["GET", key])) ?? null;
+    } catch {}
+  }
+  memSweep(key);
+  return g.__tsr.kv.get(key) ?? null;
+}
+
+export async function kvSet(key: string, val: string, exSec?: number): Promise<void> {
+  g.__tsr.kv.set(key, val);
+  if (exSec) g.__tsr.expiry.set(key, Date.now() + exSec * 1000);
+  if (redisCreds()) {
+    try {
+      await redis(exSec ? ["SET", key, val, "EX", exSec] : ["SET", key, val]);
+    } catch {}
+  }
+}
+
+export async function kvDel(key: string): Promise<void> {
+  g.__tsr.kv.delete(key);
+  g.__tsr.lists.delete(key);
+  if (redisCreds()) {
+    try {
+      await redis(["DEL", key]);
+    } catch {}
+  }
+}
+
+export async function kvIncr(key: string, exSec?: number): Promise<number> {
+  let memVal = (parseInt(g.__tsr.kv.get(key) ?? "0", 10) || 0) + 1;
+  g.__tsr.kv.set(key, String(memVal));
+  if (exSec) g.__tsr.expiry.set(key, Date.now() + exSec * 1000);
+  if (redisCreds()) {
+    try {
+      const v = await redis(["INCR", key]);
+      if (exSec) await redis(["EXPIRE", key, exSec]);
+      return Number(v);
+    } catch {}
+  }
+  return memVal;
+}
+
+// ---- generic lists (newest first) -------------------------------------------
+
+export async function listPush(key: string, val: string, cap?: number): Promise<void> {
+  const mem: string[] = g.__tsr.lists.get(key) ?? [];
+  mem.unshift(val);
+  if (cap && mem.length > cap) mem.length = cap;
+  g.__tsr.lists.set(key, mem);
+  if (redisCreds()) {
+    try {
+      await redis(["LPUSH", key, val]);
+      if (cap) await redis(["LTRIM", key, 0, cap - 1]);
+    } catch {}
+  }
+}
+
+export async function listRange(key: string, start = 0, stop = -1): Promise<string[]> {
+  if (redisCreds()) {
+    try {
+      const r = await redis(["LRANGE", key, start, stop]);
+      if (Array.isArray(r)) return r;
+    } catch {}
+  }
+  memSweep(key);
+  const mem: string[] = g.__tsr.lists.get(key) ?? [];
+  return stop === -1 ? mem.slice(start) : mem.slice(start, stop + 1);
+}
+
+export async function listLen(key: string): Promise<number> {
+  if (redisCreds()) {
+    try {
+      return Number(await redis(["LLEN", key]));
+    } catch {}
+  }
+  return (g.__tsr.lists.get(key) ?? []).length;
+}
+
+// ---- JSON conveniences -------------------------------------------------------
+
+export async function getJSON<T>(key: string): Promise<T | null> {
+  const raw = await kvGet(key);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    return null;
+  }
+}
+
+export async function setJSON(key: string, val: unknown, exSec?: number): Promise<void> {
+  await kvSet(key, JSON.stringify(val), exSec);
+}
+
+// ---- board / overrides / seats (v1 surface, unchanged) ------------------------
 
 export async function loadBoard(): Promise<BoardState | null> {
   if (redisCreds()) {
@@ -62,9 +174,7 @@ export async function saveBoard(state: BoardState): Promise<void> {
   if (redisCreds()) {
     try {
       await redis(["SET", BOARD_KEY, JSON.stringify(state)]);
-    } catch {
-      /* memory copy already saved */
-    }
+    } catch {}
   }
 }
 
@@ -100,11 +210,6 @@ export async function saveSeat(email: string): Promise<"stored" | "memory"> {
   return "memory";
 }
 
-/**
- * Distributed sweep lock: at most one sweep runs at a time, anywhere.
- * Without redis this is per-instance — acceptable, since the cost of a
- * duplicate sweep is a few redundant feed polls, not duplicate data.
- */
 export async function acquireSweepLock(ttlSec = 50): Promise<boolean> {
   if (redisCreds()) {
     try {

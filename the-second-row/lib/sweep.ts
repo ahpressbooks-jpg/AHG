@@ -2,6 +2,7 @@ import { clusterItems, representative, shortHash, tokens } from "./cluster";
 import { corroborate, enrichExcerpts, triage } from "./enrich";
 import { clampExcerpt, sweepRoster } from "./rss";
 import {
+  beatGravity,
   BUMP_BUDGET,
   certaintyFor,
   computeScore,
@@ -14,6 +15,14 @@ import {
 import { ROSTER } from "./sources";
 import { SAMPLE_BOARD } from "./sample";
 import {
+  archiveStory,
+  getEdition,
+  getNote,
+  nextEditionNumber,
+  pushSnapshot,
+  saveEdition,
+} from "./records";
+import {
   acquireSweepLock,
   loadBoard,
   loadOverrides,
@@ -22,12 +31,13 @@ import {
 } from "./store";
 import { BoardState, RawItem, Story, SweepLogEntry, Tier } from "./types";
 
-const MAX_STORIES = 44;
+const MAX_STORIES = 48;
 const MAX_RAW = 60;
 const MAX_LOG = 30;
 const MAX_HISTORY = 14;
 const MAX_ARRIVALS = 50;
 const STALE_AFTER_MS = 60_000;
+const DESK_TZ = process.env.DESK_TZ || "America/Chicago";
 
 function minutesBetween(a: string, now: Date): number {
   return Math.max(0, (now.getTime() - new Date(a).getTime()) / 60_000);
@@ -52,10 +62,24 @@ export function boardIsStale(state: BoardState | null, now = new Date()): boolea
   return now.getTime() - new Date(state.sweptAt).getTime() > STALE_AFTER_MS;
 }
 
+function deskDateParts(now: Date): { date: string; hour: number } {
+  const fmt = new Intl.DateTimeFormat("en-CA", {
+    timeZone: DESK_TZ,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    hour12: false,
+  });
+  const parts = Object.fromEntries(fmt.formatToParts(now).map((p) => [p.type, p.value]));
+  return { date: `${parts.year}-${parts.month}-${parts.day}`, hour: Number(parts.hour) };
+}
+
 /**
- * THE SWEEP — the 60-second loop.
- * Detect (RSS) → resolve (cluster) → triage (score/tier with hysteresis,
- * bump budget, desk overrides) → seat → publish. Honest under every failure.
+ * THE SWEEP — the 60-second loop, GRAVITY edition.
+ * Detect → resolve → triage → seat → publish, then feed the Permanent
+ * Record: archive what leaves the house, snapshot the board for the Rewind,
+ * freeze the 7 a.m. Morning Edition.
  */
 export async function runSweep(force = false): Promise<BoardState> {
   const now = new Date();
@@ -64,10 +88,7 @@ export async function runSweep(force = false): Promise<BoardState> {
   if (!force && !boardIsStale(prior, now)) return prior!;
 
   const locked = await acquireSweepLock();
-  if (!locked) {
-    // Someone else is sweeping; serve what we have.
-    return prior ?? SAMPLE_BOARD(now);
-  }
+  if (!locked) return prior ?? SAMPLE_BOARD(now);
 
   const t0 = Date.now();
   const errors: string[] = [];
@@ -80,8 +101,6 @@ export async function runSweep(force = false): Promise<BoardState> {
     errors.push(...feedErrors.slice(0, 6));
 
     if (items.length === 0 && (!prior || prior.sample)) {
-      // No wire and no memory: serve the labeled sample board rather than
-      // an empty room. The masthead carries the SAMPLE watermark.
       const sample = SAMPLE_BOARD(now);
       await saveBoard(sample);
       return sample;
@@ -90,15 +109,7 @@ export async function runSweep(force = false): Promise<BoardState> {
     const base: BoardState =
       prior && !prior.sample
         ? prior
-        : {
-            version: 0,
-            sweptAt: now.toISOString(),
-            stories: [],
-            raw: [],
-            log: [],
-            sample: false,
-            method: METHOD_VERSION,
-          };
+        : { version: 0, sweptAt: now.toISOString(), stories: [], raw: [], log: [], sample: false, method: METHOD_VERSION };
 
     // ---- resolve · cluster ----------------------------------------------
     const clusters = clusterItems(base.stories, items);
@@ -107,7 +118,6 @@ export async function runSweep(force = false): Promise<BoardState> {
 
     for (const c of clusters) {
       if (c.story) {
-        // Existing story: absorb new arrivals.
         const s = c.story;
         for (const it of c.items) {
           developments++;
@@ -120,6 +130,8 @@ export async function runSweep(force = false): Promise<BoardState> {
               owner: it.source.owner,
               url: it.url,
               weight: it.source.weight,
+              lean: it.source.lean,
+              title: it.title,
             });
           }
           if (!s.excerpt && it.summary) s.excerpt = clampExcerpt(it.summary);
@@ -143,6 +155,7 @@ export async function runSweep(force = false): Promise<BoardState> {
           sources: [],
           owners: 0,
           spark: [],
+          spread: { L: 0, C: 0, R: 0 },
           workings: {
             corroboration: 0,
             corroborationDelta: 0,
@@ -163,6 +176,8 @@ export async function runSweep(force = false): Promise<BoardState> {
               owner: it.source.owner,
               url: it.url,
               weight: it.source.weight,
+              lean: it.source.lean,
+              title: it.title,
             });
           }
         }
@@ -172,24 +187,38 @@ export async function runSweep(force = false): Promise<BoardState> {
 
     let stories = [...base.stories, ...newStories];
 
-    // ---- prune: the board is a wire, not an archive ----------------------
-    stories = stories.filter((s) => {
-      if (overrides[s.id]?.killed) return false;
+    // ---- prune → ARCHIVE (nothing ever 404s) -----------------------------
+    const keep: Story[] = [];
+    for (const s of stories) {
+      const killed = overrides[s.id]?.killed;
       const devAgeH = minutesBetween(s.lastDev, now) / 60;
-      if (devAgeH > 36) return false;
-      if (s.tier === "BRIEF" && devAgeH > 12) return false;
-      return true;
-    });
+      const expired = devAgeH > 36 || (s.tier === "BRIEF" && devAgeH > 12);
+      if (killed || expired) {
+        if (!killed) {
+          if (!s.resolution) {
+            s.resolution = { state: "FADED", at: now.toISOString() };
+            s.history.push({ at: now.toISOString(), event: "Left the house — FADED without resolution", by: "board" });
+          }
+          await archiveStory(s);
+        }
+        continue;
+      }
+      keep.push(s);
+    }
+    stories = keep;
 
-    // ---- Tier 3 · triage new clusters (gravity + normalized headlines) ---
+    // ---- Tier 3 · triage new clusters (consequence + power) ---------------
     await triage(newStories, errors);
 
-    // ---- score pass one (Tier-0 signals) ----------------------------------
+    // ---- GRAVITY pass ------------------------------------------------------
     const scorePass = () => {
       for (const s of stories) {
         const priorOwners = s.workings.corroboration;
         s.owners = new Set(s.sources.map((x) => x.owner)).size;
-        const { beats, bonus, damp } = matchedBeats(s.headline);
+        const { beats, damp } = matchedBeats(s.headline);
+        const heur = beatGravity(beats);
+        const consequence = s.workings.consequence ?? heur.consequence;
+        const power = s.workings.power ?? heur.power;
         const maxW = Math.max(1, ...s.sources.map((x) => x.weight));
         const devAge = minutesBetween(s.lastDev, now);
         const v45 = velocity45(s.arrivals, now);
@@ -198,12 +227,14 @@ export async function runSweep(force = false): Promise<BoardState> {
           maxSourceWeight: maxW,
           minutesSinceDev: devAge,
           velocity45: v45,
-          beatsBonus: bonus,
+          consequence,
+          power,
           damp,
-          gravity: s.workings.gravity,
           webCorroboration: s.workings.webCorroboration,
         });
         s.spark = sparkFor(s.arrivals, now);
+        s.spread = { L: 0, C: 0, R: 0 };
+        for (const src of s.sources) s.spread[src.lean ?? "C"]++;
         s.workings = {
           ...s.workings,
           corroboration: s.owners,
@@ -213,6 +244,8 @@ export async function runSweep(force = false): Promise<BoardState> {
           lastDev: s.lastDev,
           maxSourceWeight: maxW,
           beats,
+          consequence,
+          power,
           score: s.score,
         };
         s.certainty = certaintyFor(s.owners, maxW);
@@ -220,11 +253,11 @@ export async function runSweep(force = false): Promise<BoardState> {
     };
     scorePass();
 
-    // ---- Tier 2 · corroborate clusters in motion, then rescore -----------
+    // ---- Tier 2 · corroborate clusters in motion, then rescore -------------
     await corroborate(stories, errors);
     scorePass();
 
-    // ---- tier decisions: hysteresis + bump budget + desk overrides -------
+    // ---- tier decisions: hysteresis + bump budget + desk overrides ----------
     const diff = { fresh: newStories.length, bumped: 0, cooled: 0, flashes: [] as string[] };
     let bumpsUsed = 0;
 
@@ -247,8 +280,6 @@ export async function runSweep(force = false): Promise<BoardState> {
         reason = "seated by the desk";
         s.pending = undefined;
       } else if (isNew) {
-        // Fresh arrivals seat directly at their natural tier (no hysteresis
-        // on first seating) — but never straight to FLASH without the gates.
         const d = decideTier({ ...s, tier: "BRIEF" } as Story, s.score, ageMin, devAgeMin);
         next = d.tier;
         reason = "first seen on the wire";
@@ -265,7 +296,6 @@ export async function runSweep(force = false): Promise<BoardState> {
         }
       }
 
-      // FLASH bookkeeping: machine-seated until the desk confirms.
       if (next === "FLASH" && s.tier !== "FLASH") {
         s.flash = { raisedAt: now.toISOString(), confirmed: ov?.flashConfirmed ?? false };
         diff.flashes.push(s.id);
@@ -297,14 +327,14 @@ export async function runSweep(force = false): Promise<BoardState> {
       }
     }
 
-    // ---- Tier 1 · excerpts for the top of the house ----------------------
+    // ---- Tier 1 · excerpts for the top of the house --------------------------
     await enrichExcerpts(stories, errors);
 
-    // ---- seat the house ---------------------------------------------------
+    // ---- seat the house --------------------------------------------------------
     stories.sort(seatOrder);
     stories = stories.slice(0, MAX_STORIES);
 
-    // ---- raw ticker + log --------------------------------------------------
+    // ---- raw ticker + log ---------------------------------------------------------
     const rawNew: RawItem[] = items
       .sort((a, b) => +new Date(b.publishedAt) - +new Date(a.publishedAt))
       .slice(0, 25)
@@ -336,9 +366,34 @@ export async function runSweep(force = false): Promise<BoardState> {
     };
 
     await saveBoard(next);
+
+    // ---- feed the Permanent Record (never fatal) -------------------------------
+    try {
+      await pushSnapshot({
+        at: now.toISOString(),
+        version,
+        stories: stories.slice(0, 20).map((s) => ({ id: s.id, headline: s.headline, tier: s.tier, score: s.score })),
+      });
+      const { date, hour } = deskDateParts(now);
+      if (hour >= 7 && !(await getEdition(date))) {
+        const note = await getNote();
+        await saveEdition({
+          date,
+          number: await nextEditionNumber(),
+          frozenAt: now.toISOString(),
+          stories: stories
+            .filter((s) => s.tier !== "BRIEF")
+            .slice(0, 12)
+            .map((s) => ({ id: s.id, headline: s.headline, tier: s.tier, score: s.score, url: s.url })),
+          note: note?.text,
+        });
+      }
+    } catch (e: any) {
+      errors.push(`record: ${e?.message || "failed"}`);
+    }
+
     return next;
-  } catch (e: any) {
-    // Total engine failure: keep the last honest board on the wall.
+  } catch {
     if (prior) return prior;
     const sample = SAMPLE_BOARD(now);
     await saveBoard(sample);

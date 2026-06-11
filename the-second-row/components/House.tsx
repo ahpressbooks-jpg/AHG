@@ -5,7 +5,7 @@ import { useState } from "react";
 import { BoardState, Story } from "@/lib/types";
 import { ageLabel, clockShort, DEPTH, inkStep } from "./util";
 
-function Spark({ data }: { data: number[] }) {
+export function Spark({ data }: { data: number[] }) {
   const max = Math.max(1, ...data);
   return (
     <span className="spark" aria-label={`coverage velocity: ${data.join(", ")} pickups per 15 minutes`}>
@@ -16,14 +16,38 @@ function Spark({ data }: { data: number[] }) {
   );
 }
 
+export function Gravity({ score }: { score: number }) {
+  return (
+    <span className="gravity-meter" title={`GRAVITY ${score}/100 — tap any tier chip for the workings`}>
+      <span className="g-track" aria-hidden="true">
+        <span className="g-fill" style={{ width: `${score}%` }} />
+      </span>
+      <span className="g-num">{score}</span>
+    </span>
+  );
+}
+
+export function Spectrum({ spread }: { spread: { L: number; C: number; R: number } }) {
+  const total = spread.L + spread.C + spread.R;
+  if (total === 0) return null;
+  // Position of the coverage's center of mass on the L–R track.
+  const pos = ((spread.C * 0.5 + spread.R) / total) * 100;
+  return (
+    <span
+      className="spectrum"
+      title={`framing spectrum — L ${spread.L} · C ${spread.C} · R ${spread.R}`}
+      aria-label={`coverage: ${spread.L} left, ${spread.C} center, ${spread.R} right outlets`}
+    >
+      <span className="sp-track">
+        <span className="sp-dot" style={{ left: `${pos}%` }} />
+      </span>
+    </span>
+  );
+}
+
 function TierChip({ story, onToggle, open }: { story: Story; onToggle: () => void; open: boolean }) {
   return (
-    <button
-      className={`chip chip--${story.tier}`}
-      onClick={onToggle}
-      aria-expanded={open}
-      title="Why this ranks here — the workings"
-    >
+    <button className={`chip chip--${story.tier}`} onClick={onToggle} aria-expanded={open} title="Why this ranks here — the workings">
       <span className="chip-bar" aria-hidden="true" />
       {story.tier}
       {story.desk?.pinned ? " · PINNED" : ""}
@@ -31,74 +55,35 @@ function TierChip({ story, onToggle, open }: { story: Story; onToggle: () => voi
   );
 }
 
-function Workings({ s, nowMs }: { s: Story; nowMs: number }) {
+export function Workings({ s }: { s: Story }) {
   const w = s.workings;
   return (
     <div className="workings" role="region" aria-label="Why this story ranks here">
-      <div className="workings-title">Why this ranks {s.tier}</div>
-      <span className="workings-row">
-        <dt>corroboration&nbsp;&nbsp;</dt>
-        <dd>
-          {w.corroboration} independent owner{w.corroboration === 1 ? "" : "s"}
-          {w.corroborationDelta > 0 ? ` (↑${w.corroborationDelta} this sweep)` : ""}
-          {typeof w.webCorroboration === "number" ? ` · +${w.webCorroboration} web domains` : ""}
-        </dd>
-      </span>
-      <span className="workings-row">
-        <dt>velocity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>
-        <dd>{w.velocity45} pickups / 45 min</dd>
-      </span>
-      <span className="workings-row">
-        <dt>freshness&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>
-        <dd>
-          first seen {clockShort(w.firstSeen)} · last development {clockShort(w.lastDev)}
-        </dd>
-      </span>
-      <span className="workings-row">
-        <dt>source weight&nbsp;</dt>
-        <dd>{w.maxSourceWeight} of 3 {w.maxSourceWeight >= 3 ? "(primary-wire grade)" : ""}</dd>
-      </span>
-      <span className="workings-row">
-        <dt>beats&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>
-        <dd>{w.beats.length ? w.beats.join(", ") : "— none matched"}</dd>
-      </span>
-      {typeof w.gravity === "number" && (
-        <span className="workings-row">
-          <dt>gravity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>
-          <dd>{w.gravity}/10 (triage)</dd>
-        </span>
-      )}
-      <span className="workings-row">
-        <dt>score&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>
-        <dd>
-          {w.score} → {s.tier}
-          {s.certainty ? ` · ${s.certainty.toLowerCase()} = coverage math, not a verdict` : ""}
-        </dd>
-      </span>
-      <span className="workings-row">
-        <dt>record&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>
-        <dd>
-          <Link href={`/wire/${s.id}`}>this story&apos;s biography →</Link>
-        </dd>
-      </span>
+      <div className="workings-title">GRAVITY {w.score} → {s.tier}</div>
+      <span className="workings-row"><dt>corroboration&nbsp;</dt><dd>{w.corroboration} independent owner{w.corroboration === 1 ? "" : "s"}{w.corroborationDelta > 0 ? ` (↑${w.corroborationDelta} this sweep)` : ""}{typeof w.webCorroboration === "number" ? ` · +${w.webCorroboration} web domains` : ""}</dd></span>
+      <span className="workings-row"><dt>velocity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt><dd>{w.velocity45} pickups / 45 min</dd></span>
+      <span className="workings-row"><dt>consequence&nbsp;&nbsp;</dt><dd>{w.consequence ?? "—"}/10 — people touched, how directly, how long</dd></span>
+      <span className="workings-row"><dt>power&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt><dd>{w.power ?? "—"}/10 — is power being exercised or checked</dd></span>
+      <span className="workings-row"><dt>freshness&nbsp;&nbsp;&nbsp;&nbsp;</dt><dd>first seen {clockShort(w.firstSeen)} · last development {clockShort(w.lastDev)}</dd></span>
+      <span className="workings-row"><dt>beats&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt><dd>{w.beats.length ? w.beats.join(", ") : "— none matched"}</dd></span>
+      <span className="workings-row"><dt>certainty&nbsp;&nbsp;&nbsp;&nbsp;</dt><dd>{s.certainty} — coverage math, not a verdict</dd></span>
+      <span className="workings-row"><dt>record&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt><dd><Link href={`/wire/${s.id}`}>full dossier →</Link> · <Link href="/gravity">the math →</Link></dd></span>
     </div>
   );
 }
 
-function MetaLine({ s, nowMs, onToggle, open }: { s: Story; nowMs: number; onToggle: () => void; open: boolean }) {
+export function MetaLine({ s, nowMs, onToggle, open }: { s: Story; nowMs: number; onToggle: () => void; open: boolean }) {
   return (
     <div className="row-meta">
       <TierChip story={s} onToggle={onToggle} open={open} />
       {s.tier === "FLASH" && s.flash && !s.flash.confirmed && (
-        <span className="machine-seated" title="Raised by the board; awaiting the desk">
-          machine-seated
-        </span>
+        <span className="machine-seated" title="Raised by the board; awaiting the desk">machine-seated</span>
       )}
+      <Gravity score={s.score} />
       <span className={`certainty certainty--${s.certainty}`}>{s.certainty}</span>
-      <span>{ageLabel(s.lastDev, nowMs)}</span>
-      <span>
-        {s.owners} source{s.owners === 1 ? "" : "s"}
-      </span>
+      <span suppressHydrationWarning>{ageLabel(s.lastDev, nowMs)}</span>
+      <span>{s.owners} source{s.owners === 1 ? "" : "s"}</span>
+      <Spectrum spread={s.spread ?? { L: 0, C: 0, R: 0 }} />
       <Spark data={s.spark} />
     </div>
   );
@@ -132,25 +117,62 @@ function CaptureRow() {
   return (
     <div className="capture" role="form" aria-label="Take your seat — free briefing list">
       <div className="capture-label">Take your seat</div>
-      <p className="capture-line">The 7 a.m. board and the daily briefing, free. No team to join.</p>
+      <p className="capture-line">The 7 a.m. Morning Edition and the daily briefing, free. No team to join.</p>
       {note ? (
         <div className="capture-note">{note}</div>
       ) : (
         <form className="capture-form" onSubmit={submit}>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            aria-label="Email address"
-          />
-          <button type="submit" disabled={busy}>
-            {busy ? "Seating…" : "Take a seat"}
-          </button>
+          <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" aria-label="Email address" />
+          <button type="submit" disabled={busy}>{busy ? "Seating…" : "Take a seat"}</button>
         </form>
       )}
     </div>
+  );
+}
+
+function StoryRow({
+  s,
+  i,
+  nowMs,
+  open,
+  onToggle,
+  entering,
+}: {
+  s: Story;
+  i: number;
+  nowMs: number;
+  open: boolean;
+  onToggle: () => void;
+  entering: boolean;
+}) {
+  const depth = DEPTH[s.tier];
+  return (
+    <article
+      className={`row${s.tier === "BULLETIN" ? " row--bulletin" : ""}${entering ? " is-entering" : ""}`}
+      data-sid={s.id}
+      data-depth={depth}
+      data-ink={inkStep(s.lastDev, nowMs)}
+      aria-label={`Row ${i + 1}: ${s.tier}`}
+    >
+      <div className="row-inner">
+        <MetaLine s={s} nowMs={nowMs} open={open} onToggle={onToggle} />
+        <h2 className="row-hed">
+          <Link href={`/wire/${s.id}`} data-rowlink>
+            {s.headline}
+          </Link>
+        </h2>
+        {s.excerpt && depth <= 2 && <p className="row-dek">{s.excerpt}</p>}
+        {open && <Workings s={s} />}
+        <div className="row-foot">
+          {s.sources.slice(0, 4).map((src) => (
+            <a key={src.owner + src.url} href={src.url} target="_blank" rel="noopener noreferrer">
+              {src.name} ↗
+            </a>
+          ))}
+          <Link href={`/wire/${s.id}`}>dossier · comments</Link>
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -169,24 +191,24 @@ export default function House({
 }) {
   const [backOpen, setBackOpen] = useState(false);
   const stage = board.stories[0];
-  const rows = board.stories.slice(1);
-  const FRONT = 24;
-  const front = backOpen ? rows : rows.slice(0, FRONT);
-  const backCount = rows.length - front.length;
+  const rest = board.stories.slice(1);
+  const boardRows = rest.filter((s) => s.tier !== "BRIEF");
+  const lobby = rest.filter((s) => s.tier === "BRIEF");
+  const lobbyShown = backOpen ? lobby : lobby.slice(0, 8);
   const quiet = board.stories.length > 0 && board.stories.length < 10;
 
   if (!stage) {
     return (
-      <div className="house wrap" id="house">
+      <main className="house" id="house">
         <p className="house-note">The wire is quiet — no stories seated yet. The next sweep will fill the house.</p>
-      </div>
+      </main>
     );
   }
 
   const stageFlash = stage.tier === "FLASH";
 
   return (
-    <main className="house wrap" id="house">
+    <main className="house" id="house">
       {board.sample && (
         <div>
           <span className="sample-watermark">SAMPLE BOARD — fictional headlines for design review</span>
@@ -195,91 +217,64 @@ export default function House({
       {quiet && <p className="house-note">A quiet hour. {board.stories.length} stories seated.</p>}
 
       {/* THE STAGE */}
-      <article
-        className={`stage${stageFlash ? " is-flash" : ""}`}
-        data-sid={stage.id}
-        aria-label={stageFlash ? "Flash — the stage" : "The stage — top story"}
-      >
+      <article className={`stage${stageFlash ? " is-flash" : ""}`} data-sid={stage.id} aria-label={stageFlash ? "Flash — the stage" : "The stage — top story"}>
         <div className="stage-label">{stageFlash ? "FLASH · THE STAGE" : "THE STAGE"}</div>
         <div className="stage-meta" style={{ marginBottom: 10 }}>
-          <MetaLine
-            s={stage}
-            nowMs={nowMs}
-            open={openWorkings === stage.id}
-            onToggle={() => onToggleWorkings(openWorkings === stage.id ? null : stage.id)}
-          />
+          <MetaLine s={stage} nowMs={nowMs} open={openWorkings === stage.id} onToggle={() => onToggleWorkings(openWorkings === stage.id ? null : stage.id)} />
         </div>
         <h1 className="stage-hed">
-          <a href={stage.url} target="_blank" rel="noopener noreferrer">
-            {stage.headline}
-          </a>
+          <Link href={`/wire/${stage.id}`}>{stage.headline}</Link>
         </h1>
         {stage.excerpt && <p className="stage-dek">{stage.excerpt}</p>}
-        {openWorkings === stage.id && <Workings s={stage} nowMs={nowMs} />}
+        {openWorkings === stage.id && <Workings s={stage} />}
         <div className="row-foot">
           {stage.sources.slice(0, 5).map((src) => (
             <a key={src.owner + src.url} href={src.url} target="_blank" rel="noopener noreferrer">
-              {src.name}
+              {src.name} ↗
             </a>
           ))}
-          <Link href={`/wire/${stage.id}`}>biography</Link>
+          <Link href={`/wire/${stage.id}`}>dossier · comments</Link>
         </div>
       </article>
 
-      {/* THE ROWS */}
+      {/* THE ROWS (the Board: gravity ≥ developing) */}
       <div className="rows">
-        {front.map((s, i) => {
-          const depth = DEPTH[s.tier];
-          const open = openWorkings === s.id;
-          return (
-            <div key={s.id}>
-              <article
-                className={`row${s.tier === "BULLETIN" ? " row--bulletin" : ""}${entering.has(s.id) ? " is-entering" : ""}`}
-                data-sid={s.id}
-                data-depth={depth}
-                data-ink={inkStep(s.lastDev, nowMs)}
-                aria-label={`Row ${i + 1}: ${s.tier}`}
-              >
-                <div className="row-inner">
-                  <MetaLine
-                    s={s}
-                    nowMs={nowMs}
-                    open={open}
-                    onToggle={() => onToggleWorkings(open ? null : s.id)}
-                  />
-                  <h2 className="row-hed">
-                    <a href={s.url} target="_blank" rel="noopener noreferrer" data-rowlink>
-                      {s.headline}
-                    </a>
-                  </h2>
-                  {s.excerpt && depth <= 2 && <p className="row-dek">{s.excerpt}</p>}
-                  {open && <Workings s={s} nowMs={nowMs} />}
-                  <div className="row-foot">
-                    {s.sources.slice(0, 4).map((src) => (
-                      <a key={src.owner + src.url} href={src.url} target="_blank" rel="noopener noreferrer">
-                        {src.name}
-                      </a>
-                    ))}
-                    <Link href={`/wire/${s.id}`}>biography</Link>
-                  </div>
-                </div>
-              </article>
-              {i === 4 && <CaptureRow />}
-            </div>
-          );
-        })}
-        {rows.length <= 4 && <CaptureRow />}
-        {backCount > 0 && !backOpen && (
-          <button className="backrows" onClick={() => setBackOpen(true)}>
-            + {backCount} briefs in the back rows — open them
-          </button>
-        )}
-        {backOpen && backCount === 0 && rows.length > FRONT && (
-          <button className="backrows" onClick={() => setBackOpen(false)}>
-            − close the back rows
-          </button>
-        )}
+        {boardRows.map((s, i) => (
+          <div key={s.id}>
+            <StoryRow s={s} i={i} nowMs={nowMs} open={openWorkings === s.id} onToggle={() => onToggleWorkings(openWorkings === s.id ? null : s.id)} entering={entering.has(s.id)} />
+            {i === 4 && <CaptureRow />}
+          </div>
+        ))}
+        {boardRows.length <= 4 && <CaptureRow />}
       </div>
+
+      {/* YOU'RE CAUGHT UP — the bottom of the news */}
+      <div className="caughtup" role="note">
+        <div className="caughtup-mark">■ The bottom of the news</div>
+        <h2>You&apos;re caught up.</h2>
+        <p>
+          That was everything carrying real gravity right now. The board will hold your seat —
+          go live your life. Below is the Lobby: lighter wire traffic, honestly labeled.
+        </p>
+      </div>
+
+      {/* THE LOBBY — casual news, never pretending to be the front page */}
+      {lobby.length > 0 && (
+        <section className="lobby" aria-label="The Lobby — lighter wire traffic">
+          <div className="lobby-head">The Lobby</div>
+          <p className="lobby-sub">Low-gravity wire traffic. It's news; it just isn't the front page.</p>
+          <div className="rows">
+            {lobbyShown.map((s, i) => (
+              <StoryRow key={s.id} s={s} i={i} nowMs={nowMs} open={openWorkings === s.id} onToggle={() => onToggleWorkings(openWorkings === s.id ? null : s.id)} entering={entering.has(s.id)} />
+            ))}
+            {lobby.length > 8 && (
+              <button className="backrows" onClick={() => setBackOpen((v) => !v)}>
+                {backOpen ? "− close the back rows" : `+ ${lobby.length - 8} more in the back rows`}
+              </button>
+            )}
+          </div>
+        </section>
+      )}
     </main>
   );
 }
