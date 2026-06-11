@@ -144,5 +144,33 @@ One scale, one spacing system, one card grammar (radius/shadow/border identical 
 
 ---
 
-*Blueprint v2 · awaiting the founder's red pen. Cut anything; the spine survives.*
-*One row back. Full view. Founded at 21.*
+# PART G · THE PERMANENT RECORD — secure & constant (v2.1)
+
+**The founder's rule:** log on any day, any device, and find every comment you ever made and every story you ever saved. Nothing the reader touched is ever lost. Here is what that means, engineered:
+
+1. **A real system of record.** Postgres (Neon) becomes the permanent home of everything human: accounts, comments, saves, reader-Ledger calls, columns, and archived story dossiers. Redis keeps only the live board (the hot 60-second state). Cache can reset; the record cannot.
+2. **Nothing ever 404s.** Stories age off the live board, but every dossier a reader ever saw, saved, or commented on is archived permanently with its full biography. A comment you made in March still resolves to a living page in November. We call the whole layer **The Permanent Record**.
+3. **Your Seat** (`/you`) — the account home: every comment (with links back to where it lives), your **Clippings** (saved stories), your Ledger calls and Judgment Score, your streaks, your preferences (theme, depth, sounds) synced across devices.
+4. **Passwordless by design.** Magic-link sign-in, with **passkeys** (Face ID / fingerprint) as the upgrade path. No passwords exist, so no passwords can leak. Sessions are HttpOnly, SameSite, rotated; sign-ins are rate-limited.
+5. **Comment safety.** All reader content is sanitized before render (no scripts, no embeds), rate-limited, honeypotted against bots, with new accounts soft-held until first approval. Every moderation action is logged. One rule for everyone.
+6. **Data dignity.** Two buttons on Your Seat, no support ticket needed: **Download everything** (JSON export of all your data) and **Delete me** (full erasure, comments tombstoned). No ads, no trackers, nothing sold — already policy; now it's interface.
+7. **Backups the founder owns.** Automated daily database backups, plus a monthly export to founder-owned storage. The community and the archive are assets of The Second Row, not hostages of a vendor.
+8. **Constancy, monitored.** The sweep dead-man switch, error monitoring, and uptime checks page the desk before readers notice. The public sweep log remains the site's own accountability ledger.
+
+# PART H · THE FINAL ROUND — never-heard-before, batch two
+
+1. **The Third Act** — news sites never tell you how the story ended; this one does. Every story eventually gets a closing state — RESOLVED, FADED, or ONGOING — and an automated follow-up desk resurfaces stories 30/90 days later with what actually happened. The only feed where stories *end*.
+2. **The Rewind** — scrub the front page back through time. Every sweep is already stored, so the board becomes replayable: see exactly what the Wire looked like at 9:04 p.m. on election night, forever. Historic front pages as permanent URLs.
+3. **Sealed Takes** — comment as a time capsule: write your take on a developing story and *seal* it. It stays hidden until the story resolves, then all seals open at once. Receipts culture, built into the comment box.
+4. **Follow the story, not the topic** — one tap follows a specific story; you're pinged only when it *develops* (tier change, major corroboration, resolution). Not another firehose — a thread that taps your shoulder when something actually happens.
+5. **Your Tilt** — the Tilt Meter, pointed at yourself: a private mirror showing the framing spread of what *you've* been reading this week. Visible only to you, never shared, never sold — judgment training as a feature.
+6. **The Morning Edition** — at 7 a.m. the board is frozen, typeset, numbered, and archived: a finite, collectible daily front page with a permanent URL (and it *is* the morning email). Pairs with The Bottom of the News: a day of news you can actually finish.
+7. **Catch Me Up** — a button on every dossier: "I missed two weeks — what happened?" Answered in three bullets generated *only* from that story's own archived timeline and sources, receipts attached. Grounded catch-up, not vibes.
+8. **The Room vs. The Desk** — on every story, the readers' aggregated certainty tags displayed beside the desk's. When the room and the desk disagree, that's shown — and that page becomes the most honest meter in news.
+9. **The Second Seat** — every paying member can gift one free month to one person: "the seat next to you." Growth that travels person-to-person, the way trust actually does.
+10. **The caught-up streak** — the anti-engagement metric: streaks reward *finishing* the day's essentials, not lingering. The first news site whose loyalty program is built on letting you leave.
+
+---
+
+*Blueprint v2.1 · complete and approved scope: Parts A–H, every piece kept.*
+*One row back. Full view. Founded at 21. Nothing you touched is ever lost.*
