@@ -172,5 +172,60 @@ One scale, one spacing system, one card grammar (radius/shadow/border identical 
 
 ---
 
-*Blueprint v2.1 · complete and approved scope: Parts A–H, every piece kept.*
-*One row back. Full view. Founded at 21. Nothing you touched is ever lost.*
+# PART I · THE VELVET ROPE — tiers, gating, and payments (v2.2)
+
+**The rule that governs everything below:** the news is never behind the wall. The Wire, today's briefing, FLASH coverage, and every transparency page stay free forever — that's the trust engine and the moat. What's sold is depth, history, and access. The gate itself is honest: visible, labeled, and explained ("The news is free. The depth is how it stays free.").
+
+## I-1 · The ladder
+
+| | **The Floor** — Free | **Second Row Pro** — $8/mo · $80/yr | **Founding Member** — $200/yr · capped at 500 |
+|---|---|---|---|
+| The Wire, today's briefing, today's Spin Room | ✓ full | ✓ | ✓ |
+| Story dossiers | Last 30 days, full depth | **Entire archive, forever** | ✓ |
+| The Ledger | Running tally + recent calls | **Full workings behind every verdict** | ✓ |
+| Steelman Saturday | — | ✓ long-form, weekly | ✓ |
+| The Rewind (replay the board) | Last 7 days | **All of history** | ✓ |
+| The Third Act archive | Current follow-ups | Full archive | ✓ |
+| Morning Edition | Today's | Every edition ever | ✓ |
+| Catch Me Up | 3/day | Unlimited | ✓ |
+| Clippings / story follows | 10 clips · 3 follows | Unlimited | ✓ |
+| The 7 a.m. email | The board (headlines) | The full briefing + Saturday long-form | ✓ |
+| Search | Last 30 days | Full archive | ✓ |
+| The Second Seat (gift a month) | — | 1 to give | **2 to give** |
+| Founding wall (name + number), quarterly live Q&A, direct tip line, first seat in The Room, price locked forever, maroon founding mark on comments | — | — | ✓ |
+
+Comments, Sealed Takes, Your Ledger and Judgment Score, Your Tilt, the Toolkit, and every transparency page (GRAVITY, Tilt Meter, Glass Desk, Method, Standards, sweep log) are **free at every tier** — community and accountability are never paywalled. Prices are the business plan's placeholders; the founder re-prices against real costs, and early members keep their price forever.
+
+## I-2 · Payments (Stripe, end to end)
+
+1. **Stripe Checkout** (hosted) — card data never touches our servers; Apple Pay, Google Pay, and Link work automatically. PCI is Stripe's problem.
+2. **Stripe Billing** — three prices: Pro monthly, Pro annual, Founding annual. Founding cap (500) enforced server-side; a waitlist opens at 501.
+3. **Stripe Customer Portal** — self-serve update card / switch plan / cancel / download invoices. Cancel is two taps, no guilt screens, no retention mazes. Access runs to period end.
+4. **Webhooks** (`/api/stripe/webhook`, signature-verified) — checkout completed, subscription updated/canceled, payment failed → entitlements update in Postgres within seconds.
+5. **Failed payments** — 7-day grace (access keeps, Stripe dunning emails run), then quiet downgrade to The Floor. **Nothing is ever deleted on downgrade** — clippings, comments, scores all keep (Permanent Record); the 11th clip just waits for resubscribe.
+6. **Gift seats** — The Second Seat issues single-use Stripe promotion codes, one per Pro member, two per Founding.
+7. **Refunds** — 14 days, no questions, stated in plain language on the pricing page. Auto-renewal disclosed clearly at checkout (compliance + brand).
+8. **Receipts & taxes** — Stripe emails receipts; Stripe Tax can switch on when revenue warrants it. USD at launch.
+9. **Revenue → the Glass Desk automatically** — the open-books page pulls monthly totals from Stripe. The paywall reports to the transparency page. Nobody else does this.
+
+## I-3 · The entitlement engine (how hiding actually works)
+
+1. **Server-side, always.** Gates are enforced in API routes and server pages — never CSS tricks a curious 19-year-old can bypass with view-source.
+2. **One entitlements table** (Postgres): user → tier, status (active / grace / floor), period end, Stripe customer + subscription ids. Session carries a short-lived signed snapshot; webhooks refresh it.
+3. **Metering in Redis** for the free limits (Catch Me Up count, clip count) — instant, cheap.
+4. **Teaser pattern** for gated pages: headline + opening + an honest labeled rope ("Pro continues here — here's why"). Never a surprise wall mid-read; never a fake "free article" counter.
+5. **SEO-safe** — gated pages serve lead content + Google's paywall structured data (`isAccessibleForFree: false`) so the archive ranks without cloaking penalties.
+6. **The House Lights protocol** — during a declared major civic emergency, the desk can flip one switch and the entire archive opens free until it passes. Newspapers drop paywalls for hurricanes; ours is a designed, logged, public action.
+
+## I-4 · The pricing page (`/subscribe`)
+
+Leads with what's free — a full list of everything TSR refuses to charge for, *before* the three tier cards. No countdown timers, no fake scarcity (the Founding cap is real scarcity, shown with the live count), no dark patterns. The page itself is a brand statement: this is what an honest paywall looks like.
+
+## I-5 · Setup the founder does (once, ~15 minutes, I'll walk you through it)
+
+Create the Stripe account → add the three prices → paste four env vars into Vercel (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, two price IDs) → flip Checkout from test mode to live. Everything else is code.
+
+---
+
+*Blueprint v2.2 · complete approved scope: Parts A–I.*
+*One row back. Full view. Founded at 21. The news is free; the depth is how it stays free.*
