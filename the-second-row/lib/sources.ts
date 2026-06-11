@@ -6,30 +6,39 @@
 // owner:  corroboration counts independent OWNERS, never domains (anti-gaming).
 // ---------------------------------------------------------------------------
 
+// lean: coarse newsroom-lean classification (L / C / R) used by the Lens, the
+// framing spectrum, and the Tilt Meter. The desk owns these labels; the
+// methodology note on /tilt explains they describe outlet POSITIONING, not
+// story truth. Sources: broadly consistent with public media-bias indices.
+export type Lean = "L" | "C" | "R";
+
 export interface FeedSource {
   name: string;
   owner: string;
   feed: string;
   weight: number;
+  lean: Lean;
 }
 
 export const ROSTER: FeedSource[] = [
-  { name: "NPR News",        owner: "NPR",            feed: "https://feeds.npr.org/1001/rss.xml", weight: 3 },
-  { name: "BBC World",       owner: "BBC",            feed: "https://feeds.bbci.co.uk/news/world/rss.xml", weight: 3 },
-  { name: "BBC US & Canada", owner: "BBC",            feed: "https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml", weight: 3 },
-  { name: "PBS NewsHour",    owner: "PBS",            feed: "https://www.pbs.org/newshour/feed/", weight: 3 },
-  { name: "The Guardian US", owner: "Guardian Media", feed: "https://www.theguardian.com/us-news/rss", weight: 2 },
-  { name: "Guardian World",  owner: "Guardian Media", feed: "https://www.theguardian.com/world/rss", weight: 2 },
-  { name: "NYT Home",        owner: "NYT Co",         feed: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml", weight: 2 },
-  { name: "NYT Politics",    owner: "NYT Co",         feed: "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml", weight: 2 },
-  { name: "Politico",        owner: "Axel Springer",  feed: "https://rss.politico.com/politics-news.xml", weight: 2 },
-  { name: "The Hill",        owner: "Nexstar",        feed: "https://thehill.com/news/feed/", weight: 2 },
-  { name: "Axios",           owner: "Cox",            feed: "https://api.axios.com/feed/", weight: 2 },
-  { name: "Fox News Politics", owner: "Fox Corp",     feed: "https://moxie.foxnews.com/google-publisher/politics.xml", weight: 2 },
-  { name: "NBC News",        owner: "Comcast",        feed: "https://feeds.nbcnews.com/nbcnews/public/news", weight: 2 },
-  { name: "ABC News",        owner: "Disney",         feed: "https://abcnews.go.com/abcnews/topstories", weight: 2 },
-  { name: "CBS News",        owner: "Paramount",      feed: "https://www.cbsnews.com/latest/rss/main", weight: 2 },
-  { name: "Al Jazeera",      owner: "Qatar Media",    feed: "https://www.aljazeera.com/xml/rss/all.xml", weight: 2 },
+  { name: "NPR News",        owner: "NPR",            feed: "https://feeds.npr.org/1001/rss.xml", weight: 3, lean: "C" },
+  { name: "BBC World",       owner: "BBC",            feed: "https://feeds.bbci.co.uk/news/world/rss.xml", weight: 3, lean: "C" },
+  { name: "BBC US & Canada", owner: "BBC",            feed: "https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml", weight: 3, lean: "C" },
+  { name: "PBS NewsHour",    owner: "PBS",            feed: "https://www.pbs.org/newshour/feed/", weight: 3, lean: "C" },
+  { name: "The Guardian US", owner: "Guardian Media", feed: "https://www.theguardian.com/us-news/rss", weight: 2, lean: "L" },
+  { name: "Guardian World",  owner: "Guardian Media", feed: "https://www.theguardian.com/world/rss", weight: 2, lean: "L" },
+  { name: "NYT Home",        owner: "NYT Co",         feed: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml", weight: 2, lean: "L" },
+  { name: "NYT Politics",    owner: "NYT Co",         feed: "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml", weight: 2, lean: "L" },
+  { name: "Politico",        owner: "Axel Springer",  feed: "https://rss.politico.com/politics-news.xml", weight: 2, lean: "C" },
+  { name: "The Hill",        owner: "Nexstar",        feed: "https://thehill.com/news/feed/", weight: 2, lean: "C" },
+  { name: "Axios",           owner: "Cox",            feed: "https://api.axios.com/feed/", weight: 2, lean: "C" },
+  { name: "Fox News Politics", owner: "Fox Corp",     feed: "https://moxie.foxnews.com/google-publisher/politics.xml", weight: 2, lean: "R" },
+  { name: "Washington Examiner", owner: "MediaDC",    feed: "https://www.washingtonexaminer.com/feed", weight: 1, lean: "R" },
+  { name: "NY Post",         owner: "News Corp",      feed: "https://nypost.com/news/feed/", weight: 1, lean: "R" },
+  { name: "NBC News",        owner: "Comcast",        feed: "https://feeds.nbcnews.com/nbcnews/public/news", weight: 2, lean: "L" },
+  { name: "ABC News",        owner: "Disney",         feed: "https://abcnews.go.com/abcnews/topstories", weight: 2, lean: "C" },
+  { name: "CBS News",        owner: "Paramount",      feed: "https://www.cbsnews.com/latest/rss/main", weight: 2, lean: "C" },
+  { name: "Al Jazeera",      owner: "Qatar Media",    feed: "https://www.aljazeera.com/xml/rss/all.xml", weight: 2, lean: "L" },
 ];
 
 // ---------------------------------------------------------------------------

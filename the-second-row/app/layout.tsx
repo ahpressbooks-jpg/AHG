@@ -8,45 +8,42 @@ export const metadata: Metadata = {
     template: "%s · The Second Row",
   },
   description:
-    "A live civic news board that re-ranks itself every 60 seconds — and shows its work on every rank. One row back. Full view.",
-  openGraph: {
-    siteName: "The Second Row",
-    type: "website",
-  },
+    "An independent news and media company. The live board re-ranks every 60 seconds by GRAVITY — and shows its work on every rank. One row back. Full view. Founded at 21.",
+  openGraph: { siteName: "The Second Row", type: "website" },
   twitter: { card: "summary_large_image" },
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#EDE6D8" },
-    { media: "(prefers-color-scheme: dark)", color: "#131D2B" },
+    { media: "(prefers-color-scheme: light)", color: "#FFFFFF" },
+    { media: "(prefers-color-scheme: dark)", color: "#10161F" },
   ],
 };
 
-// House Lights: Matinee by day, Evening Performance by night, reader override
-// wins. Runs before paint so the curtain never flickers.
+// House Lights: Daylight by day, Evening by night, reader override wins.
 const themeScript = `
 (function () {
   try {
     var saved = localStorage.getItem("tsr_theme");
+    if (saved === "matinee") saved = "daylight";
     var hour = new Date().getHours();
-    var auto = (hour >= 19 || hour < 7) ? "evening" : "matinee";
-    document.documentElement.setAttribute("data-theme", saved === "matinee" || saved === "evening" ? saved : auto);
+    var auto = (hour >= 20 || hour < 6) ? "evening" : "daylight";
+    document.documentElement.setAttribute("data-theme", saved === "daylight" || saved === "evening" ? saved : auto);
   } catch (e) {
-    document.documentElement.setAttribute("data-theme", "matinee");
+    document.documentElement.setAttribute("data-theme", "daylight");
   }
 })();
 `;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="matinee" suppressHydrationWarning>
+    <html lang="en" data-theme="daylight" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700;8..60,900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
           rel="stylesheet"
         />
       </head>
@@ -59,16 +56,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="wrap">
             <div className="footer-rows">
               <a href="/">The Wire</a>
-              <a href="/briefing">The Briefing</a>
+              <a href="/today">Today</a>
               <a href="/spin">The Spin Room</a>
               <a href="/ledger">The Ledger</a>
-              <a href="/method">The Method</a>
-              <a href="/about">The Seat</a>
+              <a href="/column">From the Second Row</a>
+              <a href="/company">The Company</a>
+            </div>
+            <div className="footer-rows">
+              <a href="/gravity">GRAVITY</a>
+              <a href="/tilt">The Tilt Meter</a>
+              <a href="/glass">The Glass Desk</a>
+              <a href="/rewind">The Rewind</a>
+              <a href="/toolkit">The Toolkit</a>
+              <a href="/course">Think for Yourself</a>
+              <a href="/room">The Room</a>
+              <a href="/founding">The Founding 500</a>
+              <a href="/subscribe">Subscribe</a>
+              <a href="/press">Press</a>
               <a href="/standards">Standards</a>
+              <a href="/method">Method</a>
+              <a href="/you">Your Seat</a>
             </div>
             <div>
-              THE SECOND ROW · an independent civic platform · one row back, full view.
-              Headlines link to their sources; the board shows its work.
+              THE SECOND ROW · an independent news &amp; media company · founded at 21 · one row
+              back, full view. The news is free; the depth is how it stays free. Headlines link to
+              their sources; the board shows its work; nothing you touched is ever lost.
             </div>
           </div>
         </footer>

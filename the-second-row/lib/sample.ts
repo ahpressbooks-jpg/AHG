@@ -10,6 +10,8 @@ import { BoardState, Story, Tier } from "./types";
 
 const ago = (now: Date, min: number) => new Date(now.getTime() - min * 60_000).toISOString();
 
+const LEANS: ("L" | "C" | "R")[] = ["C", "L", "R", "C", "L", "C"];
+
 function story(
   now: Date,
   id: string,
@@ -23,6 +25,16 @@ function story(
   spark: number[],
   beats: string[]
 ): Story {
+  const sources = owners.map((o, i) => ({
+    name: o,
+    owner: o,
+    url: "https://example.com/sample/" + id + "/" + i,
+    weight: i === 0 ? 3 : 2,
+    lean: LEANS[i % LEANS.length],
+    title: headline.replace("[SAMPLE] ", `[SAMPLE · ${o}] `),
+  }));
+  const spread = { L: 0, C: 0, R: 0 };
+  for (const s of sources) spread[s.lean]++;
   return {
     id,
     headline,
@@ -34,14 +46,10 @@ function story(
     seatedAt: ago(now, lastDevMin),
     firstSeen: ago(now, minsAgo),
     lastDev: ago(now, lastDevMin),
-    sources: owners.map((o, i) => ({
-      name: o,
-      owner: o,
-      url: "https://example.com/sample/" + id + "/" + i,
-      weight: i === 0 ? 3 : 2,
-    })),
+    sources,
     owners: owners.length,
     spark,
+    spread,
     workings: {
       corroboration: owners.length,
       corroborationDelta: tier === "FLASH" ? 4 : tier === "BULLETIN" ? 2 : 0,
@@ -50,6 +58,8 @@ function story(
       lastDev: ago(now, lastDevMin),
       maxSourceWeight: 3,
       beats,
+      consequence: tier === "FLASH" ? 9 : tier === "BULLETIN" ? 7 : 4,
+      power: tier === "FLASH" ? 8 : tier === "BULLETIN" ? 7 : 3,
       score,
     },
     history: [
