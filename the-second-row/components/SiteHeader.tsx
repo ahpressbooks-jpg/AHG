@@ -4,10 +4,12 @@ import ThemeToggle from "./ThemeToggle";
 
 const LINKS = [
   { href: "/", label: "The Wire" },
-  { href: "/briefing", label: "Briefing" },
+  { href: "/today", label: "Today" },
   { href: "/spin", label: "Spin Room" },
   { href: "/ledger", label: "Ledger" },
-  { href: "/about", label: "The Seat" },
+  { href: "/column", label: "Column" },
+  { href: "/company", label: "Company" },
+  { href: "/you", label: "Your Seat" },
 ];
 
 export default function SiteHeader({ current }: { current?: string }) {

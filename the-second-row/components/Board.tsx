@@ -2,11 +2,14 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { BoardState } from "@/lib/types";
+import { BoardState, Tier } from "@/lib/types";
 import House from "./House";
 import Mark from "./Mark";
+import Rail from "./Rail";
 import ThemeToggle from "./ThemeToggle";
 import { clock, Diff, diffBoards } from "./util";
+
+const RANK: Tier[] = ["FLASH", "BULLETIN", "URGENT", "DEVELOPING", "BRIEF"];
 
 const POLL_MS = 30_000;
 const SWEEP_MS = 60_000;
@@ -102,6 +105,7 @@ export default function Board({ initial, forceSample }: { initial: BoardState; f
   const [tickerOpen, setTickerOpen] = useState(false);
   const [legendOpen, setLegendOpen] = useState(false);
   const [wywa, setWywa] = useState<{ gapMin: number; diff: Diff } | null>(null);
+  const [movers, setMovers] = useState<{ up: string[]; down: string[] }>({ up: [], down: [] });
   const [polite, setPolite] = useState("");
   const [assertive, setAssertive] = useState("");
 
@@ -141,6 +145,16 @@ export default function Board({ initial, forceSample }: { initial: BoardState; f
     setEntering(new Set(next.stories.filter((s) => !prevIds.has(s.id)).map((s) => s.id)));
 
     const d = diffBoards(prev, next);
+    const prevTiers = new Map(prev.stories.map((s) => [s.id, s.tier]));
+    const up: string[] = [];
+    const down: string[] = [];
+    for (const s of next.stories) {
+      const was = prevTiers.get(s.id);
+      if (was && was !== s.tier) {
+        (RANK.indexOf(s.tier) < RANK.indexOf(was) ? up : down).push(s.id);
+      }
+    }
+    if (up.length || down.length) setMovers({ up, down });
     setBoard(next);
     queuedRef.current = null;
     setQueuedDiff(null);
@@ -438,11 +452,13 @@ export default function Board({ initial, forceSample }: { initial: BoardState; f
           </div>
         </div>
         <nav className="wrap masthead-nav" aria-label="Sections" style={{ paddingBottom: 8 }}>
-          <Link href="/briefing">Briefing</Link>
+          <Link href="/" aria-current="page">The Wire</Link>
+          <Link href="/today">Today</Link>
           <Link href="/spin">Spin Room</Link>
           <Link href="/ledger">Ledger</Link>
-          <Link href="/method">Method</Link>
-          <Link href="/about">The Seat</Link>
+          <Link href="/column">Column</Link>
+          <Link href="/company">Company</Link>
+          <Link href="/you">Your Seat</Link>
         </nav>
       </header>
 
@@ -453,14 +469,17 @@ export default function Board({ initial, forceSample }: { initial: BoardState; f
         </button>
       )}
 
-      {/* THE HOUSE */}
-      <House
-        board={board}
-        nowMs={nowMs}
-        openWorkings={openWorkings}
-        onToggleWorkings={setOpenWorkings}
-        entering={entering}
-      />
+      {/* THE HOUSE + THE PULSE RAIL */}
+      <div className="wrap wire-grid">
+        <House
+          board={board}
+          nowMs={nowMs}
+          openWorkings={openWorkings}
+          onToggleWorkings={setOpenWorkings}
+          entering={entering}
+        />
+        <Rail board={board} nowMs={nowMs} movers={movers} />
+      </div>
 
       {/* THE TICKER */}
       <div className="ticker" role="complementary" aria-label="The raw wire, unranked">
