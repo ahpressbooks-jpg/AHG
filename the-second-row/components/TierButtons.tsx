@@ -15,6 +15,11 @@ export function TierButtons({ live }: { live: boolean }) {
       });
       const data = await res.json();
       if (!res.ok) {
+        if (res.status === 401) {
+          setNote("One step first: take a seat (free) so your membership has a name. Sending you there…");
+          setTimeout(() => (window.location.href = "/you"), 1600);
+          return;
+        }
         setNote(data.error || "Checkout hiccuped.");
         return;
       }

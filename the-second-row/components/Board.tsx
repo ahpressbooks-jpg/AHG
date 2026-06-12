@@ -5,6 +5,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { BoardState, Tier } from "@/lib/types";
 import House from "./House";
 import Mark from "./Mark";
+import NavMenus from "./NavMenus";
 import Rail from "./Rail";
 import ThemeToggle from "./ThemeToggle";
 import { clock, Diff, diffBoards } from "./util";
@@ -451,15 +452,7 @@ export default function Board({ initial, forceSample }: { initial: BoardState; f
             <ThemeToggle />
           </div>
         </div>
-        <nav className="wrap masthead-nav" aria-label="Sections" style={{ paddingBottom: 8 }}>
-          <Link href="/" aria-current="page">The Wire</Link>
-          <Link href="/today">Today</Link>
-          <Link href="/spin">Spin Room</Link>
-          <Link href="/ledger">Ledger</Link>
-          <Link href="/column">Column</Link>
-          <Link href="/company">Company</Link>
-          <Link href="/you">Your Seat</Link>
-        </nav>
+        <NavMenus current="/" />
       </header>
 
       {/* THE PILL — the Reading Rule made visible */}
