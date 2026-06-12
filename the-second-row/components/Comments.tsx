@@ -137,7 +137,9 @@ export default function Comments({ target, resolved }: { target: string; resolve
     return (
       <div key={c.id} className="comment" style={{ marginLeft: depth ? 24 : 0 }}>
         <div className="comment-meta">
-          <span className="comment-name">{c.name}</span>
+          <span className="comment-name">
+            <a href={`/reader/${c.userId}`}>{c.name}</a>
+          </span>
           {c.tier === "founding" && <span className="comment-badge comment-badge--founding">Founding</span>}
           <span className={`comment-badge comment-badge--${c.certainty.toLowerCase()}`}>{c.certainty}</span>
           {c.sealed && <span className="comment-badge comment-badge--sealed">{sealedShut ? "SEALED TAKE" : "SEAL OPENED"}</span>}

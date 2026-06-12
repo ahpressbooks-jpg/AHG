@@ -3,6 +3,7 @@ import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import { YouActions } from "@/components/YouActions";
 import { YourTilt } from "@/components/YourTilt";
+import ProfileEditor from "@/components/ProfileEditor";
 import { isPaid, sessionUser } from "@/lib/auth";
 import { getClips, getFollows, judgmentScore, userCalls, userComments } from "@/lib/records";
 
@@ -59,6 +60,7 @@ export default async function YouPage() {
         </div>
 
         <YouActions signedIn={true} paid={paid} />
+        <ProfileEditor />
         <YourTilt />
 
         <h2>Your clippings</h2>
