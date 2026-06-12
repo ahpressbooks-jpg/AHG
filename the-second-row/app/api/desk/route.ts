@@ -164,6 +164,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true });
   }
 
+  // ---- the House Lights protocol --------------------------------------------
+  if (action === "houseLights") {
+    const { getHouseLights, setHouseLights } = await import("@/lib/ops");
+    const on = !(await getHouseLights());
+    await setHouseLights(on);
+    return NextResponse.json({
+      ok: true,
+      applied: on
+        ? "HOUSE LIGHTS UP — every archive rope is open, free, in public"
+        : "House lights down — the ropes are restored",
+    });
+  }
+
   // ---- board overrides (v1 surface, unchanged semantics) ---------------------------
   const { storyId, tier } = body as { storyId?: string; tier?: Tier };
   if (!storyId) return NextResponse.json({ error: "storyId required" }, { status: 400 });
@@ -224,6 +237,12 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   if (!authed(req)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const { moderationQueue, recentCalls } = await import("@/lib/records");
-  const [queue, calls, ledger] = await Promise.all([moderationQueue(), recentCalls(50), deskCalls()]);
-  return NextResponse.json({ queue, readerCalls: calls.filter((c) => !c.result), ledger });
+  const { getHouseLights } = await import("@/lib/ops");
+  const [queue, calls, ledger, lights] = await Promise.all([
+    moderationQueue(),
+    recentCalls(50),
+    deskCalls(),
+    getHouseLights(),
+  ]);
+  return NextResponse.json({ queue, readerCalls: calls.filter((c) => !c.result), ledger, lights });
 }

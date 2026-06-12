@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BoardState, Story } from "@/lib/types";
 import { ageLabel, clockShort, DEPTH, inkStep } from "./util";
 
@@ -127,6 +127,32 @@ function CaptureRow() {
         </form>
       )}
     </div>
+  );
+}
+
+// The caught-up streak: the loyalty program is leaving. Browser-local only.
+function Streak() {
+  const [n, setN] = useState<number>(0);
+  useEffect(() => {
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      const yesterday = new Date(Date.now() - 86400_000).toISOString().slice(0, 10);
+      const raw = localStorage.getItem("tsr_streak");
+      const s: { last: string; n: number } = raw ? JSON.parse(raw) : { last: "", n: 0 };
+      if (s.last === today) {
+        setN(s.n);
+        return;
+      }
+      const next = { last: today, n: s.last === yesterday ? s.n + 1 : 1 };
+      localStorage.setItem("tsr_streak", JSON.stringify(next));
+      setN(next.n);
+    } catch {}
+  }, []);
+  if (n < 2) return null;
+  return (
+    <p className="mono" style={{ marginTop: 10, fontSize: "0.66rem", letterSpacing: "0.1em", color: "var(--verdict)", textTransform: "uppercase" }}>
+      ■ caught-up streak: {n} days — rewarded for finishing, not lingering
+    </p>
   );
 }
 
@@ -256,6 +282,7 @@ export default function House({
           That was everything carrying real gravity right now. The board will hold your seat —
           go live your life. Below is the Lobby: lighter wire traffic, honestly labeled.
         </p>
+        <Streak />
       </div>
 
       {/* THE LOBBY — casual news, never pretending to be the front page */}

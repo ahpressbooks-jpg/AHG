@@ -17,6 +17,7 @@ export default function DeskPage() {
   const [queue, setQueue] = useState<Comment[]>([]);
   const [readerCalls, setReaderCalls] = useState<ReaderCall[]>([]);
   const [ledger, setLedger] = useState<DeskCall[]>([]);
+  const [lights, setLights] = useState(false);
   const [busy, setBusy] = useState(false);
 
   // publish form
@@ -56,6 +57,7 @@ export default function DeskPage() {
         setQueue(data.queue ?? []);
         setReaderCalls(data.readerCalls ?? []);
         setLedger(data.ledger ?? []);
+        setLights(Boolean(data.lights));
         setAuthed(true);
       }
     } catch {}
@@ -102,12 +104,22 @@ export default function DeskPage() {
           <button type="submit" disabled={busy}>{busy ? "…" : "Open the desk"}</button>
         </form>
       ) : (
-        <div className="seg" role="group" aria-label="Desk sections" style={{ margin: "10px 0" }}>
-          {seg("board", "Board")}
-          {seg("queue", "Queue", queue.length)}
-          {seg("publish", "Publish")}
-          {seg("ledger", "Ledger", readerCalls.length)}
-          {seg("note", "Note")}
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center", margin: "10px 0" }}>
+          <div className="seg" role="group" aria-label="Desk sections">
+            {seg("board", "Board")}
+            {seg("queue", "Queue", queue.length)}
+            {seg("publish", "Publish")}
+            {seg("ledger", "Ledger", readerCalls.length)}
+            {seg("note", "Note")}
+          </div>
+          <button
+            className="btn-instrument"
+            aria-pressed={lights}
+            title="The House Lights protocol: during a major civic emergency, every archive rope opens free — logged in public."
+            onClick={() => api({ action: "houseLights" }).then(refresh)}
+          >
+            {lights ? "🔆 House lights UP" : "House lights"}
+          </button>
         </div>
       )}
       {msg && <p className="mono" style={{ color: "var(--maroon-row)" }}>{msg}</p>}

@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
-import { foundingWall, listLen } from "@/lib/glassdata";
+import { foundingWall } from "@/lib/glassdata";
+import { getStats } from "@/lib/ops";
 
 export const metadata: Metadata = { title: "The Glass Desk", description: "Open books: the company's real numbers, published. Show the work — applied to ourselves." };
 export const dynamic = "force-dynamic";
 
 export default async function GlassPage() {
   const { founding, seats, users, sweeps } = await foundingWall();
+  const { proActive } = await getStats();
+  const mrr = proActive * 8 + Math.round((founding * 200) / 12);
 
   return (
     <>
@@ -27,7 +30,7 @@ export default async function GlassPage() {
           <div className="card"><span className="stat"><span className="stat-num">{seats}</span><span className="stat-label">on the free list</span></span></div>
           <div className="card"><span className="stat"><span className="stat-num">{founding}</span><span className="stat-label">founding members of 500</span></span></div>
           <div className="card"><span className="stat"><span className="stat-num">{sweeps}</span><span className="stat-label">board sweeps logged</span></span></div>
-          <div className="card"><span className="stat"><span className="stat-num">$0</span><span className="stat-label">revenue — till opens at launch; Stripe totals publish here automatically</span></span></div>
+          <div className="card"><span className="stat"><span className="stat-num">${mrr}/mo</span><span className="stat-label">≈ recurring revenue · {proActive} Pro + {founding} Founding · live from Stripe events</span></span></div>
           <div className="card"><span className="stat"><span className="stat-num">~$45/mo</span><span className="stat-label">running costs at launch scale (hosting + data) — itemized monthly</span></span></div>
         </div>
 

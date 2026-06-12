@@ -377,7 +377,7 @@ export async function runSweep(force = false): Promise<BoardState> {
       const { date, hour } = deskDateParts(now);
       if (hour >= 7 && !(await getEdition(date))) {
         const note = await getNote();
-        await saveEdition({
+        const edition = {
           date,
           number: await nextEditionNumber(),
           frozenAt: now.toISOString(),
@@ -386,7 +386,10 @@ export async function runSweep(force = false): Promise<BoardState> {
             .slice(0, 12)
             .map((s) => ({ id: s.id, headline: s.headline, tier: s.tier, score: s.score, url: s.url })),
           note: note?.text,
-        });
+        };
+        await saveEdition(edition);
+        const { sendMorningEdition } = await import("./ops");
+        await sendMorningEdition(edition);
       }
     } catch (e: any) {
       errors.push(`record: ${e?.message || "failed"}`);

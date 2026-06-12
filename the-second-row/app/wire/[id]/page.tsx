@@ -2,7 +2,9 @@ import Link from "next/link";
 import Comments from "@/components/Comments";
 import SiteHeader from "@/components/SiteHeader";
 import { ActionBar, DepthDial, Lens } from "@/components/StoryActions";
+import { TiltLogger } from "@/components/YourTilt";
 import { FREE_LIMITS, isPaid, sessionUser } from "@/lib/auth";
+import { getHouseLights } from "@/lib/ops";
 import { getArchived, storyCalls } from "@/lib/records";
 import { loadBoard } from "@/lib/store";
 
@@ -37,8 +39,10 @@ export default async function StoryDossier({ params }: { params: Promise<{ id: s
   }
 
   // The Velvet Rope: the archive beyond 30 days is Pro. Today's news is free.
+  // The House Lights protocol overrides every rope during a declared emergency.
+  const lights = await getHouseLights();
   const ageDays = (Date.now() - new Date(story.lastDev).getTime()) / 86400_000;
-  const roped = !onBoard && ageDays > FREE_LIMITS.archiveDays && !paid;
+  const roped = !onBoard && ageDays > FREE_LIMITS.archiveDays && !paid && !lights;
 
   const resolved = Boolean(story.resolution && story.resolution.state !== "ONGOING");
   const calls = await storyCalls(id);
@@ -69,6 +73,7 @@ export default async function StoryDossier({ params }: { params: Promise<{ id: s
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <SiteHeader />
+      {!roped && <TiltLogger id={story.id} L={story.spread?.L ?? 0} C={story.spread?.C ?? 0} R={story.spread?.R ?? 0} />}
       <div className="wrap wrap--reading page">
         <div className="page-kicker">
           Dossier · {story.tier} · GRAVITY {story.score} · {story.certainty}
