@@ -811,3 +811,39 @@ html[data-theme="evening"] .ticker { background: #0a0f16; color: var(--ink); }
   .navdd-menu { position: fixed; left: 12px; right: 12px; min-width: 0; }
   .nav-account .navdd-menu { left: 12px; right: 12px; }
 }
+
+/* ---------------------------------------------------------------- mobile v3 fixes */
+
+/* The Rail leads on phones — the card dashboard belongs at the top, not the basement. */
+@media (max-width: 1019px) {
+  .rail { order: -1; }
+  .rail-card { min-width: 78vw; }
+}
+
+@media (max-width: 720px) {
+  /* Header scrolls away on phones — reading room beats chrome. */
+  .masthead { position: static; }
+  .masthead-inner { padding: 8px 0; gap: 10px; }
+  .instruments { gap: 6px; }
+  .sweepline { display: none; } /* the Rail's timer card carries this on mobile */
+  .btn-instrument { padding: 4px 8px; font-size: 0.58rem; }
+  .pill { top: 12px; }
+
+  /* Tables become scrollable panes instead of breaking the page. */
+  .page table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* iOS zoom guard: form fields must be ≥16px. */
+  input, textarea, select { font-size: 16px !important; }
+
+  .depth-dial { flex-wrap: wrap; }
+  .lens-track { flex-wrap: wrap; }
+  .lens-track button { min-width: 33%; }
+  .overlay { padding: 14px; align-items: flex-end; }
+  .overlay-card { padding: 20px; }
+  .stage-hed { font-size: clamp(1.55rem, 7.5vw, 2.2rem); }
+  .page h1 { font-size: clamp(1.7rem, 8vw, 2.4rem); }
+  .comment-form-row { gap: 8px; }
+  .seg { flex-wrap: wrap; }
+  .capture-form { flex-direction: column; }
+  .capture-form button { width: 100%; }
+}

@@ -18,12 +18,18 @@ import {
   archiveStory,
   getEdition,
   getNote,
+  getPost,
   nextEditionNumber,
   pushSnapshot,
   saveEdition,
+  saveNote,
+  savePost,
 } from "./records";
+import { SEED_NOTE, SEED_POSTS } from "./seedContent";
 import {
   acquireSweepLock,
+  kvGet,
+  kvSet,
   loadBoard,
   loadOverrides,
   releaseSweepLock,
@@ -75,6 +81,18 @@ function deskDateParts(now: Date): { date: string; hour: number } {
   return { date: `${parts.year}-${parts.month}-${parts.day}`, hour: Number(parts.hour) };
 }
 
+/** The paste pipeline: publish seeded content once, idempotently. */
+async function ensureSeeded(): Promise<void> {
+  if (SEED_POSTS.length === 0 && !SEED_NOTE) return;
+  const sig = SEED_POSTS.map((p) => p.slug).join(",") + "|" + SEED_NOTE.length;
+  if ((await kvGet("tsr:seeded")) === sig) return;
+  for (const p of SEED_POSTS) {
+    if (!(await getPost(p.slug))) await savePost(p);
+  }
+  if (SEED_NOTE && !(await getNote())) await saveNote(SEED_NOTE);
+  await kvSet("tsr:seeded", sig);
+}
+
 /**
  * THE SWEEP — the 60-second loop, GRAVITY edition.
  * Detect → resolve → triage → seat → publish, then feed the Permanent
@@ -94,6 +112,7 @@ export async function runSweep(force = false): Promise<BoardState> {
   const errors: string[] = [];
 
   try {
+    await ensureSeeded().catch(() => {});
     const overrides = await loadOverrides();
 
     // ---- Tier 0 · detect -------------------------------------------------

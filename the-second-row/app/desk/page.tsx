@@ -19,6 +19,7 @@ export default function DeskPage() {
   const [ledger, setLedger] = useState<DeskCall[]>([]);
   const [lights, setLights] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [unconfigured, setUnconfigured] = useState(false);
 
   // publish form
   const [post, setPost] = useState({ slug: "", title: "", dek: "", body: "", kind: "column" });
@@ -37,6 +38,7 @@ export default function DeskPage() {
       if (!res.ok) {
         setMsg(data.error || "Failed.");
         if (res.status === 401) setAuthed(false);
+        if (res.status === 501) setUnconfigured(true);
         return null;
       }
       if (data.applied) setMsg(data.applied);
@@ -98,6 +100,20 @@ export default function DeskPage() {
         Every intervention writes itself into the public record. <Link href="/">← the house</Link>
       </p>
 
+      {unconfigured && (
+        <div className="rope" style={{ marginTop: 16 }}>
+          <div className="rope-kicker">One-time setup · 2 minutes</div>
+          <p>
+            The Control Room needs its key. In <strong>Vercel</strong>: your project →{" "}
+            <strong>Settings → Environment Variables</strong> → add{" "}
+            <span className="mono">DESK_PASSWORD</span> with a strong password (and{" "}
+            <span className="mono">AUTH_SECRET</span> with any long random string while you&apos;re
+            there) → <strong>Save</strong> → go to <strong>Deployments</strong> → ⋯ on the latest →{" "}
+            <strong>Redeploy</strong>. Come back here, enter the password, and the desk is yours —
+            publish, moderate, run the board. Nobody without the password ever sees this room work.
+          </p>
+        </div>
+      )}
       {!authed ? (
         <form onSubmit={login} className="capture-form" style={{ marginTop: 20 }}>
           <input type="password" value={pw} onChange={(e) => setPw(e.target.value)} placeholder="Desk password" aria-label="Desk password" />
@@ -198,7 +214,12 @@ export default function DeskPage() {
             }
           }}
         >
-          <p className="mono">FROM THE SECOND ROW — write in paragraphs; start a paragraph with [FACT] [POLICY] [OPINION] [QUESTION] [THINKING] to chip it; ## for headings.</p>
+          <p className="mono">
+            FROM THE SECOND ROW — write in paragraphs; start a paragraph with [FACT] [POLICY]
+            [OPINION] [QUESTION] [THINKING] to chip it; ## for headings. Prefer pasting drafts to
+            Claude in chat? They land in <span style={{ color: "var(--pulse)" }}>lib/seedContent.ts</span>{" "}
+            and publish themselves on deploy — same format.
+          </p>
           <div className="comment-form-row" style={{ marginTop: 0 }}>
             <input className="input" placeholder="slug-like-this" value={post.slug} onChange={(e) => setPost({ ...post, slug: e.target.value })} />
             <select className="btn-instrument" value={post.kind} onChange={(e) => setPost({ ...post, kind: e.target.value })}>
