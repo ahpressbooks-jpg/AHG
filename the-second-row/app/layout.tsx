@@ -78,6 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a href="/standards">Standards</a>
               <a href="/method">Method</a>
               <a href="/you">Your Seat</a>
+              <a href="/desk">The Desk</a>
             </div>
             <div>
               THE SECOND ROW · an independent news &amp; media company · founded at 21 · one row
