@@ -86,7 +86,7 @@ export default async function LedgerPage() {
               {leaderboard.map((e, i) => (
                 <tr key={e.id}>
                   <td className="mono">{i + 1}</td>
-                  <td>{e.name}</td>
+                  <td><Link href={`/reader/${e.id}`}>{e.name}</Link></td>
                   <td className="mono">{e.score > 0 ? `+${e.score}` : e.score}</td>
                   <td className="mono"><span className="ledger-hit">{e.hits}H</span> · <span className="ledger-miss">{e.misses}M</span> · {e.open} open</td>
                 </tr>

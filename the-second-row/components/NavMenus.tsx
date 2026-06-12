@@ -38,7 +38,7 @@ const MENUS: { label: string; href: string; items: [string, string][] }[] = [
   },
 ];
 
-type Me = { name: string; tier: string; paid: boolean } | null;
+type Me = { name: string; tier: string; paid: boolean; seatColor?: string } | null;
 
 export default function NavMenus({ current }: { current?: string }) {
   const [open, setOpen] = useState<string | null>(null);
@@ -117,6 +117,7 @@ export default function NavMenus({ current }: { current?: string }) {
             <div className="navdd nav-account" data-open={open === "me"}>
               <button
                 className="avatar"
+                style={me.seatColor ? { background: me.seatColor } : undefined}
                 aria-label={`Your seat — ${me.name}`}
                 aria-expanded={open === "me"}
                 aria-haspopup="true"

@@ -14,6 +14,9 @@ export async function GET() {
       paid: isPaid(user),
       foundingNumber: user.foundingNumber,
       verified: user.verified,
+      bio: user.bio ?? "",
+      seatColor: user.seatColor ?? "#8A1F35",
+      publicProfile: user.publicProfile !== false,
     },
   });
 }

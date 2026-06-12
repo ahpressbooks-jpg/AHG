@@ -113,9 +113,12 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  bio?: string; // the seat plate — one line, shown on the public profile
+  seatColor?: string; // avatar color, from the fixed palette (never orange)
+  publicProfile?: boolean; // default true; false = the seat keeps to itself
   tier: UserTier;
   foundingNumber?: number;
-  verified: boolean; // true once a magic link has been clicked
+  verified: boolean;
   createdAt: string;
   stripeCustomerId?: string;
   stripeSubscriptionId?: string;

@@ -847,3 +847,13 @@ html[data-theme="evening"] .ticker { background: #0a0f16; color: var(--ink); }
   .capture-form { flex-direction: column; }
   .capture-form button { width: 100%; }
 }
+
+/* ---------------------------------------------------------------- profiles */
+
+.avatar--big { width: 64px; height: 64px; font-size: 1.5rem; flex-shrink: 0; }
+.profile-head { display: flex; gap: 18px; align-items: center; margin: 14px 0 6px; }
+.swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+.swatch { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--line-strong); cursor: pointer; padding: 0; }
+.swatch[aria-pressed="true"] { outline: 3px solid var(--pulse); outline-offset: 2px; }
+.comment-name a { color: inherit; text-decoration: none; }
+.comment-name a:hover { color: var(--pulse); text-decoration: underline; }
