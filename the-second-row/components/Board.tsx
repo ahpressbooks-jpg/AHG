@@ -8,6 +8,7 @@ import Mark from "./Mark";
 import NavMenus from "./NavMenus";
 import Rail from "./Rail";
 import ThemeToggle from "./ThemeToggle";
+import Tour from "./Tour";
 import { clock, Diff, diffBoards } from "./util";
 
 const RANK: Tier[] = ["FLASH", "BULLETIN", "URGENT", "DEVELOPING", "BRIEF"];
@@ -104,7 +105,6 @@ export default function Board({ initial, forceSample }: { initial: BoardState; f
   const [newsroom, setNewsroom] = useState(false);
   const [openWorkings, setOpenWorkings] = useState<string | null>(null);
   const [tickerOpen, setTickerOpen] = useState(false);
-  const [legendOpen, setLegendOpen] = useState(false);
   const [wywa, setWywa] = useState<{ gapMin: number; diff: Diff } | null>(null);
   const [movers, setMovers] = useState<{ up: string[]; down: string[] }>({ up: [], down: [] });
   const [polite, setPolite] = useState("");
@@ -376,27 +376,12 @@ export default function Board({ initial, forceSample }: { initial: BoardState; f
         window.scrollTo({ top: 0, behavior: "smooth" });
         if (queuedRef.current) applyBoard(queuedRef.current);
       } else if (e.key === "Enter" && document.activeElement?.hasAttribute("data-rowlink")) {
-        // native link behavior — open the source
-      } else if (e.key === "?") {
-        setLegendOpen(true);
+        // native link behavior — open the dossier; "?" is handled by the Tour
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [applyBoard]);
-
-  // ---- first-visit legend --------------------------------------------------------------
-  useEffect(() => {
-    try {
-      if (!localStorage.getItem("tsr_legend")) setLegendOpen(true);
-    } catch {}
-  }, []);
-  const closeLegend = () => {
-    setLegendOpen(false);
-    try {
-      localStorage.setItem("tsr_legend", "1");
-    } catch {}
-  };
 
   const toggleNewsroom = () => {
     if (!soundsRef.current) soundsRef.current = makeSounds();
@@ -537,39 +522,8 @@ export default function Board({ initial, forceSample }: { initial: BoardState; f
         </div>
       )}
 
-      {/* FIRST-VISIT LEGEND */}
-      {legendOpen && (
-        <div className="overlay" role="dialog" aria-modal="true" aria-label="How to read the house">
-          <div className="overlay-card">
-            <div className="overlay-kicker">How to read the house</div>
-            <h2 className="overlay-title">You&apos;re seated one row back. You can see everything.</h2>
-            <div className="legend-rows">
-              <div className="legend-row">
-                <span className="legend-bar" style={{ width: 44, background: "var(--orange)" }} />
-                <span><strong>FLASH</strong> — takes the stage. Orange appears for this and nothing else.</span>
-              </div>
-              <div className="legend-row">
-                <span className="legend-bar" style={{ width: 38, background: "var(--maroon-row)" }} />
-                <span><strong>BULLETIN</strong> — the maroon row with the dots. The top of the house.</span>
-              </div>
-              <div className="legend-row">
-                <span className="legend-bar" style={{ width: 30, background: "var(--ink)" }} />
-                <span><strong>URGENT</strong> · <strong>DEVELOPING</strong> · <strong>BRIEF</strong> — rows recede as priority falls; ink fades as stories age.</span>
-              </div>
-              <div className="legend-row">
-                <span className="legend-bar" style={{ width: 22, background: "var(--slate)" }} />
-                <span>The board re-checks the wire every 60 seconds. It never re-seats while you&apos;re reading — changes wait in a pill until you&apos;re ready. Every rank can show its work: tap any tier chip.</span>
-              </div>
-            </div>
-            <div className="overlay-body" style={{ marginTop: 8 }}>
-              Desk keys: <strong>J/K</strong> walk the rows · <strong>T</strong> ticker · <strong>H</strong> hold · <strong>.</strong> newest · <strong>?</strong> this card
-            </div>
-            <div className="overlay-actions">
-              <button className="btn" onClick={closeLegend}>Take your seat</button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* THE TOUR — new here? */}
+      <Tour />
 
       {/* screen-reader announcements */}
       <div aria-live="polite" className="visually-hidden">{polite}</div>
