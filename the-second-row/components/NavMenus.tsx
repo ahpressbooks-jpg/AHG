@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import Mark from "./Mark";
 
 // NAV v3 — the six mains with dropdowns, the profile spot, and the Go Pro
 // button. Used by both the Wire's masthead and every other page's header.
@@ -158,6 +159,15 @@ export default function NavMenus({ current }: { current?: string }) {
             </Link>
           </>
         ))}
+      <Link
+        href="/desk"
+        className="nav-signin"
+        title="The Desk — the owner's room (password required)"
+        aria-label="The Desk — owner sign-in"
+        style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 10px" }}
+      >
+        <Mark size={18} /> Desk
+      </Link>
     </nav>
   );
 }

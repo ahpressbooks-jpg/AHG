@@ -1,23 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Mark from "@/components/Mark";
 import { BoardState, Comment, DeskCall, ReaderCall, Tier } from "@/lib/types";
 
 const TIERS: Tier[] = ["FLASH", "BULLETIN", "URGENT", "DEVELOPING", "BRIEF"];
-type Tab = "board" | "queue" | "publish" | "ledger" | "note";
+type Tab = "overview" | "board" | "queue" | "publish" | "ledger" | "note";
 
 export default function DeskPage() {
   const [authed, setAuthed] = useState(false);
   const [pw, setPw] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
-  const [tab, setTab] = useState<Tab>("board");
+  const [tab, setTab] = useState<Tab>("overview");
   const [board, setBoard] = useState<BoardState | null>(null);
   const [queue, setQueue] = useState<Comment[]>([]);
   const [readerCalls, setReaderCalls] = useState<ReaderCall[]>([]);
   const [ledger, setLedger] = useState<DeskCall[]>([]);
   const [lights, setLights] = useState(false);
+  const [stats, setStats] = useState<any>(null);
+  const [sweepLog, setSweepLog] = useState<any[]>([]);
+  const [recentSeats, setRecentSeats] = useState<any[]>([]);
+  const [editions, setEditions] = useState<string[]>([]);
+  const [boardCount, setBoardCount] = useState(0);
+  const [topic, setTopic] = useState("");
+  const [anotes, setAnotes] = useState("");
+  const [abusy, setAbusy] = useState(false);
+  const noteLoaded = useRef(false);
   const [busy, setBusy] = useState(false);
   const [unconfigured, setUnconfigured] = useState(false);
 
@@ -60,6 +69,15 @@ export default function DeskPage() {
         setReaderCalls(data.readerCalls ?? []);
         setLedger(data.ledger ?? []);
         setLights(Boolean(data.lights));
+        setStats(data.stats ?? null);
+        setSweepLog(data.sweepLog ?? []);
+        setRecentSeats(data.recentSeats ?? []);
+        setEditions(data.editions ?? []);
+        setBoardCount(data.boardCount ?? 0);
+        if (!noteLoaded.current && data.note) {
+          setNote(data.note);
+          noteLoaded.current = true;
+        }
         setAuthed(true);
       }
     } catch {}
@@ -122,12 +140,16 @@ export default function DeskPage() {
       ) : (
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center", margin: "10px 0" }}>
           <div className="seg" role="group" aria-label="Desk sections">
+            {seg("overview", "Overview")}
             {seg("board", "Board")}
             {seg("queue", "Queue", queue.length)}
             {seg("publish", "Publish")}
             {seg("ledger", "Ledger", readerCalls.length)}
             {seg("note", "Note")}
           </div>
+          <a className="btn-instrument" href="/desk/prompter" title="The Prompter — anchor mode for recording">
+            🎙 Prompter
+          </a>
           <button
             className="btn-instrument"
             aria-pressed={lights}
@@ -139,6 +161,50 @@ export default function DeskPage() {
         </div>
       )}
       {msg && <p className="mono" style={{ color: "var(--maroon-row)" }}>{msg}</p>}
+
+      {authed && tab === "overview" && (
+        <div>
+          <div className="cards cards--3">
+            <div className="card"><span className="stat"><span className="stat-num">{stats?.users ?? 0}</span><span className="stat-label">accounts (seats taken)</span></span></div>
+            <div className="card"><span className="stat"><span className="stat-num">{stats?.seats ?? 0}</span><span className="stat-label">free email list</span></span></div>
+            <div className="card"><span className="stat"><span className="stat-num">{stats?.founding ?? 0}<small style={{fontSize:"0.9rem",color:"var(--slate)"}}>/500</small></span><span className="stat-label">founding members</span></span></div>
+            <div className="card"><span className="stat"><span className="stat-num">${(stats?.proActive ?? 0) * 8 + Math.round(((stats?.founding ?? 0) * 200) / 12)}/mo</span><span className="stat-label">≈ recurring revenue</span></span></div>
+            <div className="card"><span className="stat"><span className="stat-num">{boardCount}</span><span className="stat-label">stories seated now</span></span></div>
+            <div className="card"><span className="stat"><span className="stat-num">{queue.length + readerCalls.length}</span><span className="stat-label">needs you: {queue.length} comments · {readerCalls.length} calls</span></span></div>
+          </div>
+
+          <h2 style={{ fontFamily: "var(--serif)" }}>Sweep health</h2>
+          <table>
+            <thead><tr><th>When</th><th>What happened</th><th>ms</th><th>Errors</th></tr></thead>
+            <tbody>
+              {sweepLog.map((l: any, i: number) => (
+                <tr key={i}>
+                  <td className="mono">{new Date(l.at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</td>
+                  <td className="mono">{l.line}</td>
+                  <td className="mono">{l.ms}</td>
+                  <td className="mono" style={{ color: l.errors ? "var(--maroon-row)" : "var(--slate)" }}>{l.errors ? l.errors.join(" · ").slice(0, 60) : "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div className="cards">
+            <div className="card">
+              <div className="card-kicker">Latest seats on the free list</div>
+              {recentSeats.length === 0 ? <p className="mono">None yet.</p> : recentSeats.map((s: any, i: number) => (
+                <p key={i} className="mono" style={{ margin: 0 }}>{s.email} <span style={{ color: "var(--slate)" }}>· {new Date(s.at).toLocaleDateString([], { month: "short", day: "numeric" })}</span></p>
+              ))}
+            </div>
+            <div className="card">
+              <div className="card-kicker">Morning Editions</div>
+              {editions.length === 0 ? <p className="mono">First edition freezes at 7 a.m.</p> : editions.map((d) => (
+                <p key={d} className="mono" style={{ margin: 0 }}><a href={`/edition/${d}`}>№ {d} →</a></p>
+              ))}
+              <div className="card-foot">Quick moves: <a href="/desk/prompter">open the Prompter</a> · <a href="/tilt">check the Tilt</a> · <a href="/glass">the Glass Desk</a></div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {authed && tab === "board" && board && (
         <table>
@@ -220,6 +286,26 @@ export default function DeskPage() {
             Claude in chat? They land in <span style={{ color: "var(--pulse)" }}>lib/seedContent.ts</span>{" "}
             and publish themselves on deploy — same format.
           </p>
+          <div style={{ border: "1px dashed var(--line-strong)", borderRadius: 8, padding: "12px 14px", marginBottom: 12 }}>
+            <p className="mono" style={{ margin: "0 0 8px", fontSize: "0.64rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--pulse)" }}>
+              ✍ The writing desk — give it a topic and your bullets; it drafts in the house voice, tags included. You edit, you sign.
+            </p>
+            <div className="comment-form-row" style={{ marginTop: 0 }}>
+              <input className="input" placeholder="Topic — e.g. 'the appropriations framework, what actually changed'" value={topic} onChange={(e) => setTopic(e.target.value)} style={{ width: "100%" }} />
+            </div>
+            <textarea style={{ minHeight: 90 }} placeholder={"Your raw notes / bullets (optional):\n- vote was 68-31\n- riders deferred, not dead\n- my read: postponement both sides can survive"} value={anotes} onChange={(e) => setAnotes(e.target.value)} />
+            <div className="comment-form-row">
+              <button type="button" className="btn btn--small" disabled={abusy} onClick={async () => {
+                setAbusy(true);
+                const d = await api({ action: "assist", topic, notes: anotes, kind: post.kind });
+                setAbusy(false);
+                if (d) {
+                  setPost({ ...post, title: d.title, dek: d.dek, body: d.body, slug: post.slug || d.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) });
+                  setMsg("Draft on the desk — edit hard, verify every [FACT], then publish.");
+                }
+              }}>{abusy ? "Drafting…" : "Draft it with me"}</button>
+            </div>
+          </div>
           <div className="comment-form-row" style={{ marginTop: 0 }}>
             <input className="input" placeholder="slug-like-this" value={post.slug} onChange={(e) => setPost({ ...post, slug: e.target.value })} />
             <select className="btn-instrument" value={post.kind} onChange={(e) => setPost({ ...post, kind: e.target.value })}>
