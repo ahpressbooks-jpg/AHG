@@ -71,6 +71,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a href="/course">Think for Yourself</a>
               <a href="/room">The Room</a>
               <a href="/founding">The Founding 500</a>
+              <a href="/third-act">The Third Act</a>
+              <a href="/search">Search</a>
               <a href="/subscribe">Subscribe</a>
               <a href="/press">Press</a>
               <a href="/standards">Standards</a>

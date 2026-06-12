@@ -50,6 +50,17 @@ export function YouActions({ signedIn, paid }: { signedIn: boolean; paid: boolea
     }
   };
 
+  const gift = async () => {
+    setNote(null);
+    try {
+      const res = await fetch("/api/gift", { method: "POST" });
+      const data = await res.json();
+      setNote(res.ok ? `THE SECOND SEAT — code ${data.code}. ${data.note}` : data.error || "Gifting hiccuped.");
+    } catch {
+      setNote("Network hiccup.");
+    }
+  };
+
   if (!signedIn) {
     return (
       <div className="comment-form" style={{ maxWidth: 520 }}>
@@ -71,6 +82,7 @@ export function YouActions({ signedIn, paid }: { signedIn: boolean; paid: boolea
     <div style={{ display: "flex", gap: 8, flexWrap: "wrap", margin: "16px 0" }}>
       {!paid && <a className="btn btn--maroon btn--small" href="/subscribe">Go deeper — Pro</a>}
       {paid && <button className="btn btn--ghost btn--small" onClick={portal}>Billing &amp; invoices</button>}
+      {paid && <button className="btn btn--ghost btn--small" onClick={gift} title="One free month of Pro for one person — the seat next to you.">Gift a seat</button>}
       <a className="btn btn--ghost btn--small" href="/api/export" download>Download everything (JSON)</a>
       <button className="btn btn--ghost btn--small" onClick={logout}>Sign out</button>
       {note && <p className="capture-note" style={{ width: "100%" }}>{note}</p>}

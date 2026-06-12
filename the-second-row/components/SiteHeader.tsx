@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getHouseLights } from "@/lib/ops";
 import Mark from "./Mark";
 import ThemeToggle from "./ThemeToggle";
 
@@ -12,9 +13,27 @@ const LINKS = [
   { href: "/you", label: "Your Seat" },
 ];
 
-export default function SiteHeader({ current }: { current?: string }) {
+export default async function SiteHeader({ current }: { current?: string }) {
+  const lights = await getHouseLights().catch(() => false);
   return (
     <header className="masthead">
+      {lights && (
+        <div
+          className="mono"
+          style={{
+            background: "var(--verdict)",
+            color: "#fff",
+            fontFamily: "var(--mono)",
+            fontSize: "0.64rem",
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            textAlign: "center",
+            padding: "5px 10px",
+          }}
+        >
+          House lights up — major civic emergency: the entire archive is open, free, for everyone.
+        </div>
+      )}
       <div className="wrap masthead-inner">
         <Link href="/" className="masthead-brand" aria-label="The Second Row — home">
           <Mark size={30} />

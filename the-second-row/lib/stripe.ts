@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { bumpStat } from "./ops";
 import { addFounding, getUser, saveUser } from "./records";
 import { User } from "./types";
 
@@ -107,6 +108,7 @@ export async function handleStripeEvent(event: any): Promise<string> {
       const entry = await addFounding(user.name);
       user.foundingNumber = entry.number;
     }
+    if (user.tier === "pro") await bumpStat("pro_act");
     await saveUser(user);
     return `seated ${user.tier}`;
   }
@@ -119,6 +121,7 @@ export async function handleStripeEvent(event: any): Promise<string> {
     const status: string = obj?.status ?? "";
     if (type === "customer.subscription.deleted" || status === "canceled" || status === "unpaid") {
       // Downgrade, never delete: clippings, comments, scores all keep.
+      if (user.tier === "pro") await bumpStat("churn");
       user.tier = "floor";
       user.subscriptionStatus = "canceled";
     } else if (status === "past_due") {

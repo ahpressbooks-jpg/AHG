@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
 import { YouActions } from "@/components/YouActions";
+import { YourTilt } from "@/components/YourTilt";
 import { isPaid, sessionUser } from "@/lib/auth";
 import { getClips, getFollows, judgmentScore, userCalls, userComments } from "@/lib/records";
 
@@ -25,6 +26,7 @@ export default async function YouPage() {
             ticket.
           </p>
           <YouActions signedIn={false} paid={false} />
+          <YourTilt />
         </div>
       </>
     );
@@ -57,6 +59,7 @@ export default async function YouPage() {
         </div>
 
         <YouActions signedIn={true} paid={paid} />
+        <YourTilt />
 
         <h2>Your clippings</h2>
         {clips.length === 0 ? <p className="mono">Empty drawer. The ✂ Clip button lives on every dossier.</p> : (
