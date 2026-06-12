@@ -164,6 +164,53 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true });
   }
 
+  // ---- the writing desk: help drafting pieces in the house voice -------------
+  if (action === "assist") {
+    const key = process.env.ANTHROPIC_API_KEY;
+    if (!key) {
+      return NextResponse.json(
+        { error: "The writing desk needs ANTHROPIC_API_KEY in Vercel env — add it and redeploy." },
+        { status: 501 }
+      );
+    }
+    const topic = String(body?.topic ?? "").slice(0, 300);
+    const notes = String(body?.notes ?? "").slice(0, 4000);
+    const kind = ["column", "steelman", "note"].includes(body?.kind) ? body.kind : "column";
+    if (!topic) return NextResponse.json({ error: "Give the desk a topic." }, { status: 400 });
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "x-api-key": key, "anthropic-version": "2023-06-01", "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: process.env.WRITER_MODEL || "claude-sonnet-4-6",
+          max_tokens: 2000,
+          system:
+            "You are the writing desk of The Second Row — an independent civic news platform founded by a 21-year-old. " +
+            "Voice: plain, direct, first person, zero purple prose, no tribal framing, intellectually honest, occasionally dry. " +
+            "Discipline: every paragraph that makes a claim starts with one tag: [FACT] [POLICY] [OPINION] [QUESTION] or [THINKING]. " +
+            "Facts you are not certain of must be tagged [QUESTION] or flagged for the editor to verify — never invent specifics. " +
+            (kind === "steelman"
+              ? "Format: a Steelman Saturday — present BOTH sides of the argument at their strongest before any verdict. "
+              : kind === "note"
+                ? "Format: a short signed morning note, under 150 words. "
+                : "Format: a column, 400-700 words, with ## section headings. ") +
+            "Output exactly: first line 'TITLE: …', second line 'DEK: …' (one-sentence summary), blank line, then the body."
+        ,
+          messages: [{ role: "user", content: `Topic: ${topic}\n\nThe desk's raw notes/bullets (treat as source material, expand honestly):\n${notes || "(none — draft from the topic alone, conservatively)"}` }],
+        }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const text: string = data?.content?.[0]?.text ?? "";
+      const title = text.match(/^TITLE:\s*(.+)$/m)?.[1]?.trim() ?? topic;
+      const dek = text.match(/^DEK:\s*(.+)$/m)?.[1]?.trim() ?? "";
+      const bodyText = text.replace(/^TITLE:.*$/m, "").replace(/^DEK:.*$/m, "").trim();
+      return NextResponse.json({ ok: true, title, dek, body: bodyText });
+    } catch (e: any) {
+      return NextResponse.json({ error: `Writing desk hiccup: ${e?.message || "failed"}` }, { status: 502 });
+    }
+  }
+
   // ---- the House Lights protocol --------------------------------------------
   if (action === "houseLights") {
     const { getHouseLights, setHouseLights } = await import("@/lib/ops");
@@ -236,13 +283,43 @@ export async function POST(req: NextRequest) {
 /** Desk data fetch (moderation queue etc.) — same auth. */
 export async function GET(req: NextRequest) {
   if (!authed(req)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-  const { moderationQueue, recentCalls } = await import("@/lib/records");
-  const { getHouseLights } = await import("@/lib/ops");
-  const [queue, calls, ledger, lights] = await Promise.all([
-    moderationQueue(),
-    recentCalls(50),
-    deskCalls(),
-    getHouseLights(),
-  ]);
-  return NextResponse.json({ queue, readerCalls: calls.filter((c) => !c.result), ledger, lights });
+  const { moderationQueue, recentCalls, editionDates } = await import("@/lib/records");
+  const { getHouseLights, getStats } = await import("@/lib/ops");
+  const { foundingWall } = await import("@/lib/glassdata");
+  const { listRange, loadBoard } = await import("@/lib/store");
+  const [queue, calls, ledger, lights, glass, stripeStats, board, seatsRaw, editions, note] =
+    await Promise.all([
+      moderationQueue(),
+      recentCalls(50),
+      deskCalls(),
+      getHouseLights(),
+      foundingWall(),
+      getStats(),
+      loadBoard(),
+      listRange("tsr:seats", -8, -1),
+      editionDates(5),
+      (await import("@/lib/records")).getNote(),
+    ]);
+  const recentSeats = seatsRaw
+    .map((r) => {
+      try {
+        return JSON.parse(r);
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean)
+    .reverse();
+  return NextResponse.json({
+    queue,
+    readerCalls: calls.filter((c) => !c.result),
+    ledger,
+    lights,
+    stats: { ...glass, proActive: stripeStats.proActive },
+    sweepLog: board?.log?.slice(0, 8) ?? [],
+    boardCount: board?.stories.length ?? 0,
+    recentSeats,
+    editions,
+    note: note?.text ?? "",
+  });
 }
