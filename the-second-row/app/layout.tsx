@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import ToolkitBanner from "@/components/ToolkitBanner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to the board
         </a>
         {children}
+        <ToolkitBanner />
         <footer className="footer">
           <div className="wrap">
             <div className="footer-rows">
