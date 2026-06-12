@@ -21,7 +21,23 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "bad target" }, { status: 400 });
   }
   const user = await sessionUser();
-  const comments = await commentsFor(target, user?.id);
+  let comments = await commentsFor(target, user?.id);
+
+  // Sealed takes stay sealed SERVER-SIDE until the story resolves — the text
+  // never leaves the building early, not even via the API.
+  if (target.startsWith("story:")) {
+    const id = target.slice(6);
+    const { loadBoard } = await import("@/lib/store");
+    const { getArchived } = await import("@/lib/records");
+    const board = await loadBoard();
+    const story = board?.stories.find((s) => s.id === id) ?? (await getArchived(id));
+    const resolved = Boolean(story?.resolution && story.resolution.state !== "ONGOING");
+    if (!resolved) {
+      comments = comments.map((c) =>
+        c.sealed && c.userId !== user?.id ? { ...c, text: "", steelman: undefined } : c
+      );
+    }
+  }
   return NextResponse.json({ comments });
 }
 

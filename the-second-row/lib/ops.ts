@@ -1,4 +1,4 @@
-import { getJSON, kvGet, kvSet, listPush, listRange, setJSON } from "./store";
+import { kvGet, kvIncr, kvSet, listRange } from "./store";
 
 // ---------------------------------------------------------------------------
 // The Morning Edition email + the House Lights protocol + Stripe counters.
@@ -13,7 +13,6 @@ export async function setHouseLights(on: boolean): Promise<void> {
 }
 
 export async function bumpStat(key: "pro_act" | "churn"): Promise<void> {
-  const { kvIncr } = await import("./store");
   await kvIncr(`tsr:stats:${key}`);
 }
 
