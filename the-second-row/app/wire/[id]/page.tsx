@@ -1,9 +1,12 @@
 import Link from "next/link";
+import ArgumentMap from "@/components/ArgumentMap";
 import Comments from "@/components/Comments";
+import GlossaryLens from "@/components/GlossaryLens";
 import SiteHeader from "@/components/SiteHeader";
 import { ActionBar, DepthDial, Lens } from "@/components/StoryActions";
 import { TiltLogger } from "@/components/YourTilt";
 import { FREE_LIMITS, isPaid, sessionUser } from "@/lib/auth";
+import { getArgMap } from "@/lib/extras";
 import { getHouseLights } from "@/lib/ops";
 import { getArchived, storyCalls } from "@/lib/records";
 import { loadBoard } from "@/lib/store";
@@ -46,6 +49,7 @@ export default async function StoryDossier({ params }: { params: Promise<{ id: s
 
   const resolved = Boolean(story.resolution && story.resolution.state !== "ONGOING");
   const calls = await storyCalls(id);
+  const argmap = await getArgMap(id);
   const w = story.workings;
 
   const jsonLd = {
@@ -111,7 +115,7 @@ export default async function StoryDossier({ params }: { params: Promise<{ id: s
             <DepthDial
               ten={
                 <p className="lede">
-                  {story.excerpt || "The headline is the story so far — corroboration is still arriving."}
+                  <GlossaryLens text={story.excerpt || "The headline is the story so far — corroboration is still arriving."} />
                 </p>
               }
               minute={
@@ -127,6 +131,12 @@ export default async function StoryDossier({ params }: { params: Promise<{ id: s
               }
               five={
                 <>
+                  {argmap && (
+                    <>
+                      <h2>The argument, mapped</h2>
+                      <ArgumentMap map={argmap} />
+                    </>
+                  )}
                   <h2>The Lens</h2>
                   <Lens sources={story.sources} />
                   <h2>Every rank it held</h2>
