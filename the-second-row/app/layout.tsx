@@ -65,15 +65,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a href="/company">The Company</a>
             </div>
             <div className="footer-rows">
+              <a href="/weather">Civic Weather</a>
+              <a href="/board-read">The Board Read</a>
               <a href="/gravity">GRAVITY</a>
               <a href="/tilt">The Tilt Meter</a>
               <a href="/glass">The Glass Desk</a>
               <a href="/rewind">The Rewind</a>
+              <a href="/third-act">The Third Act</a>
+              <a href="/documents">Documents</a>
+              <a href="/assignment-desk">Assignment Desk</a>
+              <a href="/seasons">Judgment Seasons</a>
+              <a href="/predictions-night">Predictions Night</a>
               <a href="/toolkit">The Toolkit</a>
+              <a href="/glossary">The Glossary</a>
+              <a href="/classroom">Classroom</a>
               <a href="/course">Think for Yourself</a>
               <a href="/room">The Room</a>
+              <a href="/widget">Embed the board</a>
               <a href="/founding">The Founding 500</a>
-              <a href="/third-act">The Third Act</a>
               <a href="/search">Search</a>
               <a href="/subscribe">Subscribe</a>
               <a href="/press">Press</a>

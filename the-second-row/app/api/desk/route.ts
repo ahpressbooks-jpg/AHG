@@ -211,6 +211,54 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // ---- the innovative layer: assignments, argument maps, documents, predictions
+  if (action === "createAssignment") {
+    const { createAssignment } = await import("@/lib/extras");
+    const a = await createAssignment(String(body?.question ?? "").slice(0, 200), String(body?.detail ?? "").slice(0, 600), Number(body?.goal) || 25);
+    return NextResponse.json({ ok: true, applied: `Assignment posted: ${a.question}` });
+  }
+  if (action === "publishAssignment") {
+    const { updateAssignment } = await import("@/lib/extras");
+    await updateAssignment(String(body?.id ?? ""), { status: "published", resultSlug: String(body?.slug ?? "") || undefined });
+    return NextResponse.json({ ok: true, applied: "Assignment marked published." });
+  }
+  if (action === "saveArgMap") {
+    const { saveArgMap } = await import("@/lib/extras");
+    const storyId = String(body?.storyId ?? "");
+    if (!storyId) return NextResponse.json({ error: "storyId required" }, { status: 400 });
+    await saveArgMap({
+      storyId,
+      claim: String(body?.claim ?? "").slice(0, 300),
+      forPts: (Array.isArray(body?.forPts) ? body.forPts : String(body?.forPts ?? "").split("\n")).map((x: string) => x.trim()).filter(Boolean).slice(0, 6),
+      againstPts: (Array.isArray(body?.againstPts) ? body.againstPts : String(body?.againstPts ?? "").split("\n")).map((x: string) => x.trim()).filter(Boolean).slice(0, 6),
+      verdict: body?.verdict ? String(body.verdict).slice(0, 500) : undefined,
+      at: now,
+    });
+    return NextResponse.json({ ok: true, applied: "Argument map saved to the story." });
+  }
+  if (action === "saveDoc") {
+    const { saveDoc } = await import("@/lib/extras");
+    const d = body?.doc ?? {};
+    const slug = String(d.slug ?? "").toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-").slice(0, 80);
+    if (!slug || !d.title) return NextResponse.json({ error: "slug and title required" }, { status: 400 });
+    await saveDoc({
+      slug,
+      title: String(d.title).slice(0, 200),
+      kind: ["bill", "ruling", "order", "report"].includes(d.kind) ? d.kind : "bill",
+      summary: String(d.summary ?? "").slice(0, 600),
+      sourceUrl: d.sourceUrl ? String(d.sourceUrl).slice(0, 400) : undefined,
+      blocks: (Array.isArray(d.blocks) ? d.blocks : []).slice(0, 40).map((b: any) => ({ quote: String(b.quote ?? "").slice(0, 2000), note: b.note ? String(b.note).slice(0, 1000) : undefined, tag: b.tag })),
+      at: now,
+    });
+    return NextResponse.json({ ok: true, applied: `Document saved: /document/${slug}` });
+  }
+  if (action === "togglePredictions") {
+    const { predictionsState, setPredictions } = await import("@/lib/extras");
+    const s = await predictionsState();
+    await setPredictions(!s.open);
+    return NextResponse.json({ ok: true, applied: s.open ? "Predictions Night closed." : "Predictions Night is OPEN — the room can seal year-ahead takes." });
+  }
+
   // ---- the House Lights protocol --------------------------------------------
   if (action === "houseLights") {
     const { getHouseLights, setHouseLights } = await import("@/lib/ops");
