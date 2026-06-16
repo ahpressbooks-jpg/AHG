@@ -344,7 +344,7 @@ export async function GET(req: NextRequest) {
       foundingWall(),
       getStats(),
       loadBoard(),
-      listRange("tsr:seats", -8, -1),
+      listRange("tsr:seats", 0, 9), // newest-first (listPush prepends)
       editionDates(5),
       (await import("@/lib/records")).getNote(),
     ]);
@@ -356,8 +356,7 @@ export async function GET(req: NextRequest) {
         return null;
       }
     })
-    .filter(Boolean)
-    .reverse();
+    .filter(Boolean);
   return NextResponse.json({
     queue,
     readerCalls: calls.filter((c) => !c.result),

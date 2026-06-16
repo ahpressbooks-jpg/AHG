@@ -20,11 +20,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "That address doesn't parse." }, { status: 400 });
   }
   const where = await saveSeat(email);
-  return NextResponse.json({
-    ok: true,
-    note:
-      where === "stored"
+  const note =
+    where === "dup"
+      ? "You're already on the list — seat's saved."
+      : where === "stored"
         ? "Seat saved. The briefing email launches soon — you're on the founding list."
-        : "Seat noted. (No database attached yet — connect Redis to persist the list.)",
-  });
+        : "Seat noted. (No database attached yet — connect Redis to persist the list.)";
+  return NextResponse.json({ ok: true, note });
 }

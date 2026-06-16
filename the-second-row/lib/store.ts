@@ -41,7 +41,6 @@ const g = globalThis as any;
 g.__tsr = g.__tsr || {
   board: null,
   overrides: {},
-  seats: [],
   lockUntil: 0,
   kv: new Map<string, string>(),
   lists: new Map<string, string[]>(),
@@ -199,15 +198,15 @@ export async function saveOverrides(o: DeskOverrides): Promise<void> {
   }
 }
 
-export async function saveSeat(email: string): Promise<"stored" | "memory"> {
-  if (redisCreds()) {
-    try {
-      await redis(["RPUSH", SEATS_KEY, JSON.stringify({ email, at: new Date().toISOString() })]);
-      return "stored";
-    } catch {}
-  }
-  g.__tsr.seats.push({ email, at: new Date().toISOString() });
-  return "memory";
+export async function saveSeat(email: string): Promise<"stored" | "memory" | "dup"> {
+  const e = email.toLowerCase();
+  // Dedupe: one seat per address — no double counting, no double emailing.
+  if (await kvGet(`tsr:seatseen:${e}`)) return hasDurableStore() ? "stored" : "dup";
+  await kvSet(`tsr:seatseen:${e}`, "1");
+  // Write through the shared list helper so memory and Redis stay consistent
+  // and every reader (listLen/listRange) sees the same data.
+  await listPush(SEATS_KEY, JSON.stringify({ email: e, at: new Date().toISOString() }), 100000);
+  return hasDurableStore() ? "stored" : "memory";
 }
 
 export async function acquireSweepLock(ttlSec = 50): Promise<boolean> {
