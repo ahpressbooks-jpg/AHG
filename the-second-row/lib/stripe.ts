@@ -59,6 +59,33 @@ export async function createCheckout(user: User, price: PriceKey, baseUrl: strin
   return session.url;
 }
 
+/**
+ * Embedded Checkout: returns a client_secret that mounts Stripe's payment
+ * form ON our own page (no redirect). mode: "subscription" with the real
+ * Price IDs — the snippet's mode:"payment" would have charged once and never
+ * renewed. The webhook remains the source of truth for granting access.
+ */
+export async function createEmbeddedCheckout(user: User, price: PriceKey, baseUrl: string): Promise<string> {
+  const pid = priceId(price);
+  if (!pid) throw new Error(`Price not configured: ${price}`);
+  const params: Record<string, string> = {
+    ui_mode: "embedded",
+    mode: "subscription",
+    "line_items[0][price]": pid,
+    "line_items[0][quantity]": "1",
+    return_url: `${baseUrl}/you?welcome=1&session_id={CHECKOUT_SESSION_ID}`,
+    "metadata[uid]": user.id,
+    "metadata[price]": price,
+    "subscription_data[metadata][uid]": user.id,
+    "subscription_data[metadata][price]": price,
+    allow_promotion_codes: "true",
+  };
+  if (user.stripeCustomerId) params.customer = user.stripeCustomerId;
+  else params.customer_email = user.email;
+  const session = await stripe("checkout/sessions", params);
+  return session.client_secret;
+}
+
 export async function createPortal(user: User, baseUrl: string): Promise<string> {
   if (!user.stripeCustomerId) throw new Error("No billing on file yet.");
   const session = await stripe("billing_portal/sessions", {

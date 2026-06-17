@@ -1,14 +1,26 @@
 "use client";
 
 import { useState } from "react";
+import TierCheckout, { hasPublishableKey } from "./TierCheckout";
 
 export function TierButtons({ live }: { live: boolean }) {
   const [note, setNote] = useState<string | null>(null);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [busy, setBusy] = useState<string | null>(null);
 
   const buy = async (price: string) => {
     setNote(null);
+    if (!live) {
+      setNote("Payments open at launch — the tiers are real, the till isn't plugged in yet.");
+      return;
+    }
+    if (!hasPublishableKey()) {
+      setNote("Almost — add NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY (pk_…) in Vercel env and redeploy.");
+      return;
+    }
+    setBusy(price);
     try {
-      const res = await fetch("/api/stripe/checkout", {
+      const res = await fetch("/api/stripe/embed", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ price }),
@@ -23,9 +35,11 @@ export function TierButtons({ live }: { live: boolean }) {
         setNote(data.error || "Checkout hiccuped.");
         return;
       }
-      window.location.href = data.url;
+      setClientSecret(data.clientSecret);
     } catch {
       setNote("Network hiccup — try again.");
+    } finally {
+      setBusy(null);
     }
   };
 
@@ -58,8 +72,12 @@ export function TierButtons({ live }: { live: boolean }) {
             <li>The full briefing email</li>
             <li>One gift month to give (the Second Seat)</li>
           </ul>
-          <button className="btn btn--maroon" onClick={() => buy("pro_month")}>Pro monthly — $8</button>
-          <button className="btn btn--ghost" onClick={() => buy("pro_year")}>Pro yearly — $80</button>
+          <button className="btn btn--maroon" disabled={busy === "pro_month"} onClick={() => buy("pro_month")}>
+            {busy === "pro_month" ? "Opening…" : "Pro monthly — $8"}
+          </button>
+          <button className="btn btn--ghost" disabled={busy === "pro_year"} onClick={() => buy("pro_year")}>
+            {busy === "pro_year" ? "Opening…" : "Pro yearly — $80"}
+          </button>
         </div>
 
         <div className="tier">
@@ -74,16 +92,19 @@ export function TierButtons({ live }: { live: boolean }) {
             <li>Two gift months · maroon mark on comments</li>
             <li>Price locked forever</li>
           </ul>
-          <button className="btn" onClick={() => buy("founding")}>Take a founding seat</button>
+          <button className="btn" disabled={busy === "founding"} onClick={() => buy("founding")}>
+            {busy === "founding" ? "Opening…" : "Take a founding seat"}
+          </button>
         </div>
       </div>
       {!live && (
         <p className="capture-note">
           Payments open at launch — the tiers are real, the till isn&apos;t plugged in yet. (Owner:
-          add the four Stripe keys and this page goes live unchanged.)
+          add the Stripe keys + NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY and this page goes live unchanged.)
         </p>
       )}
       {note && <p className="capture-note">{note}</p>}
+      {clientSecret && <TierCheckout clientSecret={clientSecret} onClose={() => setClientSecret(null)} />}
     </>
   );
 }
