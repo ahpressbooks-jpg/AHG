@@ -919,3 +919,64 @@ html[data-theme="evening"] .ticker { background: #0a0f16; color: var(--ink); }
 @media (min-width: 760px) { .doc-row { grid-template-columns: 1.1fr 0.9fr; gap: 22px; } }
 .doc-quote { margin: 0; font-family: var(--mono); font-size: 0.82rem; line-height: 1.7; color: var(--ink-1); border-left: 3px solid var(--line-strong); padding-left: 14px; }
 .doc-note { font-family: var(--sans); font-size: 0.9rem; color: var(--ink); align-self: start; }
+
+/* ---------------------------------------------------------------- juneteenth banner */
+.jt-banner {
+  position: relative;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 4vw, 36px);
+  width: 100%;
+  padding: clamp(16px, 4vw, 30px) 52px;
+  background: linear-gradient(90deg, #C8102E 0%, #111315 42%, #111315 58%, #046A38 100%);
+  color: #fff;
+  text-align: center;
+  border-bottom: 3px solid #E8B100;
+}
+.jt-text { display: flex; flex-direction: column; gap: 4px; }
+.jt-title {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: clamp(1.5rem, 6vw, 3rem);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: #FCE9B8;
+}
+.jt-sub {
+  font-family: var(--mono);
+  font-size: clamp(0.56rem, 2vw, 0.72rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.88);
+}
+.jt-flag {
+  width: clamp(18px, 5vw, 30px);
+  height: clamp(18px, 5vw, 30px);
+  flex-shrink: 0;
+  background: #E8B100;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+.jt-flag--r { transform: scaleX(-1); }
+@media (max-width: 600px) { .jt-flag { display: none; } }
+.jt-close {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+.jt-close:hover { background: rgba(255, 255, 255, 0.3); }
+@media (prefers-reduced-motion: no-preference) {
+  .jt-banner { animation: jtin 500ms var(--ease); }
+  @keyframes jtin { from { opacity: 0; transform: translateY(-100%); } }
+}

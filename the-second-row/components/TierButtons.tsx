@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import TierCheckout, { hasPublishableKey } from "./TierCheckout";
 
+// Hosted Checkout: tap → Stripe's secure page → back to /you. No publishable
+// key, no embedded packages on the path. The webhook grants access.
 export function TierButtons({ live }: { live: boolean }) {
   const [note, setNote] = useState<string | null>(null);
-  const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
 
   const buy = async (price: string) => {
@@ -14,13 +14,9 @@ export function TierButtons({ live }: { live: boolean }) {
       setNote("Payments open at launch — the tiers are real, the till isn't plugged in yet.");
       return;
     }
-    if (!hasPublishableKey()) {
-      setNote("Almost — add NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY (pk_…) in Vercel env and redeploy.");
-      return;
-    }
     setBusy(price);
     try {
-      const res = await fetch("/api/stripe/embed", {
+      const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ price }),
@@ -35,7 +31,7 @@ export function TierButtons({ live }: { live: boolean }) {
         setNote(data.error || "Checkout hiccuped.");
         return;
       }
-      setClientSecret(data.clientSecret);
+      window.location.href = data.url; // off to Stripe's hosted page
     } catch {
       setNote("Network hiccup — try again.");
     } finally {
@@ -100,11 +96,10 @@ export function TierButtons({ live }: { live: boolean }) {
       {!live && (
         <p className="capture-note">
           Payments open at launch — the tiers are real, the till isn&apos;t plugged in yet. (Owner:
-          add the Stripe keys + NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY and this page goes live unchanged.)
+          add the Stripe keys and this page goes live unchanged.)
         </p>
       )}
       {note && <p className="capture-note">{note}</p>}
-      {clientSecret && <TierCheckout clientSecret={clientSecret} onClose={() => setClientSecret(null)} />}
     </>
   );
 }
