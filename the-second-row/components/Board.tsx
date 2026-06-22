@@ -437,7 +437,7 @@ export default function Board({ initial, forceSample }: { initial: BoardState; f
             <ThemeToggle />
           </div>
         </div>
-        <NavMenus current="/" />
+        <NavMenus current="/wire" />
       </header>
 
       {/* THE PILL — the Reading Rule made visible */}

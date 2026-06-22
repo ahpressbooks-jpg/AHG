@@ -1,78 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import Mark from "./Mark";
-
-// NAV v3 — the six mains with dropdowns, the profile spot, and the Go Pro
-// button. Used by both the Wire's masthead and every other page's header.
-
-const MENUS: { label: string; href: string; items: [string, string][] }[] = [
-  {
-    label: "The Wire",
-    href: "/",
-    items: [
-      ["The Civic Weather — today as a forecast", "/weather"],
-      ["The Board Read — listen", "/board-read"],
-      ["Search the record", "/search"],
-      ["The Rewind — replay the board", "/rewind"],
-      ["The Third Act — how stories ended", "/third-act"],
-      ["Documents — sources, annotated", "/documents"],
-    ],
-  },
-  { label: "Today", href: "/today", items: [] },
-  { label: "Spin Room", href: "/spin", items: [] },
-  {
-    label: "Ledger",
-    href: "/ledger",
-    items: [
-      ["Judgment Seasons — the tournament", "/seasons"],
-      ["Predictions Night — the annual seal", "/predictions-night"],
-    ],
-  },
-  { label: "Column", href: "/column", items: [] },
-  {
-    label: "Company",
-    href: "/company",
-    items: [
-      ["GRAVITY — the algorithm", "/gravity"],
-      ["The Tilt Meter", "/tilt"],
-      ["The Glass Desk — open books", "/glass"],
-      ["The Assignment Desk — you direct it", "/assignment-desk"],
-      ["The Toolkit — free primers", "/toolkit"],
-      ["The Glossary", "/glossary"],
-      ["Think for Yourself — the course", "/course"],
-      ["Classroom mode", "/classroom"],
-      ["The Room — live events", "/room"],
-      ["Embed the board", "/widget"],
-      ["The Founding 500", "/founding"],
-      ["Press kit", "/press"],
-      ["Standards", "/standards"],
-      ["The Method", "/method"],
-    ],
-  },
-];
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { DESKS, TOPICS } from "@/lib/desks";
 
 type Me = { name: string; tier: string; paid: boolean; seatColor?: string } | null;
 
+// NAV v3 — a two-tier publication masthead. Row 1: the desks (bold section
+// nav). Row 2: topic chips (utility) + the account cluster. Replaces the
+// dropdown system with section-front logic.
 export default function NavMenus({ current }: { current?: string }) {
-  const [open, setOpen] = useState<string | null>(null);
   const [me, setMe] = useState<Me | undefined>(undefined);
-  const ref = useRef<HTMLElement>(null);
+  const pathname = usePathname();
+  const here = current ?? pathname ?? "/";
 
   useEffect(() => {
     fetch("/api/me", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => setMe(d?.user ?? null))
       .catch(() => setMe(null));
-  }, []);
-
-  useEffect(() => {
-    const close = (e: PointerEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(null);
-    };
-    document.addEventListener("pointerdown", close);
-    return () => document.removeEventListener("pointerdown", close);
   }, []);
 
   const signOut = async () => {
@@ -84,104 +31,65 @@ export default function NavMenus({ current }: { current?: string }) {
     window.location.reload();
   };
 
+  const isCurrent = (href: string) => (href === "/" ? here === "/" : here.startsWith(href));
+
   return (
-    <nav className="wrap navbar" aria-label="Sections" ref={ref as any}>
-      {MENUS.map((m) => (
-        <div key={m.href} className="navdd" data-open={open === m.href}>
-          {m.items.length === 0 ? (
-            <Link className="navdd-top" href={m.href} aria-current={current === m.href ? "page" : undefined}>
-              {m.label}
-            </Link>
-          ) : (
-            <>
-              <button
-                className="navdd-top"
-                aria-current={current === m.href ? "page" : undefined}
-                aria-expanded={open === m.href}
-                aria-haspopup="true"
-                onClick={() => setOpen(open === m.href ? null : m.href)}
-              >
-                {m.label} <span className="navdd-caret">▾</span>
-              </button>
-              <div className="navdd-menu" role="menu">
-                <Link href={m.href} role="menuitem" onClick={() => setOpen(null)}>
-                  {m.label} — the main page
-                </Link>
-                <div className="navdd-section">Inside</div>
-                {m.items.map(([label, href]) => (
-                  <Link key={href} href={href} role="menuitem" onClick={() => setOpen(null)}>
-                    {label}
-                  </Link>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      ))}
-
-      <span className="nav-spacer" />
-
-      {me !== undefined &&
-        (me ? (
-          <>
-            {!me.paid && (
-              <Link className="nav-join" href="/subscribe">
-                Go Pro
-              </Link>
-            )}
-            <div className="navdd nav-account" data-open={open === "me"}>
-              <button
-                className="avatar"
-                style={me.seatColor ? { background: me.seatColor } : undefined}
-                aria-label={`Your seat — ${me.name}`}
-                aria-expanded={open === "me"}
-                aria-haspopup="true"
-                onClick={() => setOpen(open === "me" ? null : "me")}
-              >
-                {me.name.slice(0, 1).toUpperCase()}
-              </button>
-              <div className="navdd-menu" role="menu">
-                <div className="navdd-section">
-                  {me.name} · {me.tier === "founding" ? "Founding" : me.tier === "pro" ? "Pro" : "The Floor"}
-                </div>
-                <Link href="/you" role="menuitem" onClick={() => setOpen(null)}>
-                  Your Seat — profile, clippings, calls
-                </Link>
-                <Link href="/subscribe" role="menuitem" onClick={() => setOpen(null)}>
-                  {me.paid ? "Your membership" : "Become a member"}
-                </Link>
-                <a
-                  href="#"
-                  role="menuitem"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    signOut();
-                  }}
-                >
-                  Sign out
-                </a>
-              </div>
-            </div>
-          </>
-        ) : (
-          <>
-            <Link className="nav-signin" href="/you">
-              Sign in
-            </Link>
-            <Link className="nav-join" href="/subscribe">
-              Become a member
-            </Link>
-          </>
+    <div className="nav2">
+      <nav className="wrap nav2-desks" aria-label="Desks">
+        {DESKS.map((d) => (
+          <Link key={d.href} href={d.href} aria-current={isCurrent(d.href) ? "page" : undefined} title={d.blurb}>
+            {d.label}
+          </Link>
         ))}
-      <Link
-        href="/desk"
-        className="nav-signin"
-        title="The Desk — the owner's room (password required)"
-        aria-label="The Desk — owner sign-in"
-        style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "4px 10px" }}
-      >
-        <Mark size={18} /> Desk
-      </Link>
-    </nav>
+      </nav>
+      <div className="wrap nav2-topics">
+        <span className="nt-label">Topics</span>
+        {TOPICS.map((t) => (
+          <Link key={t.slug} href={`/topic/${t.slug}`} style={{ ["--nt-accent" as any]: t.accent }}>
+            {t.label}
+          </Link>
+        ))}
+        <div className="nav2-acct">
+          <Link className="topic" href="/search" style={{ ["--tc" as any]: "var(--slate)" }} aria-label="Search">
+            Search
+          </Link>
+          {me !== undefined &&
+            (me ? (
+              <>
+                {!me.paid && (
+                  <Link className="nav-join" href="/subscribe">
+                    Go Pro
+                  </Link>
+                )}
+                <Link
+                  className="avatar"
+                  href="/you"
+                  style={me.seatColor ? { background: me.seatColor } : undefined}
+                  aria-label={`Your seat — ${me.name}`}
+                >
+                  {me.name.slice(0, 1).toUpperCase()}
+                </Link>
+                <button
+                  onClick={signOut}
+                  className="topic"
+                  style={{ ["--tc" as any]: "var(--slate)", background: "none", border: "none", cursor: "pointer" }}
+                  aria-label="Sign out"
+                >
+                  Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link className="nav-signin" href="/you">
+                  Sign in
+                </Link>
+                <Link className="nav-join" href="/subscribe">
+                  Subscribe
+                </Link>
+              </>
+            ))}
+        </div>
+      </div>
+    </div>
   );
 }

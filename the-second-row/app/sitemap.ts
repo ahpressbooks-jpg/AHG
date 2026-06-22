@@ -9,8 +9,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: freq,
     priority,
   });
+  const topics = ["politics", "courts", "economy", "foreign", "state", "health"];
   return [
     page("/", "always", 1),
+    page("/wire", "always", 0.95),
+    ...topics.map((t) => page(`/topic/${t}`, "daily", 0.7)),
     page("/today", "daily", 0.9),
     page("/spin", "daily", 0.8),
     page("/ledger", "daily", 0.8),
