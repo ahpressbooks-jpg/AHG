@@ -1,40 +1,51 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { COMPANY, HELP, LEGAL, PRODUCTS, TOPICS } from "@/lib/desks";
 
-// THE MEGA-MENU — the full publication index in one overlay. The menu that
-// supports the whole site: every section, product, company, help, and legal page.
+// THE MEGA-MENU — the full index in one overlay. Rendered through a portal to
+// <body> so it is truly viewport-fixed (the masthead's backdrop-filter would
+// otherwise trap a fixed child and make it open in the wrong place).
 export default function MegaMenu({ onClose }: { onClose: () => void }) {
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
+    setMounted(true);
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      document.body.style.overflow = prev;
     };
   }, [onClose]);
 
-  return (
-    <div className="mega" role="dialog" aria-modal="true" aria-label="Sections & index">
-      <div className="mega-inner">
-        <div className="mega-top">
-          <span className="mega-name">THE SECOND ROW</span>
-          <button className="megabtn" onClick={onClose} aria-label="Close menu">✕ Close</button>
+  if (!mounted) return null;
+
+  return createPortal(
+    <div className="mega" role="dialog" aria-modal="true" aria-label="Sections and index">
+      <div className="mega-bar">
+        <div className="wrap mega-bar-inner">
+          <Link href="/" className="mega-name" onClick={onClose}>THE SECOND ROW</Link>
+          <button className="mega-close" onClick={onClose} aria-label="Close menu">Close ✕</button>
         </div>
-        <div className="mega-cols">
+      </div>
+      <div className="mega-scroll">
+        <div className="wrap mega-cols">
           <div className="mega-col">
             <h3>Sections</h3>
             {TOPICS.map((t) => (
-              <Link key={t.slug} href={`/topic/${t.slug}`} onClick={onClose}>
+              <Link key={t.slug} href={`/topic/${t.slug}`} onClick={onClose} style={{ ["--tc" as any]: t.accent }}>
+                <span className="mega-dot" style={{ background: t.accent }} />
                 {t.label}
               </Link>
             ))}
           </div>
           <div className="mega-col">
-            <h3>Desks & Products</h3>
+            <h3>Desks &amp; products</h3>
             {PRODUCTS.map((p) => (
               <Link key={p.href + p.label} href={p.href} onClick={onClose}>
                 {p.label}
@@ -52,21 +63,18 @@ export default function MegaMenu({ onClose }: { onClose: () => void }) {
             ))}
           </div>
           <div className="mega-col">
-            <h3>Help &amp; More</h3>
+            <h3>Help &amp; more</h3>
             {HELP.map((h) => (
-              <Link key={h.href + h.label} href={h.href} onClick={onClose}>
-                {h.label}
-              </Link>
+              <Link key={h.href + h.label} href={h.href} onClick={onClose}>{h.label}</Link>
             ))}
-            <h3 style={{ marginTop: 22 }}>Legal</h3>
+            <h3 style={{ marginTop: 24 }}>Legal</h3>
             {LEGAL.map((l) => (
-              <Link key={l.href + l.label} href={l.href} onClick={onClose}>
-                {l.label}
-              </Link>
+              <Link key={l.href + l.label} href={l.href} onClick={onClose}>{l.label}</Link>
             ))}
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
