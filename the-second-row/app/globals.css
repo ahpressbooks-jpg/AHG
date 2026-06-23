@@ -1304,3 +1304,70 @@ html[data-theme="evening"] .joinband { background: var(--bg-raised); color: var(
 .mega-col a:hover { color: var(--pulse); }
 .mega-col a .mc-sub { display: block; width: 100%; font-family: var(--sans); font-weight: 400; font-size: 0.74rem; color: var(--slate); margin-top: 1px; }
 .mega-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; align-self: center; }
+
+/* ===========================================================================
+   FRONT PAGE — layout hardening + full responsive (authoritative overrides)
+   Fixes: inline <a> lead-art (aspect-ratio ignored), cramped/overlapping
+   sections, runaway display headline, the empty-looking wire column.
+   Mobile ≤640 · tablet 641–1039 · desktop ≥1040.
+   ======================================================================== */
+
+:root { --display: clamp(2rem, 4.4vw, 3.4rem); --fp-gap: clamp(26px, 3.6vw, 44px); }
+
+main.wrap { padding-bottom: 56px; }
+
+/* ---- the top: lead + wire ---- */
+.fp-top {
+  display: grid; grid-template-columns: 1fr; gap: 28px;
+  padding-top: 20px; align-items: start;
+}
+@media (min-width: 1040px) {
+  .fp-top { grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr); gap: 44px; }
+}
+
+.lead { min-width: 0; }
+.lead-art {
+  display: block; width: 100%; aspect-ratio: 16 / 9;
+  border-radius: var(--radius); overflow: hidden; background: var(--bg-well);
+  margin: 0 0 16px; position: relative;
+}
+.lead-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lead h1 { font-size: var(--display); line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 14px; }
+.lead-dek { font-size: clamp(1rem, 1.4vw, 1.18rem); }
+
+/* the wire module: a clear dark panel, sticky beside the lead on desktop */
+.wiremod { min-width: 0; }
+@media (min-width: 1040px) { .wiremod { position: sticky; top: 78px; } }
+
+/* ---- sections: unmistakably separate bands ---- */
+.fp-sec {
+  margin-top: var(--fp-gap); padding-top: var(--fp-gap);
+  border-top: 1px solid var(--line);
+}
+.fp-sechead { margin-bottom: 18px; }
+
+/* ---- most moved rail ---- */
+.movedrail { grid-auto-columns: minmax(240px, 1fr); }
+@media (max-width: 640px) { .movedrail { grid-auto-columns: 80%; } }
+
+/* ---- desks grid ---- */
+.fp-desks { grid-template-columns: 1fr; }
+@media (min-width: 720px) { .fp-desks { grid-template-columns: 1fr 1fr; } }
+
+/* ---- data band ---- */
+.fp-band { grid-template-columns: 1fr; }
+@media (min-width: 860px) { .fp-band { grid-template-columns: 1fr 1fr; } }
+
+/* ---- join band breathing room ---- */
+.joinband { margin-top: var(--fp-gap); }
+
+/* ---- masthead utility row: keep tidy on every width ---- */
+.masthead-inner { flex-wrap: wrap; row-gap: 6px; }
+@media (max-width: 560px) {
+  .masthead-tag { display: none; }
+  .masthead-name { font-size: 0.95rem; }
+}
+
+/* ---- safety: nothing in the front page may force-overflow the viewport ---- */
+main.wrap, .fp-top, .fp-sec, .fp-desks, .fp-band { max-width: 100%; }
+.lead h1, .lead-dek, .fp-sechead h2 { overflow-wrap: break-word; }
