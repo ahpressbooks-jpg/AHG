@@ -62,6 +62,13 @@ export const BEATS: Beat[] = [
   { beat: "statehouse", bonus: 0.12, terms: ["governor", "state legislature", "statehouse", "attorney general"] },
   { beat: "disaster",   bonus: 0.18, terms: ["hurricane", "earthquake", "wildfire", "tornado", "evacuation", "state of emergency", "flood"] },
   { beat: "health-policy", bonus: 0.12, terms: ["medicare", "medicaid", "fda", "cdc", "public health", "outbreak", "epidemic"] },
+  { beat: "world",      bonus: 0.18, terms: ["united nations", "foreign minister", "diplomacy", "embassy", "global", "summit", "european union", "g7", "g20"] },
+  { beat: "tech",       bonus: 0.12, terms: ["artificial intelligence", " ai ", "semiconductor", "silicon valley", "antitrust", "social media", "platform", "data privacy", "cyber"] },
+  { beat: "science",    bonus: 0.1,  terms: ["nasa", "space", "researchers", "study finds", "scientists", "vaccine", "telescope", "physics"] },
+  { beat: "climate",    bonus: 0.16, terms: ["climate", "emissions", "warming", "carbon", "renewable", "fossil fuel", "drought", "heat wave"] },
+  { beat: "media",      bonus: 0.1,  terms: ["press freedom", "journalist", "newsroom", "first amendment", "censorship", "broadcast", "misinformation"] },
+  { beat: "immigration",bonus: 0.16, terms: ["immigration", "migrant", "asylum", "deportation", " ice ", "visa", "refugee", "the border"] },
+  { beat: "education",  bonus: 0.12, terms: ["school district", "university", "college", "curriculum", "student loan", "campus", "teachers union", "title ix"] },
 ];
 
 // Stories matching NO beat still seat — the beat is a thumb on the scale,

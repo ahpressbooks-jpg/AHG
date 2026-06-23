@@ -1,4 +1,5 @@
 import Link from "next/link";
+import StoryImage from "@/components/fp/StoryImage";
 import { topicForBeats } from "@/lib/desks";
 import { Assignment, DeskDoc } from "@/lib/extras";
 import { Post, Story } from "@/lib/types";
@@ -61,6 +62,10 @@ export function Lead({ story, nowMs }: { story: Story; nowMs: number }) {
   const isFlash = story.tier === "FLASH";
   return (
     <article className="lead">
+      <Link href={`/wire/${story.id}`} className="lead-art" aria-hidden="true" tabIndex={-1}>
+        <StoryImage src={story.image} id={story.id} tier={story.tier} beats={w.beats} alt="" />
+        {story.image && story.sources[0] && <span className="lead-credit">{story.sources[0].name}</span>}
+      </Link>
       <div className="lead-eyebrow">
         <span className={`lead-flag${isFlash ? " lead-flag--flash" : ""}`}>{isFlash ? "FLASH" : "THE LEAD"}</span>
         <TopicChip beats={w.beats} />
@@ -101,6 +106,9 @@ export function MovedRail({ stories }: { stories: Story[] }) {
           const max = Math.max(1, ...s.spark);
           return (
             <Link key={s.id} href={`/wire/${s.id}`} className="movedcard">
+              <span className="mc-art">
+                <StoryImage src={s.image} id={s.id} tier={s.tier} beats={s.workings.beats} alt="" />
+              </span>
               <span className="mc-top">
                 <span className="mc-vel">▲ {s.workings.velocity45}/45m</span>
                 <span style={{ color: "var(--pulse)" }}>G{s.score}</span>

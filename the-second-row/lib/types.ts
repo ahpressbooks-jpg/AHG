@@ -41,6 +41,7 @@ export interface Story {
   headline: string;
   excerpt?: string;
   url: string;
+  image?: string; // syndication image from the source feed, when present
   tier: Tier;
   prevTier?: Tier;
   score: number; // GRAVITY 0..100
