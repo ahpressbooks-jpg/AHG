@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import BigFooter from "@/components/BigFooter";
 import JuneteenthBanner from "@/components/JuneteenthBanner";
 import ToolkitBanner from "@/components/ToolkitBanner";
 import "./globals.css";
@@ -56,50 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JuneteenthBanner />
         {children}
         <ToolkitBanner />
-        <footer className="footer">
-          <div className="wrap">
-            <div className="footer-rows">
-              <a href="/">The Wire</a>
-              <a href="/today">Today</a>
-              <a href="/spin">The Spin Room</a>
-              <a href="/ledger">The Ledger</a>
-              <a href="/column">From the Second Row</a>
-              <a href="/company">The Company</a>
-            </div>
-            <div className="footer-rows">
-              <a href="/weather">Civic Weather</a>
-              <a href="/board-read">The Board Read</a>
-              <a href="/gravity">GRAVITY</a>
-              <a href="/tilt">The Tilt Meter</a>
-              <a href="/glass">The Glass Desk</a>
-              <a href="/rewind">The Rewind</a>
-              <a href="/third-act">The Third Act</a>
-              <a href="/documents">Documents</a>
-              <a href="/assignment-desk">Assignment Desk</a>
-              <a href="/seasons">Judgment Seasons</a>
-              <a href="/predictions-night">Predictions Night</a>
-              <a href="/toolkit">The Toolkit</a>
-              <a href="/glossary">The Glossary</a>
-              <a href="/classroom">Classroom</a>
-              <a href="/course">Think for Yourself</a>
-              <a href="/room">The Room</a>
-              <a href="/widget">Embed the board</a>
-              <a href="/founding">The Founding 500</a>
-              <a href="/search">Search</a>
-              <a href="/subscribe">Subscribe</a>
-              <a href="/press">Press</a>
-              <a href="/standards">Standards</a>
-              <a href="/method">Method</a>
-              <a href="/you">Your Seat</a>
-              <a href="/desk">The Desk</a>
-            </div>
-            <div>
-              THE SECOND ROW · an independent news &amp; media company · founded at 21 · one row
-              back, full view. The news is free; the depth is how it stays free. Headlines link to
-              their sources; the board shows its work; nothing you touched is ever lost.
-            </div>
-          </div>
-        </footer>
+        <BigFooter />
       </body>
     </html>
   );

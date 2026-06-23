@@ -154,6 +154,7 @@ export async function runSweep(force = false): Promise<BoardState> {
             });
           }
           if (!s.excerpt && it.summary) s.excerpt = clampExcerpt(it.summary);
+          if (!s.image && it.image) s.image = it.image;
         }
       } else if (c.items.length > 0) {
         const rep = representative(c.items);
@@ -164,6 +165,7 @@ export async function runSweep(force = false): Promise<BoardState> {
           id,
           headline: rep.title,
           excerpt: rep.summary ? clampExcerpt(rep.summary) : undefined,
+          image: rep.image,
           url: rep.url,
           tier: "BRIEF",
           score: 0,

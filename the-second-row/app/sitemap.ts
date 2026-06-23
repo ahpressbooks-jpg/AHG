@@ -1,35 +1,28 @@
 import type { MetadataRoute } from "next";
+import { COMPANY, HELP, LEGAL, PRODUCTS, TOPICS } from "@/lib/desks";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const now = new Date();
-  const page = (url: string, freq: "always" | "daily" | "weekly" | "monthly", priority: number) => ({
+  const page = (url: string, freq: "always" | "daily" | "weekly" | "monthly", priority: number): MetadataRoute.Sitemap[number] => ({
     url: `${base}${url}`,
     lastModified: now,
     changeFrequency: freq,
     priority,
   });
-  const topics = ["politics", "courts", "economy", "foreign", "state", "health"];
-  return [
-    page("/", "always", 1),
-    page("/wire", "always", 0.95),
-    ...topics.map((t) => page(`/topic/${t}`, "daily", 0.7)),
-    page("/today", "daily", 0.9),
-    page("/spin", "daily", 0.8),
-    page("/ledger", "daily", 0.8),
-    page("/column", "daily", 0.8),
-    page("/company", "monthly", 0.7),
-    page("/gravity", "monthly", 0.7),
-    page("/tilt", "daily", 0.6),
-    page("/glass", "weekly", 0.6),
-    page("/rewind", "daily", 0.5),
-    page("/toolkit", "monthly", 0.6),
-    page("/course", "monthly", 0.5),
-    page("/room", "monthly", 0.5),
-    page("/founding", "weekly", 0.5),
-    page("/press", "monthly", 0.4),
-    page("/subscribe", "monthly", 0.7),
-    page("/standards", "monthly", 0.4),
-    page("/method", "monthly", 0.4),
-  ];
+  const uniq = new Map<string, MetadataRoute.Sitemap[number]>();
+  const add = (e: MetadataRoute.Sitemap[number]) => uniq.set(e.url, e);
+
+  add(page("/", "always", 1));
+  add(page("/wire", "always", 0.95));
+  add(page("/today", "daily", 0.9));
+  add(page("/trending", "daily", 0.7));
+  TOPICS.forEach((t) => add(page(`/topic/${t.slug}`, "daily", 0.75)));
+  PRODUCTS.forEach((p) => add(page(p.href, "daily", 0.7)));
+  COMPANY.forEach((c) => add(page(c.href, "monthly", 0.5)));
+  HELP.forEach((h) => add(page(h.href, "monthly", 0.5)));
+  LEGAL.forEach((l) => add(page(l.href, "monthly", 0.3)));
+  ["/about", "/masthead", "/careers", "/contact", "/tips", "/corrections", "/help", "/newsletters", "/podcasts", "/rss", "/subscribe", "/standards"].forEach((u) => add(page(u, "monthly", 0.5)));
+
+  return [...uniq.values()];
 }

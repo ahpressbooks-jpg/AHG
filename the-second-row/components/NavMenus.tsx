@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { DESKS, TOPICS } from "@/lib/desks";
+import MegaMenu from "@/components/MegaMenu";
+import { DESKS, PRIMARY_TOPICS } from "@/lib/desks";
 
 type Me = { name: string; tier: string; paid: boolean; seatColor?: string } | null;
 
@@ -12,6 +13,7 @@ type Me = { name: string; tier: string; paid: boolean; seatColor?: string } | nu
 // dropdown system with section-front logic.
 export default function NavMenus({ current }: { current?: string }) {
   const [me, setMe] = useState<Me | undefined>(undefined);
+  const [mega, setMega] = useState(false);
   const pathname = usePathname();
   const here = current ?? pathname ?? "/";
 
@@ -36,19 +38,26 @@ export default function NavMenus({ current }: { current?: string }) {
   return (
     <div className="nav2">
       <nav className="wrap nav2-desks" aria-label="Desks">
+        <button className="megabtn" onClick={() => setMega(true)} aria-label="Open all sections" aria-haspopup="dialog">
+          ☰ Sections
+        </button>
         {DESKS.map((d) => (
           <Link key={d.href} href={d.href} aria-current={isCurrent(d.href) ? "page" : undefined} title={d.blurb}>
             {d.label}
           </Link>
         ))}
       </nav>
+      {mega && <MegaMenu onClose={() => setMega(false)} />}
       <div className="wrap nav2-topics">
-        <span className="nt-label">Topics</span>
-        {TOPICS.map((t) => (
+        <span className="nt-label">Sections</span>
+        {PRIMARY_TOPICS.map((t) => (
           <Link key={t.slug} href={`/topic/${t.slug}`} style={{ ["--nt-accent" as any]: t.accent }}>
             {t.label}
           </Link>
         ))}
+        <button className="topic" onClick={() => setMega(true)} style={{ ["--tc" as any]: "var(--ink)", background: "none", border: "none", cursor: "pointer" }}>
+          All →
+        </button>
         <div className="nav2-acct">
           <Link className="topic" href="/search" style={{ ["--tc" as any]: "var(--slate)" }} aria-label="Search">
             Search

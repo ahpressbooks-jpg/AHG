@@ -7,6 +7,7 @@ export interface FeedItem {
   url: string;
   publishedAt: string; // ISO
   summary?: string;
+  image?: string; // syndication image from the feed (media:content / enclosure)
 }
 
 const parser = new XMLParser({
@@ -62,6 +63,45 @@ export function clampExcerpt(s: string, words = 25): string {
   return w.slice(0, words).join(" ") + " …";
 }
 
+// Pull a syndication image from the common feed locations. Publishers expose
+// these specifically so aggregators can show a thumbnail; we attribute the
+// source and link out. Returns an https URL or undefined.
+function extractImage(it: any): string | undefined {
+  const fromUrl = (v: any): string | undefined => {
+    const u = typeof v === "string" ? v : v?.["@_url"] || v?.["@_href"];
+    return typeof u === "string" && /^https:\/\/.+\.(jpg|jpeg|png|webp|avif)(\?|$)/i.test(u) ? u : undefined;
+  };
+  const first = (v: any): any => (Array.isArray(v) ? v[0] : v);
+
+  // media:content (often an array), media:thumbnail
+  const mc = it?.["media:content"];
+  if (mc) {
+    const arr = Array.isArray(mc) ? mc : [mc];
+    const img = arr.find((m: any) => (m?.["@_medium"] === "image" || /^image\//.test(m?.["@_type"] || "")) && fromUrl(m)) || arr.find((m: any) => fromUrl(m));
+    const u = fromUrl(img);
+    if (u) return u;
+  }
+  const mt = fromUrl(first(it?.["media:thumbnail"]));
+  if (mt) return mt;
+
+  // enclosure with image type
+  const enc = first(it?.enclosure);
+  if (enc && /^image\//.test(enc?.["@_type"] || "")) {
+    const u = fromUrl(enc);
+    if (u) return u;
+  }
+  // itunes:image, image
+  const itu = fromUrl(it?.["itunes:image"]);
+  if (itu) return itu;
+
+  // <img src> inside description / content:encoded
+  const html = (typeof it?.["content:encoded"] === "string" ? it["content:encoded"] : "") + " " + (typeof it?.description === "string" ? it.description : "");
+  const m = html.match(/<img[^>]+src=["'](https:\/\/[^"']+\.(?:jpg|jpeg|png|webp|avif)[^"']*)["']/i);
+  if (m) return m[1];
+
+  return undefined;
+}
+
 function parseDate(v: string): string | null {
   if (!v) return null;
   const d = new Date(v);
@@ -97,7 +137,7 @@ export function parseFeed(xml: string, source: FeedSource, now: Date): FeedItem[
     const summary = stripHtml(text(it?.description) || text(it?.summary) || "");
 
     if (!title || !url || !/^https?:\/\//i.test(url)) continue;
-    out.push({ source, title, url, publishedAt: when, summary: summary || undefined });
+    out.push({ source, title, url, publishedAt: when, summary: summary || undefined, image: extractImage(it) });
   }
   return out;
 }
