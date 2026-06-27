@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
       title: String(p.title).slice(0, 200),
       dek: String(p.dek ?? "").slice(0, 300),
       body: String(p.body).slice(0, 60000),
-      kind: ["column", "steelman", "note"].includes(p.kind) ? p.kind : "column",
+      kind: ["column", "steelman", "note", "dispatch"].includes(p.kind) ? p.kind : "column",
       publishedAt: p.publishedAt || now,
       updatedAt: p.publishedAt ? now : undefined,
     };
@@ -175,7 +175,7 @@ export async function POST(req: NextRequest) {
     }
     const topic = String(body?.topic ?? "").slice(0, 300);
     const notes = String(body?.notes ?? "").slice(0, 4000);
-    const kind = ["column", "steelman", "note"].includes(body?.kind) ? body.kind : "column";
+    const kind = ["column", "steelman", "note", "dispatch"].includes(body?.kind) ? body.kind : "column";
     if (!topic) return NextResponse.json({ error: "Give the desk a topic." }, { status: 400 });
     try {
       const res = await fetch("https://api.anthropic.com/v1/messages", {

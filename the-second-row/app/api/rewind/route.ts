@@ -1,18 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
-import { FREE_LIMITS, isPaid, sessionUser } from "@/lib/auth";
-import { getHouseLights } from "@/lib/ops";
+import { NextResponse } from "next/server";
 import { getHourlySnapshots, getSnapshots } from "@/lib/records";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(_req: NextRequest) {
-  const user = await sessionUser();
-  const paid = isPaid(user) || (await getHouseLights());
-  const recent = await getSnapshots();
-  let hourly = await getHourlySnapshots();
-  if (!paid) {
-    const cutoff = Date.now() - FREE_LIMITS.rewindDays * 86400_000;
-    hourly = hourly.filter((s) => +new Date(s.at) > cutoff);
-  }
-  return NextResponse.json({ recent, hourly, gated: !paid });
+// All of history is free — no rewind gate.
+export async function GET() {
+  const [recent, hourly] = await Promise.all([getSnapshots(), getHourlySnapshots()]);
+  return NextResponse.json({ recent, hourly, gated: false });
 }

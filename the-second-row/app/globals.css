@@ -18,36 +18,42 @@
 }
 
 html[data-theme="daylight"] {
-  --bg: #ffffff;
-  --bg-raised: #f6f6f2;
-  --bg-well: #efefe9;
-  --ink: #101319;
-  --slate: #5b6b7c;
-  --maroon-row: #8a1f35;
-  --pulse: #2e5bff;
-  --verdict: #0e7c4a;
-  --line: rgba(16, 19, 25, 0.1);
-  --line-strong: rgba(16, 19, 25, 0.26);
-  --orange-ink: #d44d00;
-  --shadow: 0 1px 2px rgba(16, 19, 25, 0.05), 0 6px 24px rgba(16, 19, 25, 0.06);
-  --shadow-lift: 0 2px 6px rgba(16, 19, 25, 0.08), 0 16px 40px rgba(16, 19, 25, 0.1);
+  --bg: #f7f4ec;          /* warm bone */
+  --bg-raised: #f1ebdd;   /* surface */
+  --bg-well: #e9e1cf;     /* well */
+  --ink: #1b1a16;         /* warm charcoal */
+  --slate: #6c6453;       /* warm slate */
+  --maroon-row: #8a2a2f;  /* secondary editorial signal (opinion/brand) */
+  --pulse: #0f5b54;       /* signature accent — deep ink-teal */
+  --verdict: #1f7a4d;     /* ledger: resolved/true */
+  --amber: #a9701a;       /* ledger: disputed/developing */
+  --plum: #7a3f5e;        /* ledger: revised */
+  --crimson: #9f2a22;     /* ledger: error/false */
+  --line: rgba(27, 26, 22, 0.12);
+  --line-strong: rgba(27, 26, 22, 0.28);
+  --orange-ink: #b8401a;
+  --shadow: 0 1px 2px rgba(27, 26, 22, 0.05), 0 6px 24px rgba(27, 26, 22, 0.07);
+  --shadow-lift: 0 2px 6px rgba(27, 26, 22, 0.09), 0 16px 40px rgba(27, 26, 22, 0.12);
   color-scheme: light;
 }
 
 html[data-theme="evening"] {
-  --bg: #10161f;
-  --bg-raised: #161e2a;
-  --bg-well: #1c2634;
-  --ink: #eef0ee;
-  --slate: #93a5b5;
-  --maroon-row: #d04a62;
-  --pulse: #6f8dff;
-  --verdict: #3dbd84;
-  --line: rgba(238, 240, 238, 0.12);
-  --line-strong: rgba(238, 240, 238, 0.3);
-  --orange-ink: #ff7a33;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 28px rgba(0, 0, 0, 0.35);
-  --shadow-lift: 0 2px 8px rgba(0, 0, 0, 0.5), 0 18px 48px rgba(0, 0, 0, 0.45);
+  --bg: #16140f;          /* warm near-black */
+  --bg-raised: #1f1c15;
+  --bg-well: #28241b;
+  --ink: #efe9da;         /* warm bone text */
+  --slate: #a59c88;
+  --maroon-row: #d2727a;
+  --pulse: #54b8ab;       /* teal, lifted for dark */
+  --verdict: #46bd80;
+  --amber: #d4a04a;
+  --plum: #c08aa6;
+  --crimson: #e0685e;
+  --line: rgba(239, 233, 218, 0.13);
+  --line-strong: rgba(239, 233, 218, 0.3);
+  --orange-ink: #ff8a4d;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 8px 28px rgba(0, 0, 0, 0.4);
+  --shadow-lift: 0 2px 8px rgba(0, 0, 0, 0.55), 0 18px 48px rgba(0, 0, 0, 0.5);
   color-scheme: dark;
 }
 
@@ -1371,3 +1377,62 @@ main.wrap { padding-bottom: 56px; }
 /* ---- safety: nothing in the front page may force-overflow the viewport ---- */
 main.wrap, .fp-top, .fp-sec, .fp-desks, .fp-band { max-width: 100%; }
 .lead h1, .lead-dek, .fp-sechead h2 { overflow-wrap: break-word; }
+
+/* ===========================================================================
+   CIVIC REBRAND — content labels + Action / Dispatches / Investigations
+   ======================================================================== */
+
+/* extended content-mode labels (the trust label system) */
+.mode--reported { color: var(--ink); border-color: var(--line-strong); }
+.mode--investigated { color: #b45309; border-color: #b45309; }
+.mode--dispatch { color: var(--pulse); border-color: var(--pulse); }
+.mode--action { color: var(--crimson); border-color: var(--crimson); }
+.mode--ledger { color: var(--verdict); border-color: var(--verdict); }
+.mode--methodology { color: var(--slate); border-color: var(--line-strong); }
+.mode--correction { color: var(--amber); border-color: var(--amber); }
+
+/* ledger status pills */
+.lstat { font-family: var(--mono); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 9px; border-radius: 99px; white-space: nowrap; }
+.lstat--open { color: var(--slate); border: 1px solid var(--line-strong); }
+.lstat--resolved { color: #fff; background: var(--verdict); }
+.lstat--disputed { color: #fff; background: var(--amber); }
+.lstat--revised { color: #fff; background: var(--plum); }
+
+/* ---- Action Center ---- */
+.campaigns { display: grid; grid-template-columns: 1fr; gap: 18px; margin: 18px 0; }
+@media (min-width: 760px) { .campaigns { grid-template-columns: 1fr 1fr; } }
+.campaign {
+  border: 1px solid var(--line); border-left: 4px solid var(--crimson);
+  border-radius: var(--radius); padding: 20px 22px; background: var(--bg-raised);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.campaign h3 { font-family: var(--serif); font-weight: 700; font-size: 1.2rem; margin: 0; line-height: 1.2; }
+.campaign .cmp-issue { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--crimson); }
+.campaign p { font-family: var(--sans); font-size: 0.9rem; color: var(--ink-1); margin: 0; }
+.campaign ul { margin: 4px 0 0; padding-left: 18px; }
+.campaign li { font-family: var(--sans); font-size: 0.86rem; color: var(--ink-1); margin-bottom: 5px; }
+.campaign .cmp-actions { margin-top: auto; padding-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+
+.action-boundary { border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: 16px 18px; margin: 22px 0; background: var(--bg-well); font-family: var(--mono); font-size: 0.74rem; line-height: 1.7; color: var(--ink-1); }
+.action-boundary b { color: var(--ink); }
+
+/* ---- Dispatches stream ---- */
+.dispatches { border-top: 2px solid var(--ink); margin-top: 16px; }
+.dispatch-row { display: grid; grid-template-columns: 120px 1fr; gap: 18px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+@media (max-width: 640px) { .dispatch-row { grid-template-columns: 1fr; gap: 6px; } }
+.dispatch-row .d-when { font-family: var(--mono); font-size: 0.66rem; color: var(--slate); padding-top: 4px; }
+.dispatch-row h3 { font-family: var(--serif); font-weight: 700; font-size: 1.2rem; margin: 0 0 6px; line-height: 1.2; }
+.dispatch-row h3 a { text-decoration: none; }
+.dispatch-row h3 a:hover { color: var(--pulse); }
+.dispatch-row p { font-family: var(--sans); font-size: 0.92rem; color: var(--ink-1); margin: 0; }
+
+/* ---- Investigations: file states ---- */
+.files { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 16px 0; }
+@media (min-width: 760px) { .files { grid-template-columns: 1fr 1fr; } }
+.file { border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; background: var(--bg); display: flex; flex-direction: column; gap: 9px; }
+.file--published { border-left: 4px solid var(--verdict); }
+.file--review { border-left: 4px solid var(--amber); }
+.file--open { border-left: 4px solid var(--pulse); }
+.file h3 { font-family: var(--serif); font-weight: 700; font-size: 1.12rem; margin: 0; line-height: 1.2; }
+.file p { font-family: var(--sans); font-size: 0.88rem; color: var(--ink-2); margin: 0; }
+.file .f-meta { margin-top: auto; padding-top: 6px; font-family: var(--mono); font-size: 0.62rem; color: var(--slate); }
