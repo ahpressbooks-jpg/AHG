@@ -126,6 +126,7 @@ export interface User {
   subscriptionStatus?: "active" | "grace" | "canceled";
   periodEnd?: string;
   giftCodes?: string[];
+  notify?: { email?: boolean; flash?: boolean; follows?: boolean };
 }
 
 export type CommentTarget = `story:${string}` | `post:${string}`;

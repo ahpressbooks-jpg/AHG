@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { newId } from "@/lib/records";
+import { sessionUser } from "@/lib/auth";
+import { newId, pushUserIntake } from "@/lib/records";
 import { kvGet, kvSet, listPush } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
@@ -26,10 +27,12 @@ export async function POST(req: NextRequest) {
   if (await kvGet(guardKey)) return NextResponse.json({ error: "Got your last one — give it a minute before sending another." }, { status: 429 });
   await kvSet(guardKey, "1", 30);
 
+  const user = await sessionUser();
   const entry = {
     id: newId("intake"),
     kind,
-    name: String(body?.name ?? "").slice(0, 120),
+    userId: user?.id,
+    name: String(body?.name ?? "").slice(0, 120) || (user?.name ?? ""),
     contact: String(body?.contact ?? "").slice(0, 200),
     topic: String(body?.topic ?? "").slice(0, 120),
     roles: Array.isArray(body?.roles) ? body.roles.slice(0, 10).map((r: any) => String(r).slice(0, 60)) : [],
@@ -40,6 +43,7 @@ export async function POST(req: NextRequest) {
   };
   await listPush("tsr:intake", JSON.stringify(entry), 5000);
   await listPush(`tsr:intake:${kind}`, JSON.stringify(entry), 5000);
+  if (user) await pushUserIntake(user.id, entry);
 
   const note =
     kind === "report-harm" ? "Received. The desk reviews every report — we protect sources and verify before we publish."
