@@ -46,6 +46,26 @@ export async function getUserByEmail(email: string): Promise<User | null> {
   return id ? getUser(id) : null;
 }
 
+// A signed-in reader's own Action Center submissions (intake), newest first.
+export async function getUserIntake(userId: string): Promise<any[]> {
+  const rows = await listRange(`tsr:uintake:${userId}`, 0, 199);
+  return rows.map((r) => { try { return JSON.parse(r); } catch { return null; } }).filter(Boolean);
+}
+
+export async function pushUserIntake(userId: string, entry: unknown): Promise<void> {
+  await listPush(`tsr:uintake:${userId}`, JSON.stringify(entry), 1000);
+}
+
+// Data dignity: erase the account. Public contributions keep their denormalized
+// name (the record stands); personal data and the account are removed.
+export async function deleteUser(u: User): Promise<void> {
+  await kvDel(`tsr:user:${u.id}`);
+  await kvDel(`tsr:email:${u.email.toLowerCase()}`);
+  await kvDel(`tsr:approved:${u.id}`);
+  await kvDel(`tsr:clips:${u.id}`);
+  await kvDel(`tsr:follows:${u.id}`);
+}
+
 export async function findOrCreateUser(email: string, name: string, verified: boolean): Promise<User> {
   const existing = await getUserByEmail(email);
   if (existing) {

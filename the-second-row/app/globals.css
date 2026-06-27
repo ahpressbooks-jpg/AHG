@@ -1570,3 +1570,8 @@ main.wrap, .fp-top, .fp-sec, .fp-desks, .fp-band { max-width: 100%; }
 .admin-main table { width: 100%; border-collapse: collapse; margin: 8px 0; }
 .admin-main th, .admin-main td { text-align: left; padding: 8px 10px 8px 0; border-bottom: 1px solid var(--line); font-size: 0.82rem; vertical-align: top; }
 .admin-main th { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate); }
+
+/* member dashboard toggle (reuses the admin shell) */
+.dash-toggle { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-family: var(--sans); font-size: 0.9rem; color: var(--ink-1); }
+.dash-toggle input { margin-top: 3px; }
+.admin .admin-brand .avatar { width: 26px; height: 26px; font-size: 0.72rem; }
