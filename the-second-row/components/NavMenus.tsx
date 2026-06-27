@@ -50,6 +50,7 @@ export default function NavMenus({ current }: { current?: string }) {
         </div>
         <div className="nav2-acct">
           <Link href="/search" className="nav2-ico" aria-label="Search" title="Search">⌕</Link>
+          <Link className="nav-admin" href="/admin" title="Back Office (password required)">Admin</Link>
           {me !== undefined &&
             (me ? (
               <>

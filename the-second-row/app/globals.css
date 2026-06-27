@@ -1575,3 +1575,12 @@ main.wrap, .fp-top, .fp-sec, .fp-desks, .fp-band { max-width: 100%; }
 .dash-toggle { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-family: var(--sans); font-size: 0.9rem; color: var(--ink-1); }
 .dash-toggle input { margin-top: 3px; }
 .admin .admin-brand .avatar { width: 26px; height: 26px; font-size: 0.72rem; }
+
+/* top-nav Admin button (sits beside Sign in) */
+.nav-admin {
+  font-family: var(--mono); font-size: 0.62rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate);
+  text-decoration: none; padding: 5px 11px; border: 1px solid var(--line-strong);
+  border-radius: 99px; white-space: nowrap;
+}
+.nav-admin:hover { color: var(--ink); border-color: var(--ink); }
