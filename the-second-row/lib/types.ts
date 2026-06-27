@@ -152,7 +152,7 @@ export interface Post {
   title: string;
   dek: string;
   body: string; // markdown-lite: paragraphs + [FACT]/[OPINION]/[QUESTION]/[POLICY]/[THINKING] tags
-  kind: "column" | "steelman" | "note";
+  kind: "column" | "steelman" | "note" | "dispatch";
   publishedAt: string;
   updatedAt?: string;
 }

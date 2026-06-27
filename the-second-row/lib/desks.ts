@@ -8,14 +8,15 @@ export interface Desk {
   blurb: string;
 }
 
-// Primary masthead row — the publication's desks, in reading order.
+// Primary masthead row — the publication's pillars, in priority order.
+// The wordmark is Home; the Ledger and the Wire co-lead.
 export const DESKS: Desk[] = [
-  { label: "Top Stories", href: "/", blurb: "The front page" },
+  { label: "The Ledger", href: "/ledger", blurb: "Every claim, scored in the open" },
   { label: "The Wire", href: "/wire", blurb: "Live, re-ranked every 60s" },
-  { label: "Analysis", href: "/column", blurb: "Interpretation & opinion" },
-  { label: "Explainers", href: "/toolkit", blurb: "How to read the news" },
-  { label: "Investigations", href: "/assignment-desk", blurb: "Reader-directed reporting" },
-  { label: "Documents", href: "/documents", blurb: "Primary sources, annotated" },
+  { label: "Dispatches", href: "/dispatches", blurb: "Daily from the desk" },
+  { label: "Investigations", href: "/investigations", blurb: "Open files & public research" },
+  { label: "Action", href: "/action", blurb: "Campaigns & civic action" },
+  { label: "Room", href: "/room", blurb: "Public reasoning, together" },
 ];
 
 export interface Topic {
@@ -62,7 +63,12 @@ export interface SiteLink {
 }
 
 export const PRODUCTS: SiteLink[] = [
+  { label: "The Ledger", href: "/ledger", sub: "Claims, scored over time" },
   { label: "The Wire", href: "/wire", sub: "Live ranked board" },
+  { label: "Dispatches", href: "/dispatches", sub: "Daily from the desk" },
+  { label: "Investigations", href: "/investigations", sub: "Open files & research" },
+  { label: "Action Center", href: "/action", sub: "Campaigns & civic action" },
+  { label: "Stories", href: "/wire", sub: "What's moving now" },
   { label: "Today", href: "/today", sub: "The daily briefing" },
   { label: "The Spin Room", href: "/spin", sub: "Left / center / right" },
   { label: "The Ledger", href: "/ledger", sub: "The desk's scored record" },
@@ -117,15 +123,24 @@ export const LEGAL: SiteLink[] = [
   { label: "The Method", href: "/method" },
 ];
 
-// Editorial content-modes — the visual register a reader is entering.
-export type ContentMode = "report" | "analysis" | "opinion" | "explainer" | "investigation" | "evidence" | "wire";
+// Editorial content-modes — the visible label that tells a reader exactly what
+// kind of thing they're entering (essential trust in a hybrid newsroom/advocacy
+// model). Every card and header carries one.
+export type ContentMode =
+  | "reported" | "investigated" | "dispatch" | "analysis" | "opinion"
+  | "action" | "ledger" | "evidence" | "explainer" | "methodology" | "correction" | "wire";
 
 export const MODE_LABEL: Record<ContentMode, string> = {
-  report: "Report",
+  reported: "Reported",
+  investigated: "Investigated",
+  dispatch: "Dispatch",
   analysis: "Analysis",
   opinion: "Opinion",
-  explainer: "Explainer",
-  investigation: "Investigation",
+  action: "Action",
+  ledger: "Ledger",
   evidence: "Evidence",
+  explainer: "Explainer",
+  methodology: "Methodology",
+  correction: "Correction",
   wire: "The Wire",
 };

@@ -117,10 +117,13 @@ export function isPaid(u: User | null): boolean {
   );
 }
 
+// All reading is free and open (civic-trust mandate). Membership is optional
+// support, not a gate — so these limits are effectively unlimited. The few
+// personal-list caps remain generous to discourage abuse, not to gate reading.
 export const FREE_LIMITS = {
-  clips: 10,
-  follows: 3,
-  catchMeUp: 3, // per day
-  archiveDays: 30,
-  rewindDays: 7,
+  clips: 1000,
+  follows: 1000,
+  catchMeUp: 1000, // per day
+  archiveDays: 1_000_000, // the whole archive is free
+  rewindDays: 1_000_000, // all of history is free
 };
