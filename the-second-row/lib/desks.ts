@@ -91,6 +91,23 @@ export const PRODUCTS: SiteLink[] = [
   { label: "Trending", href: "/trending", sub: "Most read now" },
 ];
 
+// The Instrument's slim index — powers the repointed mega-menu. The ten
+// instruments live in lib/instrument.ts (FEATURES); these are the human pages
+// around them. Everything here resolves to a real route.
+export const NEWSROOM: SiteLink[] = [
+  { label: "About", href: "/about", sub: "What the Instrument is" },
+  { label: "Standards & Ethics", href: "/standards", sub: "How we work" },
+  { label: "The Method", href: "/method", sub: "GRAVITY, in the open" },
+  { label: "Contact", href: "/contact", sub: "Reach the desk" },
+  { label: "Send a tip", href: "/tips", sub: "Securely, off the record" },
+];
+
+export const ACCOUNT: SiteLink[] = [
+  { label: "Your seat", href: "/you", sub: "Your account & activity" },
+  { label: "Membership", href: "/subscribe", sub: "Support the build" },
+  { label: "Search the record", href: "/search", sub: "Find any story" },
+];
+
 export const COMPANY: SiteLink[] = [
   { label: "About", href: "/about", sub: "Who we are" },
   { label: "Masthead", href: "/masthead", sub: "The newsroom" },

@@ -3,7 +3,11 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { COMPANY, HELP, LEGAL, PRODUCTS, TOPICS } from "@/lib/desks";
+import { ACCOUNT, LEGAL, NEWSROOM } from "@/lib/desks";
+import { FEATURES } from "@/lib/instrument";
+
+const LIVE = FEATURES.filter((f) => f.status === "live");
+const SOON = FEATURES.filter((f) => f.status !== "live");
 
 // THE MEGA-MENU — the full index in one overlay. Rendered through a portal to
 // <body> so it is truly viewport-fixed (the masthead's backdrop-filter would
@@ -36,26 +40,28 @@ export default function MegaMenu({ onClose }: { onClose: () => void }) {
       <div className="mega-scroll">
         <div className="wrap mega-cols">
           <div className="mega-col">
-            <h3>Sections</h3>
-            {TOPICS.map((t) => (
-              <Link key={t.slug} href={`/topic/${t.slug}`} onClick={onClose} style={{ ["--tc" as any]: t.accent }}>
-                <span className="mega-dot" style={{ background: t.accent }} />
-                {t.label}
+            <h3>Live now</h3>
+            {LIVE.map((f) => (
+              <Link key={f.slug} href={`/instrument/${f.slug}`} onClick={onClose}>
+                <span className="mega-dot" style={{ background: "#54c8b8" }} />
+                {f.name}
+                <span className="mc-sub">{f.tagline}</span>
               </Link>
             ))}
           </div>
           <div className="mega-col">
-            <h3>Desks &amp; products</h3>
-            {PRODUCTS.map((p) => (
-              <Link key={p.href + p.label} href={p.href} onClick={onClose}>
-                {p.label}
-                {p.sub && <span className="mc-sub">{p.sub}</span>}
+            <h3>In calibration &amp; design</h3>
+            {SOON.map((f) => (
+              <Link key={f.slug} href={`/instrument/${f.slug}`} onClick={onClose}>
+                <span className="mega-dot" style={{ background: f.status === "calibrating" ? "#e6b450" : "#5b6471" }} />
+                {f.name}
+                <span className="mc-sub">{f.tagline}</span>
               </Link>
             ))}
           </div>
           <div className="mega-col">
-            <h3>Company</h3>
-            {COMPANY.map((c) => (
+            <h3>The newsroom</h3>
+            {NEWSROOM.map((c) => (
               <Link key={c.href + c.label} href={c.href} onClick={onClose}>
                 {c.label}
                 {c.sub && <span className="mc-sub">{c.sub}</span>}
@@ -63,9 +69,12 @@ export default function MegaMenu({ onClose }: { onClose: () => void }) {
             ))}
           </div>
           <div className="mega-col">
-            <h3>Help &amp; more</h3>
-            {HELP.map((h) => (
-              <Link key={h.href + h.label} href={h.href} onClick={onClose}>{h.label}</Link>
+            <h3>Account</h3>
+            {ACCOUNT.map((a) => (
+              <Link key={a.href + a.label} href={a.href} onClick={onClose}>
+                {a.label}
+                {a.sub && <span className="mc-sub">{a.sub}</span>}
+              </Link>
             ))}
             <h3 style={{ marginTop: 24 }}>Legal</h3>
             {LEGAL.map((l) => (

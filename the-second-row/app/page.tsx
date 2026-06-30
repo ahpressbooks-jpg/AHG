@@ -1,67 +1,29 @@
-import SiteHeader from "@/components/SiteHeader";
-import WireSignature from "@/components/fp/WireSignature";
-import {
-  AnalysisZone,
-  DataBand,
-  EvidenceZone,
-  ExplainersZone,
-  InvestigationsZone,
-  JoinBand,
-  Lead,
-  MovedRail,
-} from "@/components/fp/zones";
-import { civicWeather } from "@/lib/civic";
-import { Assignment, allAssignments, allDocs } from "@/lib/extras";
-import { allPosts, deskCalls, getNote } from "@/lib/records";
+import Link from "next/link";
+import Board from "@/components/inst/Board";
+import Shell from "@/components/inst/Shell";
+import { FEATURES } from "@/lib/instrument";
 import { SAMPLE_BOARD } from "@/lib/sample";
-import { SAMPLE_DOC } from "@/lib/sampleDoc";
 import { loadBoard } from "@/lib/store";
 import { boardIsStale, runSweep } from "@/lib/sweep";
-import { PRIMERS } from "@/lib/toolkit";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
-// Sample fallbacks so every desk reads as composed before the desk has filled
-// it (pre-Redis, or a fresh deploy). The Wire/Lead/Weather always derive from
-// the live board; these cover the human-authored desks.
-const DEMO_ASSIGNMENTS: Assignment[] = [
-  { id: "demo1", question: "Where did the deferred riders actually go?", detail: "Back this and the desk tracks the punted appropriations riders to their grave or their passage — with receipts.", goal: 25, backers: new Array(9).fill("x"), status: "open", at: new Date().toISOString() },
-  { id: "demo2", question: "Who funds the top three 'independent' poll shops?", detail: "Follow the money behind the pollsters the wire cites most. A standing reference piece.", goal: 25, backers: new Array(18).fill("x"), status: "open", at: new Date().toISOString() },
-  { id: "demo3", question: "Every state's actual school-funding formula, side by side.", detail: "The numbers behind the statehouse fights, normalized so they can finally be compared.", goal: 25, backers: new Array(5).fill("x"), status: "open", at: new Date().toISOString() },
-];
-
-export default async function FrontPage() {
+// THE INSTRUMENT — the front door. Not a front page of curated packages, but a
+// single living surface: the Breathing Board up top, the Wire ranked by weight,
+// the Silence band beneath, and the ten instruments you can step into. Built on
+// the same 60s sweep that has always powered the Wire.
+export default async function Home() {
   let board = await loadBoard();
   if (boardIsStale(board)) board = await runSweep();
   if (!board) board = SAMPLE_BOARD(new Date());
 
-  const [posts, note, assignmentsReal, docsReal, calls] = await Promise.all([
-    allPosts(),
-    getNote(),
-    allAssignments(),
-    allDocs(),
-    deskCalls(),
-  ]);
-
-  const assignments = assignmentsReal.length ? assignmentsReal : DEMO_ASSIGNMENTS;
-  const docs = docsReal.length ? docsReal : [SAMPLE_DOC];
-  const hits = calls.filter((c) => c.result === "HIT").length;
-  const misses = calls.filter((c) => c.result === "MISS").length;
-  const open = calls.filter((c) => !c.result).length;
-  const weather = civicWeather(board);
-
-  const lead = board.stories[0];
-  const moved = [...board.stories.slice(1)]
-    .sort((a, b) => b.workings.velocity45 - a.workings.velocity45 || b.score - a.score)
-    .slice(0, 6);
-  const nowMs = Date.now();
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LiveBlogPosting",
-    headline: "The Second Row — the front page",
-    description: "An independent news company ranking the day by what carries weight — and showing its work.",
+    headline: "The Second Row — the Instrument",
+    description:
+      "A living model of how public knowledge forms: ranked by weight, decaying in real time, and showing what the front pages are missing.",
     dateModified: board.sweptAt,
     liveBlogUpdate: board.stories.slice(0, 10).map((s) => ({
       "@type": "BlogPosting",
@@ -73,26 +35,59 @@ export default async function FrontPage() {
   };
 
   return (
-    <>
+    <div className="inst">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <SiteHeader current="/" />
-      <main className="wrap" id="house">
-        {board.sample && <div style={{ paddingTop: 12 }}><span className="sample-watermark">SAMPLE BOARD — fictional headlines for design review</span></div>}
+      <Shell />
+      <main id="house">
+        {board.sample && (
+          <div className="wrap" style={{ paddingTop: 12 }}>
+            <span className="sample-watermark">SAMPLE BOARD — live wire warming up</span>
+          </div>
+        )}
 
-        <div className="fp-top">
-          {lead && <Lead story={lead} nowMs={nowMs} />}
-          <WireSignature initial={board} />
+        <Board initial={board} />
+
+        {/* THE TEN — every instrument, as a destination. */}
+        <div className="wrap">
+          <section className="inst-sec" aria-label="The Instrument">
+            <div className="inst-sec-h">
+              <h2>The Instrument</h2>
+              <span className="k">ten ways to read the day</span>
+            </div>
+            <p style={{ color: "var(--ic-dim)", margin: "12px 0 18px", maxWidth: "60ch", fontSize: "0.95rem" }}>
+              The Wire is the engine. On top of it we are building instruments no newsroom has
+              shipped — each one a different way of seeing how a story forms, hardens, and fades.
+            </p>
+            <div className="feat-grid">
+              {FEATURES.map((f) => (
+                <Link key={f.slug} href={`/instrument/${f.slug}`} className="feat">
+                  <span className={`fs fs--${f.status}`}>
+                    {f.status === "live" ? "● LIVE" : f.status === "calibrating" ? "◐ CALIBRATING" : "○ IN DESIGN"}
+                  </span>
+                  <h3>{f.name}</h3>
+                  <p>{f.tagline}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          <footer className="inst-foot">
+            <div style={{ marginBottom: 14 }}>
+              <Link href="/instrument/wire">The Wire</Link>
+              <Link href="/instrument/half-life">Half-Life</Link>
+              <Link href="/instrument/silence">The Silence Board</Link>
+              <Link href="/about">About</Link>
+              <Link href="/standards">Standards</Link>
+              <Link href="/method">Method</Link>
+              <Link href="/contact">Contact</Link>
+            </div>
+            <div>
+              THE SECOND ROW · One row back, full view · The board re-ranks every 60 seconds by
+              GRAVITY — independent corroboration, velocity, consequence, power, and freshness.
+            </div>
+          </footer>
         </div>
-
-        <MovedRail stories={moved} />
-        <AnalysisZone posts={posts} note={note?.text} />
-        <ExplainersZone primers={PRIMERS} />
-        <InvestigationsZone assignments={assignments} />
-        <EvidenceZone docs={docs} />
-        <DataBand hits={hits} misses={misses} open={open} weather={weather} />
-        <JoinBand />
-        <div style={{ height: 60 }} />
       </main>
-    </>
+    </div>
   );
 }
