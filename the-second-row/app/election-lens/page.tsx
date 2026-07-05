@@ -194,6 +194,15 @@ export default function ElectionLensPage() {
           </div>
         </header>
 
+        {/* ---- TRACK YOUR CANDIDATES (the live tool) ---- */}
+        <Link href="/election-lens/candidates" className="el-trackcta">
+          <span className="el-trackcta-k">New · live tool</span>
+          <span className="el-trackcta-h">Track a candidate in your district →</span>
+          <span className="el-trackcta-p">
+            House, Senate, or Governor — find who&rsquo;s running, follow the money, and watch them on the Wire.
+          </span>
+        </Link>
+
         {/* ---- SECTION 1 · THE MACHINERY ---- */}
         <section className="fp-sec" aria-labelledby="el-machinery">
           <SectionHead kick="Evergreen" title="The Machinery" />

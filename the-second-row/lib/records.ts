@@ -64,6 +64,7 @@ export async function deleteUser(u: User): Promise<void> {
   await kvDel(`tsr:approved:${u.id}`);
   await kvDel(`tsr:clips:${u.id}`);
   await kvDel(`tsr:follows:${u.id}`);
+  await kvDel(`tsr:tracked:${u.id}`);
 }
 
 export async function findOrCreateUser(email: string, name: string, verified: boolean): Promise<User> {
@@ -191,6 +192,39 @@ export async function toggleFollow(userId: string, storyId: string, headline: st
   }
   await setJSON(`tsr:follows:${userId}`, follows);
   return { follows, added };
+}
+
+// ---- tracked candidates (Election Lens) -------------------------------------
+// Stored like follows: one durable JSON list per seat. Persists on Redis;
+// in-memory until it's attached (resets on deploy, same as the rest).
+export interface TrackedCandidate {
+  id: string; // FEC candidate_id / "gov-XX" / "sample-..."
+  name: string;
+  office: "H" | "S" | "G";
+  state: string;
+  district?: string;
+  party?: string;
+  at: string;
+}
+
+export async function getTracked(userId: string): Promise<TrackedCandidate[]> {
+  return (await getJSON<TrackedCandidate[]>(`tsr:tracked:${userId}`)) ?? [];
+}
+
+export async function toggleTracked(
+  userId: string,
+  cand: Omit<TrackedCandidate, "at">
+): Promise<{ tracked: TrackedCandidate[]; added: boolean }> {
+  const tracked = await getTracked(userId);
+  const i = tracked.findIndex((c) => c.id === cand.id);
+  let added = false;
+  if (i >= 0) tracked.splice(i, 1);
+  else {
+    tracked.unshift({ ...cand, at: new Date().toISOString() });
+    added = true;
+  }
+  await setJSON(`tsr:tracked:${userId}`, tracked);
+  return { tracked, added };
 }
 
 // ---- reader calls (Your Ledger) ------------------------------------------------------

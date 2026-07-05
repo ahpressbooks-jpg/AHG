@@ -1701,3 +1701,90 @@ html[data-theme="evening"] .el-banner { background: #0f5b54; }
 .el-cta h2 { font-family: var(--serif); font-weight: 800; font-size: clamp(1.5rem, 3.4vw, 2.2rem); line-height: 1.02; letter-spacing: -0.02em; margin: 0 0 10px; }
 .el-cta p { font-family: var(--sans); font-size: 1rem; color: var(--ink-1); max-width: 60ch; margin: 0 0 18px; }
 .el-cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ---- Track-your-candidates entry band (on /election-lens) ---- */
+.el-trackcta { display: block; margin: 22px 0 0; border: 1px solid var(--pulse); border-left: 5px solid var(--pulse); border-radius: var(--radius); background: color-mix(in oklab, var(--pulse) 6%, var(--bg)); padding: 18px 20px; text-decoration: none; }
+.el-trackcta:hover { background: color-mix(in oklab, var(--pulse) 11%, var(--bg)); }
+.el-trackcta-k { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pulse); font-weight: 600; }
+.el-trackcta-h { display: block; font-family: var(--serif); font-weight: 800; font-size: clamp(1.3rem, 3vw, 1.9rem); line-height: 1.05; letter-spacing: -0.01em; color: var(--ink); margin: 6px 0; }
+.el-trackcta:hover .el-trackcta-h { color: var(--pulse); }
+.el-trackcta-p { font-family: var(--sans); font-size: 0.95rem; color: var(--ink-1); }
+
+/* ---- the candidate finder ---- */
+.el-finder { display: flex; flex-direction: column; }
+.el-find-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raised); padding: 16px 18px; }
+.el-find-lab { display: block; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate); margin-bottom: 6px; }
+.el-find-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.el-find-row .el-input { flex: 1; min-width: 200px; }
+.el-input { font-family: var(--sans); font-size: 16px; color: var(--ink); background: var(--bg); border: 1px solid var(--line-strong); border-radius: var(--radius-sm); padding: 10px 12px; width: 100%; }
+.el-input:focus-visible { outline: 2px solid var(--pulse); outline-offset: 1px; border-color: var(--pulse); }
+select.el-input { cursor: pointer; }
+.el-find-grid { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: end; }
+@media (min-width: 680px) { .el-find-grid { grid-template-columns: 2fr 1.4fr 1fr auto; } }
+.el-find-go .btn { width: 100%; }
+.el-find-or { text-align: center; position: relative; margin: 14px 0; }
+.el-find-or::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid var(--line); }
+.el-find-or span { position: relative; background: var(--bg); padding: 0 12px; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--slate); }
+.el-find-msg { font-family: var(--sans); font-size: 0.86rem; color: var(--ink-2); margin: 10px 0 0; }
+.el-find-err { color: var(--crimson); }
+.el-source-note { font-family: var(--sans); font-size: 0.82rem; color: var(--slate); margin: 14px 0 0; max-width: 74ch; }
+.el-source-note code { font-family: var(--mono); font-size: 0.9em; background: var(--bg-well); padding: 1px 5px; border-radius: 4px; }
+.el-source-note a { color: var(--pulse); }
+
+/* ---- roster results ---- */
+.el-results { margin-top: 20px; }
+.el-results-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid var(--line-strong); padding-bottom: 8px; margin-bottom: 4px; }
+.el-results-title { font-family: var(--serif); font-weight: 700; font-size: 1.05rem; }
+.el-src { margin-left: auto; font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 9px; border-radius: 99px; border: 1px solid var(--line-strong); color: var(--slate); }
+.el-src.src--live { color: var(--verdict); border-color: var(--verdict); }
+.el-src.src--sample { color: var(--amber); border-color: var(--amber); }
+.el-src.src--curated { color: var(--pulse); border-color: var(--pulse); }
+
+/* ---- candidate rows (finder + watchlist) ---- */
+.el-cand-list { list-style: none; margin: 0; padding: 0; }
+.el-cand { display: flex; align-items: center; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.el-cand:last-child { border-bottom: none; }
+.el-cand-main { flex: 1; min-width: 0; text-decoration: none; display: flex; flex-direction: column; gap: 4px; }
+.el-cand-name { font-family: var(--serif); font-weight: 700; font-size: 1.05rem; color: var(--ink); }
+.el-cand-main:hover .el-cand-name { color: var(--pulse); }
+.el-cand-meta { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; font-family: var(--mono); font-size: 0.62rem; color: var(--slate); }
+.el-party { font-family: var(--mono); font-size: 0.56rem; font-weight: 600; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 99px; border: 1px solid var(--line-strong); color: var(--slate); white-space: nowrap; }
+.el-party--DEM { color: #2b6cb0; border-color: #2b6cb0; }
+.el-party--REP { color: var(--crimson); border-color: var(--crimson); }
+
+/* ---- track button ---- */
+.el-track { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; color: var(--pulse); background: none; border: 1px solid var(--pulse); border-radius: 99px; padding: 7px 13px; cursor: pointer; white-space: nowrap; text-decoration: none; flex-shrink: 0; }
+.el-track:hover { background: var(--pulse); color: #fff; }
+.el-track.is-on { background: var(--pulse); color: #fff; }
+.el-track:disabled { opacity: 0.55; cursor: default; }
+.el-track--signin { color: var(--slate); border-color: var(--line-strong); }
+.el-track--signin:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.el-track-empty { border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+
+.el-backrow { margin-top: 24px; }
+.el-backrow a { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--pulse); text-decoration: none; }
+.el-backrow a:hover { text-decoration: underline; }
+
+/* ---- candidate profile ---- */
+.el-prof-head { display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap; padding: clamp(16px, 3vw, 32px) 0 8px; border-bottom: 1px solid var(--line); }
+.el-prof-head > div:first-child { flex: 1; min-width: min(100%, 320px); }
+.el-prof-name { font-family: var(--serif); font-weight: 900; font-size: clamp(1.9rem, 5vw, 3rem); line-height: 1.02; letter-spacing: -0.02em; margin: 8px 0 12px; }
+.el-prof-tags { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.el-prof-status { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); }
+.el-prof-track { padding-top: 6px; }
+.el-prof-track .el-track { font-size: 0.7rem; padding: 10px 18px; }
+.el-sec-h { display: flex; align-items: baseline; gap: 12px; border-bottom: 2px solid var(--ink); padding-bottom: 8px; margin-bottom: 16px; }
+.el-sec-h h2 { font-family: var(--serif); font-weight: 800; font-size: clamp(1.1rem, 2.4vw, 1.4rem); margin: 0; }
+.el-cycle { margin-left: auto; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate); }
+.el-money-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 640px) { .el-money-grid { grid-template-columns: 1fr 1fr 1fr; } }
+.el-stat { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raised); padding: 16px 18px; }
+.el-stat-n { display: block; font-family: var(--mono); font-weight: 600; font-size: 1.7rem; line-height: 1; color: var(--ink); }
+.el-stat-l { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--slate); }
+.el-mentions { list-style: none; margin: 0; padding: 0; }
+.el-mention { display: flex; flex-direction: column; gap: 3px; padding: 12px 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+.el-mention:last-child { border-bottom: none; }
+.el-mention:hover .el-mention-hed { color: var(--pulse); }
+.el-mention-hed { font-family: var(--serif); font-weight: 600; font-size: 1.02rem; color: var(--ink); }
+.el-mention-meta { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.06em; color: var(--slate); }
+.el-shift { font-family: var(--sans); font-size: 1rem; line-height: 1.6; color: var(--ink-1); max-width: 70ch; margin: 0 0 10px; }
