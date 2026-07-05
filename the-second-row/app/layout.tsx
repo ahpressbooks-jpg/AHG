@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import BigFooter from "@/components/BigFooter";
+import ElectionBanner from "@/components/ElectionBanner";
 import JuneteenthBanner from "@/components/JuneteenthBanner";
 import ToolkitBanner from "@/components/ToolkitBanner";
 import "./globals.css";
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a className="skip-link" href="#house">
           Skip to the board
         </a>
+        <ElectionBanner />
         <JuneteenthBanner />
         {children}
         <ToolkitBanner />

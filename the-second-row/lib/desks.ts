@@ -17,6 +17,7 @@ export const DESKS: Desk[] = [
   { label: "Investigations", href: "/investigations", blurb: "Open files & public research" },
   { label: "Action", href: "/action", blurb: "Campaigns & civic action" },
   { label: "Room", href: "/room", blurb: "Public reasoning, together" },
+  { label: "Election Lens", href: "/election-lens", blurb: "How the 2026 choice is being made for you" },
 ];
 
 export interface Topic {

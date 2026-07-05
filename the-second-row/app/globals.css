@@ -1584,3 +1584,120 @@ main.wrap, .fp-top, .fp-sec, .fp-desks, .fp-band { max-width: 100%; }
   border-radius: 99px; white-space: nowrap;
 }
 .nav-admin:hover { color: var(--ink); border-color: var(--ink); }
+
+/* ===========================================================================
+   ELECTION LENS  ·  /election-lens + the site-wide promo banner
+   Built entirely on the existing design tokens — three fonts, the daylight/
+   evening palette, pill + --radius shapes. Brand accent is --pulse (deep teal);
+   --amber marks "verify / caution". Orange stays reserved for FLASH.
+   ======================================================================== */
+
+/* ---- site-wide promo banner (brand accent, dismissible) ---- */
+.el-banner {
+  position: relative; z-index: 55;
+  display: flex; align-items: center;
+  background: var(--pulse); color: #fff;
+  padding: 9px 46px 9px 16px;
+}
+/* keep white text high-contrast on the evening (lighter) teal */
+html[data-theme="evening"] .el-banner { background: #0f5b54; }
+.el-banner-link {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin: 0 auto; text-decoration: none; color: #fff;
+  font-family: var(--sans); font-size: 0.86rem; font-weight: 600;
+}
+.el-banner-link:hover .el-banner-text { text-decoration: underline; }
+.el-banner-tag {
+  font-family: var(--mono); font-size: 0.54rem; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.5);
+  padding: 2px 7px; border-radius: 99px;
+}
+.el-banner-go { font-family: var(--mono); }
+.el-banner-close {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.45);
+  color: #fff; cursor: pointer; font-size: 0.72rem; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.el-banner-close:hover { background: rgba(255,255,255,0.3); }
+.el-banner-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@media (max-width: 560px) {
+  .el-banner-link { font-size: 0.78rem; justify-content: flex-start; margin: 0; }
+  .el-banner-tag { display: none; }
+}
+
+/* ---- hero ---- */
+.el-hero { padding: clamp(26px, 5vw, 52px) 0 8px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
+.el-eyebrow { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--maroon-row); font-weight: 600; }
+.el-hero h1 { font-family: var(--serif); font-weight: 900; font-size: var(--display); line-height: 0.98; letter-spacing: -0.025em; margin: 10px 0 12px; }
+.el-sub { font-family: var(--serif); font-weight: 500; font-style: italic; font-size: clamp(1.1rem, 2.6vw, 1.55rem); color: var(--ink-1); max-width: 42ch; margin: 0 0 22px; }
+.el-updated {
+  display: inline-flex; align-items: center; flex-wrap: wrap; gap: 8px 12px;
+  border: 1px solid var(--line-strong); border-left: 3px solid var(--pulse);
+  border-radius: var(--radius); padding: 10px 14px; background: var(--bg-raised);
+}
+.el-updated-k { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate); }
+.el-updated-d { font-family: var(--mono); font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+.el-updated-note { font-family: var(--sans); font-size: 0.78rem; color: var(--slate); border-left: 1px solid var(--line-strong); padding-left: 12px; }
+
+/* ---- section lede ---- */
+.el-lede { font-family: var(--sans); font-size: 1rem; color: var(--ink-1); max-width: 70ch; margin: 0 0 18px; }
+.el-lede strong { color: var(--ink); font-weight: 600; }
+
+/* ---- Section 1 · expandable machinery cards (native <details>) ---- */
+.el-more { margin-top: 2px; }
+.el-more > summary {
+  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--pulse); cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 6px; padding: 4px 0;
+}
+.el-more > summary::-webkit-details-marker { display: none; }
+.el-more > summary::after { content: "▾"; font-size: 0.7rem; }
+.el-more[open] > summary::after { content: "▴"; }
+.el-more > summary:hover { text-decoration: underline; }
+.el-more > summary:focus-visible { outline: 2px solid var(--pulse); outline-offset: 3px; border-radius: 3px; }
+.el-more p { font-family: var(--sans); font-size: 0.86rem; color: var(--ink-2); margin: 8px 0 0; line-height: 1.6; }
+
+/* ---- Section 2 · ballot numerals ---- */
+.el-ballot-n { font-family: var(--mono); font-weight: 600; font-size: 2.6rem; line-height: 1; color: var(--pulse); }
+.deskcard .el-ballot-cadence { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); }
+
+/* ---- Section 3 · questions ---- */
+.el-questions { list-style: none; counter-reset: elq; margin: 0; padding: 0; }
+.el-questions li {
+  counter-increment: elq; position: relative; padding: 14px 0 14px 46px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--serif); font-weight: 500; font-size: clamp(1rem, 1.8vw, 1.18rem); line-height: 1.4; color: var(--ink);
+}
+.el-questions li::before {
+  content: counter(elq, decimal-leading-zero); position: absolute; left: 0; top: 16px;
+  font-family: var(--mono); font-size: 0.8rem; font-weight: 600; color: var(--pulse);
+}
+.el-questions li:last-child { border-bottom: none; }
+
+/* ---- Section 4 · disclaimer + developments feed ---- */
+.el-disclaimer {
+  font-family: var(--sans); font-size: 0.88rem; color: var(--ink-1);
+  background: color-mix(in oklab, var(--amber) 10%, var(--bg));
+  border: 1px solid color-mix(in oklab, var(--amber) 40%, var(--line));
+  border-left: 4px solid var(--amber); border-radius: var(--radius);
+  padding: 12px 16px; margin: 0 0 20px; max-width: 74ch;
+}
+.el-disclaimer strong { color: var(--ink); font-weight: 600; }
+.el-feed { display: flex; flex-direction: column; }
+.el-dev { display: grid; grid-template-columns: 1fr; gap: 4px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+@media (min-width: 720px) { .el-dev { grid-template-columns: 140px 1fr; gap: 24px; } }
+.el-dev:last-child { border-bottom: none; }
+.el-dev-date { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--slate); padding-top: 4px; }
+.el-dev-body h3 { font-family: var(--serif); font-weight: 700; font-size: 1.16rem; line-height: 1.24; margin: 0 0 6px; }
+.el-dev-body p { font-family: var(--sans); font-size: 0.92rem; color: var(--ink-1); margin: 0 0 8px; max-width: 68ch; }
+.el-dev-src { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.04em; color: var(--pulse); text-decoration: none; }
+.el-dev-src:hover { text-decoration: underline; }
+.el-dev-src:focus-visible { outline: 2px solid var(--pulse); outline-offset: 2px; }
+
+/* ---- Section 5 · CTA (the JoinBand below is the standard signature block) ---- */
+.el-cta { border: 1px solid var(--line); border-left: 5px solid var(--pulse); border-radius: var(--radius); background: var(--bg-raised); padding: clamp(20px, 3vw, 32px); }
+.el-cta h2 { font-family: var(--serif); font-weight: 800; font-size: clamp(1.5rem, 3.4vw, 2.2rem); line-height: 1.02; letter-spacing: -0.02em; margin: 0 0 10px; }
+.el-cta p { font-family: var(--sans); font-size: 1rem; color: var(--ink-1); max-width: 60ch; margin: 0 0 18px; }
+.el-cta-row { display: flex; gap: 10px; flex-wrap: wrap; }
