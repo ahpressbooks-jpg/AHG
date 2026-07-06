@@ -1,0 +1,35 @@
+@import './colors.css';
+@import './typography.css';
+@import './spacing.css';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button {
+  font-family: inherit;
+}
+
+a {
+  color: var(--text-link);
+}
+
+::selection {
+  background: var(--lp-orange-200);
+}

@@ -1,0 +1,82 @@
+/* ==========================================================================
+   LATE PLATE — COLOR TOKENS
+   Base palette lifted directly from the brand wordmark (burnt-orange "LATE",
+   olive-green "Plate" script, warm cream halo) plus derived tints/shades.
+   ========================================================================== */
+
+:root {
+  /* ---- Base brand hues (sampled from logo) ---- */
+  --lp-orange-50:  #FDF1E9;
+  --lp-orange-100: #FBE0CC;
+  --lp-orange-200: #F5BD97;
+  --lp-orange-300: #ED9A63;
+  --lp-orange-400: #E07539;
+  --lp-orange-500: #CB4A1D; /* core brand orange — sampled from wordmark */
+  --lp-orange-600: #AC3B15;
+  --lp-orange-700: #872E11;
+  --lp-orange-800: #62220C;
+  --lp-orange-900: #401608;
+
+  --lp-olive-50:   #F1F3E7;
+  --lp-olive-100:  #DFE4C5;
+  --lp-olive-200:  #C1CB93;
+  --lp-olive-300:  #9FAD66;
+  --lp-olive-400:  #7C8D40;
+  --lp-olive-500:  #62732A; /* core brand olive green — sampled from script */
+  --lp-olive-600:  #4E5C21;
+  --lp-olive-700:  #3C4719;
+  --lp-olive-800:  #2A3212;
+  --lp-olive-900:  #1B200B;
+
+  --lp-cream-50:   #FFFEFB;
+  --lp-cream-100:  #FFF9E9; /* core brand cream — halo glow behind script */
+  --lp-cream-200:  #FCF0D2;
+  --lp-cream-300:  #F5E4B8;
+  --lp-cream-400:  #E9D093;
+
+  /* ---- Warm neutrals (charcoal, not true black/gray — keeps everything warm) ---- */
+  --lp-ink-900:    #241C14; /* primary text */
+  --lp-ink-800:    #362A1E;
+  --lp-ink-700:    #4A3B2A;
+  --lp-ink-600:    #62513B;
+  --lp-ink-500:    #8A7863;
+  --lp-ink-400:    #B4A48E;
+  --lp-ink-300:    #D6CBB9;
+  --lp-ink-200:    #E9E1D3;
+  --lp-ink-100:    #F4EFE5;
+
+  /* ---- Semantic aliases ---- */
+  --color-brand-primary:      var(--lp-orange-500);
+  --color-brand-primary-hover: var(--lp-orange-600);
+  --color-brand-primary-press: var(--lp-orange-700);
+  --color-brand-secondary:    var(--lp-olive-500);
+  --color-brand-secondary-hover: var(--lp-olive-600);
+  --color-brand-secondary-press: var(--lp-olive-700);
+
+  --surface-page:    var(--lp-cream-100);
+  --surface-raised:  var(--lp-cream-50);
+  --surface-card:    #FFFFFF;
+  --surface-sunken:  var(--lp-cream-200);
+  --surface-inverse: var(--lp-ink-900);
+  --surface-dark:    #1C1712; /* Soul Food After Dark sections */
+
+  --text-primary:    var(--lp-ink-900);
+  --text-secondary:  var(--lp-ink-700);
+  --text-muted:      var(--lp-ink-500);
+  --text-on-brand:   var(--lp-cream-50);
+  --text-on-dark:    var(--lp-cream-100);
+  --text-link:       var(--lp-orange-600);
+
+  --border-subtle:   var(--lp-ink-200);
+  --border-default:  var(--lp-ink-300);
+  --border-strong:   var(--lp-ink-600);
+  --border-brand:    var(--lp-orange-500);
+
+  --state-success:   var(--lp-olive-500);
+  --state-danger:    #B23A2E;
+  --state-warning:   #D8912B;
+  --state-info:      #4C6B8A;
+
+  /* Focus ring */
+  --focus-ring: 0 0 0 3px rgba(203, 74, 29, 0.35);
+}
