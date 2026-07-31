@@ -1,11 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import BigFooter from "@/components/BigFooter";
+import ElectionBanner from "@/components/ElectionBanner";
 import JuneteenthBanner from "@/components/JuneteenthBanner";
 import ToolkitBanner from "@/components/ToolkitBanner";
+import { tsrFontVars } from "./fonts";
 import "./globals.css";
+import "./tsr-theme.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  // BUG FIX (redesign brief §critical-1): the production origin must NEVER be
+  // localhost, or every og:image/twitter:image (they resolve against this base)
+  // breaks on Facebook, X, iMessage, Slack, Discord. Default to the live origin;
+  // NEXT_PUBLIC_SITE_URL only overrides for preview/staging. See scripts/check-og.mjs.
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://www.tsrmovement.com"),
   title: {
     default: "The Second Row — The Wire",
     template: "%s · The Second Row",
@@ -40,7 +47,7 @@ const themeScript = `
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="daylight" suppressHydrationWarning>
+    <html lang="en" data-theme="daylight" className={tsrFontVars} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -54,6 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a className="skip-link" href="#house">
           Skip to the board
         </a>
+        <ElectionBanner />
         <JuneteenthBanner />
         {children}
         <ToolkitBanner />
