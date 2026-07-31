@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
+import CrossingBadge from "@/components/tsr/CrossingBadge";
+import { crossings } from "@/lib/aisle";
+import { loadFloor } from "@/lib/floor";
 import { ROSTER } from "@/lib/sources";
 import { loadBoard } from "@/lib/store";
 
@@ -30,6 +33,10 @@ function Bar({ l, c, r }: { l: number; c: number; r: number }) {
 export default async function TiltPage() {
   const board = await loadBoard();
   const stories = board?.stories ?? [];
+
+  // The CROSSING column — seated stories that touch an active Floor fight.
+  const floorItems = await loadFloor();
+  const cross = crossings(board, floorItems);
 
   // The board's source mix right now.
   const mix = { L: 0, C: 0, R: 0 };
@@ -95,6 +102,27 @@ export default async function TiltPage() {
                   </tr>
                 );
               })}
+            </tbody>
+          </table>
+        )}
+
+        <h2>The CROSSING column — where the two halves overlap</h2>
+        <p className="mono" style={{ marginTop: 4, marginBottom: 10 }}>
+          Seated stories that touch a fight the Floor has taken a side on (BACK / FIGHT), counted here in the open. The
+          badge discloses the conflict — it never changes a seat. <Link href="/aisle">The Aisle →</Link>
+        </p>
+        {cross.length === 0 ? (
+          <p className="mono">No crossings this sweep — no seated story currently touches an active Floor fight. The wall holds.</p>
+        ) : (
+          <table>
+            <thead><tr><th>Story</th><th>Touches</th></tr></thead>
+            <tbody>
+              {cross.map(({ story, fight }) => (
+                <tr key={story.id}>
+                  <td><Link href={`/wire/${story.id}`}>{story.headline}</Link> <CrossingBadge href={`/floor/${fight.id}`} /></td>
+                  <td className="mono"><Link href={`/floor/${fight.id}`}>{fight.plain_title}</Link></td>
+                </tr>
+              ))}
             </tbody>
           </table>
         )}
