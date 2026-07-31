@@ -1,4 +1,5 @@
 import SiteHeader from "@/components/SiteHeader";
+import FloorStrip from "@/components/tsr/FloorStrip";
 import WireSignature from "@/components/fp/WireSignature";
 import {
   AnalysisZone,
@@ -85,6 +86,7 @@ export default async function FrontPage() {
         </div>
 
         <MovedRail stories={moved} />
+        <FloorStrip />
         <AnalysisZone posts={posts} note={note?.text} />
         <ExplainersZone primers={PRIMERS} />
         <InvestigationsZone assignments={assignments} />
