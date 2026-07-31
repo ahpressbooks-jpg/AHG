@@ -1,0 +1,51 @@
+/* ===========================================================================
+   THE SECOND ROW — redesign design tokens (single source of truth).
+   The four colors and three type families are LOCKED by the brief. Derive
+   functional tints ONLY by opacity over these four — no fifth hue, ever.
+
+   Tailwind v4 is imported WITHOUT preflight on purpose: the legacy pages still
+   depend on the old globals.css cascade, so we add utilities + theme only and
+   migrate page-by-page. Preflight turns on once the legacy CSS is retired.
+   ======================================================================== */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+  /* ---- the four locked colors ---- */
+  --color-ink: #10161f;        /* Ink Navy — the ground of the entire site */
+  --color-cream: #f4ebd9;      /* Parchment Cream — primary text / light surface */
+  --color-oxblood: #7a1a2c;    /* Oxblood — accent: rules, active states, verdicts, the 2nd bar */
+  --color-flash: #e2581f;      /* Orange — EXACTLY ONE JOB: the Wire's FLASH tier, and the
+                                  Floor's <72h imminence. If it appears anywhere else, it's a BUG. */
+
+  /* ---- functional tints: opacity over the four, no new hues ---- */
+  --color-cream-70: color-mix(in oklab, #f4ebd9 70%, transparent); /* secondary body text on navy (AA) */
+  --color-cream-55: color-mix(in oklab, #f4ebd9 55%, transparent); /* large/label text on navy */
+  --color-hairline: color-mix(in oklab, #f4ebd9 8%, transparent);  /* hairline borders on navy */
+  --color-hairline-strong: color-mix(in oklab, #f4ebd9 16%, transparent);
+  --color-cream-6: color-mix(in oklab, #f4ebd9 6%, transparent);   /* faint tinted grounds */
+  --color-oxblood-12: color-mix(in oklab, #7a1a2c 12%, #10161f);   /* oxblood tint over navy */
+
+  /* ---- type families (self-hosted, see app/fonts.ts) ---- */
+  --font-display: var(--font-lora), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-plex-serif), Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+
+  /* ---- fluid type scale (clamp) ---- */
+  --text-eyebrow: 0.72rem;
+  --text-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);   /* 16–18 */
+  --text-row: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);   /* board rows 15–16 */
+  --text-display: clamp(1.75rem, 1.2rem + 2.4vw, 3.25rem); /* 28–52 */
+
+  /* ---- motion ---- */
+  --ease-board: cubic-bezier(0.22, 0.9, 0.3, 1);
+}
+
+/* The mono-label convention the brief specifies: uppercase, wide tracking. */
+@utility mono-label {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-weight: 500;
+}
