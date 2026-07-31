@@ -69,10 +69,10 @@ export const PRODUCTS: SiteLink[] = [
   { label: "Dispatches", href: "/dispatches", sub: "Daily from the desk" },
   { label: "Investigations", href: "/investigations", sub: "Open files & research" },
   { label: "Action Center", href: "/action", sub: "Campaigns & civic action" },
-  { label: "Stories", href: "/wire", sub: "What's moving now" },
   { label: "Today", href: "/today", sub: "The daily briefing" },
   { label: "The Spin Room", href: "/spin", sub: "Left / center / right" },
-  { label: "The Ledger", href: "/ledger", sub: "The desk's scored record" },
+  // BUG FIX (redesign brief §critical-4): footer/mega listed "The Ledger" twice
+  // and aliased "Stories" → /wire. One name per destination — both removed here.
   { label: "From the Second Row", href: "/column", sub: "The column" },
   { label: "The Toolkit", href: "/toolkit", sub: "Learn the method" },
   { label: "The Assignment Desk", href: "/assignment-desk", sub: "You direct the reporting" },
